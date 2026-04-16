@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -11,7 +12,8 @@
     <!-- 引入外部资源 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="questions.js"></script>
     <style>
@@ -33,18 +35,61 @@
             --card-bg: rgba(30, 30, 46, 0.95);
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
-        body.dark-mode .desc-box { background: rgba(255, 143, 171, 0.1); color: var(--text-main); }
-        body.dark-mode .option-btn { background: #2a2a3e; border-color: #3f3f5a; color: var(--text-main); }
-        body.dark-mode .option-btn:hover { background: #35354e; }
-        body.dark-mode .option-btn.selected { background: rgba(255, 143, 171, 0.15); color: #ff8fab; border-color: var(--primary); }
-        body.dark-mode .conclusion-box { background: #252538; border-color: #3a3a52; color: #ddd; }
-        body.dark-mode .trait-text { color: #ccc; }
-        body.dark-mode .dim-header { color: #ddd; }
-        body.dark-mode .dim-bar-bg { background: #333; }
-        body.dark-mode .dim-desc { color: #bbb; }
-        body.dark-mode .section-title { color: #eee; }
-        body.dark-mode .report-header p { color: #bbb !important; }
-        body.dark-mode .progress-bar { background-color: #333; }
+
+        body.dark-mode .desc-box {
+            background: rgba(255, 143, 171, 0.1);
+            color: var(--text-main);
+        }
+
+        body.dark-mode .option-btn {
+            background: #2a2a3e;
+            border-color: #3f3f5a;
+            color: var(--text-main);
+        }
+
+        body.dark-mode .option-btn:hover {
+            background: #35354e;
+        }
+
+        body.dark-mode .option-btn.selected {
+            background: rgba(255, 143, 171, 0.15);
+            color: #ff8fab;
+            border-color: var(--primary);
+        }
+
+        body.dark-mode .conclusion-box {
+            background: #252538;
+            border-color: #3a3a52;
+            color: #ddd;
+        }
+
+        body.dark-mode .trait-text {
+            color: #ccc;
+        }
+
+        body.dark-mode .dim-header {
+            color: #ddd;
+        }
+
+        body.dark-mode .dim-bar-bg {
+            background: #333;
+        }
+
+        body.dark-mode .dim-desc {
+            color: #bbb;
+        }
+
+        body.dark-mode .section-title {
+            color: #eee;
+        }
+
+        body.dark-mode .report-header p {
+            color: #bbb !important;
+        }
+
+        body.dark-mode .progress-bar {
+            background-color: #333;
+        }
 
         * {
             box-sizing: border-box;
@@ -64,8 +109,12 @@
             animation: ripple-anim 0.6s linear forwards;
             z-index: 9999;
         }
+
         @keyframes ripple-anim {
-            to { transform: scale(2); opacity: 0; }
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
         }
 
         body {
@@ -84,18 +133,32 @@
             width: 100%;
             max-width: 500px;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             padding: 30px 20px;
             position: relative;
             margin-bottom: 20px;
         }
 
         /* 页面切换动画 */
-        .page { display: none; animation: fadeIn 0.4s ease forwards; }
-        .page.active { display: block; }
+        .page {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* 通用按钮 */
@@ -114,11 +177,25 @@
             display: block;
             margin: 20px auto 0;
         }
-        .btn-main:active { transform: scale(0.96); }
+
+        .btn-main:active {
+            transform: scale(0.96);
+        }
 
         /* --- 欢迎页 --- */
-        .title-icon { font-size: 60px; text-align: center; margin-bottom: 10px; }
-        h1 { font-size: 24px; color: #ff5c8a; text-align: center; margin-bottom: 15px; }
+        .title-icon {
+            font-size: 60px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #ff5c8a;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
         .desc-box {
             background: #fff0f3;
             padding: 15px;
@@ -137,6 +214,7 @@
             align-items: center;
             margin-bottom: 20px;
         }
+
         .btn-prev {
             background: transparent;
             border: none;
@@ -147,526 +225,874 @@
             display: flex;
             align-items: center;
         }
-        .btn-prev.hidden { visibility: hidden; }
-        .progress-text { font-size: 13px; color: var(--text-light); font-weight: 500; }
-        
-        .progress-bar {
-            width: 100%; height: 8px; background-color: #f0f0f0;
-            border-radius: 4px; margin-bottom: 25px; overflow: hidden;
+
+        .btn-prev.hidden {
+            visibility: hidden;
         }
+
+        .progress-text {
+            font-size: 13px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
         .progress-fill {
-            height: 100%; background: linear-gradient(90deg, #8eecf5, #ff8fab);
-            width: 0%; transition: width 0.3s ease;
+            height: 100%;
+            background: linear-gradient(90deg, #8eecf5, #ff8fab);
+            width: 0%;
+            transition: width 0.3s ease;
         }
 
         .question-type-badge {
             display: inline-block;
-            background: #e0f7fa; color: #00acc1;
-            font-size: 12px; padding: 3px 10px;
-            border-radius: 10px; margin-bottom: 10px; font-weight: bold;
+            background: #e0f7fa;
+            color: #00acc1;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
-        .question-text { font-size: 18px; line-height: 1.5; font-weight: 500; margin-bottom: 25px; min-height: 54px; }
-        
-        .options-wrapper { display: flex; flex-direction: column; gap: 12px; }
+
+        .question-text {
+            font-size: 18px;
+            line-height: 1.5;
+            font-weight: 500;
+            margin-bottom: 25px;
+            min-height: 54px;
+        }
+
+        .options-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
         .option-btn {
-            background: #fff; border: 2px solid #eaeaea; color: var(--text-main);
-            padding: 15px 20px; border-radius: 12px; font-size: 15px;
-            cursor: pointer; transition: all 0.2s; text-align: left; font-weight: 500;
-            display: flex; align-items: center;
+            background: #fff;
+            border: 2px solid #eaeaea;
+            color: var(--text-main);
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
         }
-        .option-btn:hover { border-color: var(--primary-light); background: #fff9fa; }
+
+        .option-btn:hover {
+            border-color: var(--primary-light);
+            background: #fff9fa;
+        }
+
         .option-btn.selected {
-            background: #fff0f3; border-color: var(--primary); color: #e91e63;
+            background: #fff0f3;
+            border-color: var(--primary);
+            color: #e91e63;
             animation: pop 0.3s ease;
-            box-shadow: 0 0 0 4px rgba(255,143,171,0.3);
+            box-shadow: 0 0 0 4px rgba(255, 143, 171, 0.3);
         }
+
         @keyframes pop {
-            0% { transform: scale(0.95); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(0.95);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         /* --- 结果页 (深度报告) --- */
-        .report-header { text-align: center; border-bottom: 2px dashed #eee; padding-bottom: 20px; margin-bottom: 20px; }
-        .score-num { font-size: 50px; font-weight: 900; color: #ff5c8a; line-height: 1; margin: 10px 0; }
+        .report-header {
+            text-align: center;
+            border-bottom: 2px dashed #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .score-num {
+            font-size: 50px;
+            font-weight: 900;
+            color: #ff5c8a;
+            line-height: 1;
+            margin: 10px 0;
+        }
+
         .tier-badge {
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-            color: #d81b60; padding: 8px 20px; border-radius: 20px;
-            font-size: 18px; font-weight: bold; display: inline-block;
+            color: #d81b60;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            display: inline-block;
         }
-        
+
         .section-title {
-            font-size: 16px; font-weight: bold; color: #333;
-            margin: 25px 0 15px; display: flex; align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin: 25px 0 15px;
+            display: flex;
+            align-items: center;
         }
+
         .section-title::before {
-            content: ''; display: inline-block; width: 4px; height: 16px;
-            background: var(--primary); margin-right: 8px; border-radius: 2px;
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background: var(--primary);
+            margin-right: 8px;
+            border-radius: 2px;
         }
 
-        .radar-box { max-width: 320px; margin: 0 auto; }
+        .radar-box {
+            max-width: 320px;
+            margin: 0 auto;
+        }
 
-        .dim-item { margin-bottom: 15px; }
-        .dim-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; color: #555; }
-        .dim-bar-bg { width: 100%; height: 10px; background: #f0f0f0; border-radius: 5px; overflow: hidden;}
-        .dim-bar-fill { height: 100%; background: var(--primary); border-radius: 5px; }
-        .dim-desc { font-size: 12px; color: #888; margin-top: 4px; }
+        .dim-item {
+            margin-bottom: 15px;
+        }
+
+        .dim-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .dim-bar-bg {
+            width: 100%;
+            height: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .dim-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        .dim-desc {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
 
         .conclusion-box {
-            background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px;
-            padding: 20px; font-size: 14px; line-height: 1.6; color: #444; margin-bottom: 20px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 20px;
             text-align: left;
         }
-        .trait-section { margin-bottom: 15px; }
-        .trait-label { font-weight: bold; color: var(--primary); display: inline-block; margin-bottom: 4px; }
-        .trait-text { color: #555; text-align: justify; }
+
+        @keyframes hardcore-glitch {
+            0% {
+                transform: translate(0) skew(0deg);
+                filter: blur(0px) contrast(150%) hue-rotate(-20deg) sepia(50%) saturate(400%);
+            }
+
+            20% {
+                transform: translate(-5px, 5px) skew(-5deg);
+                filter: blur(1px) contrast(200%) hue-rotate(0deg) sepia(100%) saturate(600%) invert(15%);
+            }
+
+            40% {
+                transform: translate(-5px, -5px) skew(5deg);
+                filter: blur(0px) contrast(150%) hue-rotate(-20deg) sepia(50%) saturate(400%);
+            }
+
+            60% {
+                transform: translate(5px, 5px) skew(-2deg);
+                filter: blur(2px) contrast(250%) hue-rotate(15deg) sepia(80%) saturate(500%) invert(30%);
+            }
+
+            80% {
+                transform: translate(5px, -5px) skew(2deg);
+                filter: blur(0px) contrast(150%) hue-rotate(-20deg) sepia(50%) saturate(400%);
+            }
+
+            100% {
+                transform: translate(0) skew(0deg);
+                filter: blur(0px) contrast(150%) hue-rotate(-20deg) sepia(50%) saturate(400%);
+            }
+        }
+
+        .spam-punish-effect {
+            animation: hardcore-glitch 0.2s infinite;
+            background-color: #2a0000 !important;
+            color: #ff3333;
+            background-image: repeating-linear-gradient(45deg, rgba(255, 0, 0, 0.1) 0px, rgba(255, 0, 0, 0.1) 10px, transparent 10px, transparent 20px) !important;
+        }
+
+        .spam-punish-effect::before {
+            content: "你乱点的吧";
+            position: fixed;
+            top: 40%;
+            left: -10%;
+            width: 120%;
+            text-align: center;
+            font-size: 60px;
+            color: rgba(255, 0, 0, 0.4);
+            z-index: 100;
+            font-weight: 900;
+            transform: rotate(-15deg);
+            pointer-events: none;
+            letter-spacing: 15px;
+            text-shadow: 4px 4px 0px rgba(0, 255, 255, 0.3), -4px -4px 0px rgba(255, 255, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .spam-punish-effect .conclusion-box {
+            background: #1a0000;
+            border-color: #ff0000;
+            color: #ff9999;
+            box-shadow: 0 0 15px #ff0000;
+        }
+
+        .spam-punish-effect .btn-main {
+            background: #550000 !important;
+            color: #ff6666 !important;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        .spam-punish-effect h3,
+        .spam-punish-effect .section-title {
+            color: #ff0000 !important;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .spam-punish-effect p,
+        .spam-punish-effect .trait-text {
+            color: #ffcccc !important;
+            font-weight: bold;
+        }
+
+        .spam-punish-effect #final-score {
+            font-size: 70px;
+            text-shadow: 0 0 20px #ff0000;
+        }
+
+        .spam-punish-effect .tier-badge {
+            background: #000 !important;
+            color: #f00 !important;
+            border: 2px solid #f00 !important;
+            font-size: 22px;
+        }
+
+        .trait-section {
+            margin-bottom: 15px;
+        }
+
+        .trait-label {
+            font-weight: bold;
+            color: var(--primary);
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .trait-text {
+            color: #555;
+            text-align: justify;
+        }
 
         /* 加载动画 */
         .loader {
-            border: 4px solid #f3f3f3; border-top: 4px solid var(--primary);
-            border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
 
         /* ================= 移动端专项适配 ================= */
         @media (max-width: 480px) {
             body {
                 padding: 15px 5px;
             }
+
             .container {
                 padding: 25px 15px;
                 border-radius: 15px;
             }
+
             h1 {
                 font-size: 20px;
             }
+
             .title-icon {
                 font-size: 48px;
             }
+
             .question-text {
                 font-size: 16px;
                 min-height: 48px;
                 margin-bottom: 20px;
             }
+
             .option-btn {
                 padding: 12px 15px;
                 font-size: 14px;
                 border-radius: 10px;
             }
+
             .score-num {
                 font-size: 42px;
             }
+
             .tier-badge {
                 font-size: 16px;
                 padding: 6px 16px;
             }
+
             .conclusion-box {
                 padding: 15px;
                 font-size: 13px;
             }
         }
+
         @media (min-width: 481px) {
-            .mobile-share-btn { display: none !important; }
+            .mobile-share-btn {
+                display: none !important;
+            }
         }
-        
+
         #dark-mode-toggle {
-            position: fixed; top: 15px; right: 15px; z-index: 1000;
-            background: var(--card-bg); border: 1px solid #ddd; border-radius: 50%;
-            width: 40px; height: 40px; font-size: 20px; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex;
-            align-items: center; justify-content: center; transition: all 0.3s;
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
         }
-        body.dark-mode #dark-mode-toggle { border-color: #3a3a52; }
+
+        body.dark-mode #dark-mode-toggle {
+            border-color: #3a3a52;
+        }
     </style>
 </head>
+
 <body>
 
-<button id="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+    <button id="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
 
-<div class="container">
-    
-    <!-- 1. 欢迎页 -->
-    <div id="page-home" class="page active">
-        <div class="title-icon">🎀</div>
-        <h1>男娘潜质综合评估量表</h1>
-        <div class="desc-box">
-            <p>这是一份结合了<b>心理学量表</b>与<b>行为逻辑测试</b>的深度鉴定系统。</p><br>
-            <p>系统已接入 <strong>130题</strong> 的动态题库引擎，本次将为你随机抽取 <strong>50</strong> 道专属测验题，分为：</p>
-            <ul style="margin-left: 20px; margin-top: 5px; color: #666;">
-                <li>同意度自评题 (测验潜意识态度)</li>
-                <li>情景模拟选择题 (测验下意识行为)</li>
-            </ul><br>
-            <p>⚠️ 请放下防备，凭第一直觉作答。结束后将生成专属深度分析报告。</p>
-        </div>
-        <button class="btn-main" onclick="startTest()">抽取题库，开始鉴定</button>
-        <button class="btn-main" id="btn-continue" onclick="continueTest()" style="display:none; background: linear-gradient(45deg, #8eecf5, #4facfe); margin-top: 15px;">继续上次鉴定</button>
-    </div>
+    <div class="container">
 
-    <!-- 2. 答题页 -->
-    <div id="page-quiz" class="page">
-        <div class="top-nav">
-            <button class="btn-prev" id="btn-prev" onclick="prevQuestion()">⬅️ 上一题</button>
-            <span class="progress-text">进度: <span id="current-q">1</span> / 50</span>
-        </div>
-        <div style="font-size: 12px; color: #ff8fab; text-align: center; margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;">
-            ⏳ 剩余时间越短，潜质暴露越真实（请凭第一直觉作答）
-        </div>
-        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-        
-        <div id="q-badge" class="question-type-badge">态度自评题</div>
-        <h2 class="question-text" id="question-text">加载中...</h2>
-        
-        <div class="options-wrapper" id="options-container"></div>
-    </div>
-
-    <!-- 3. 加载页 -->
-    <div id="page-loading" class="page" style="text-align: center; padding: 60px 0;">
-        <div class="loader"></div>
-        <h3 style="color: #ff5c8a; margin-bottom: 10px;">正在生成深度鉴定报告...</h3>
-        <p style="color: #888; font-size: 14px;" id="loading-text">正在交叉比对行为与心理数据...</p>
-    </div>
-
-    <!-- 4. 结果页 (深度报告) -->
-    <div id="page-result" class="page">
-        <div class="report-header">
-            <p style="color: #888; font-size: 14px;">综合潜质鉴定得分</p>
-            <div class="score-num" id="final-score">0</div>
-            <div class="tier-badge" id="tier-title">评级加载中</div>
-            <div id="tier-desc" style="font-size: 14px; margin-top: 12px; font-weight: bold; letter-spacing: 1px;"></div>
-            <div id="national-rank" style="font-size: 13px; color: var(--primary); margin-top: 8px; font-weight: bold;"></div>
-        </div>
-
-        <div class="section-title">核心潜质雷达图</div>
-        <div class="radar-box"><canvas id="radarChart"></canvas></div>
-
-        <div class="section-title">多维度明细剖析</div>
-        <div id="dim-breakdown">
-            <!-- 维度进度条由JS动态插入 -->
-        </div>
-
-        <div class="section-title">鉴定官专属深度报告</div>
-        <div class="conclusion-box">
-            <h3 style="color:var(--primary); text-align:center; margin-bottom:18px; font-size: 18px;" id="dom-trait-title">核心特征加载中</h3>
-            <div class="trait-section">
-                <span class="trait-label">【潜意识解析】</span>
-                <div class="trait-text" id="trait-analysis">加载中...</div>
+        <!-- 1. 欢迎页 -->
+        <div id="page-home" class="page active">
+            <div class="title-icon">🎀</div>
+            <h1>男娘潜质综合评估量表</h1>
+            <div class="desc-box">
+                <p>这是一份结合了<b>心理学量表</b>与<b>行为逻辑测试</b>的深度鉴定系统。</p><br>
+                <p>系统已接入 <strong>130题</strong> 的动态题库引擎，本次将为你随机抽取 <strong>50</strong> 道专属测验题，分为：</p>
+                <ul style="margin-left: 20px; margin-top: 5px; color: #666;">
+                    <li>同意度自评题 (测验潜意识态度)</li>
+                    <li>情景模拟选择题 (测验下意识行为)</li>
+                </ul><br>
+                <p>⚠️ 请放下防备，凭第一直觉作答。结束后将生成专属深度分析报告。</p>
             </div>
-            <div class="trait-section">
-                <span class="trait-label">【日常生活表现】</span>
-                <div class="trait-text" id="trait-behavior">加载中...</div>
-            </div>
-            <div class="trait-section" style="margin-bottom: 0;">
-                <span class="trait-label">【进阶整活建议】</span>
-                <div class="trait-text" id="trait-advice">加载中...</div>
-            </div>
+            <button class="btn-main" onclick="startTest()">抽取题库，开始鉴定</button>
+            <button class="btn-main" id="btn-continue" onclick="continueTest()"
+                style="display:none; background: linear-gradient(45deg, #8eecf5, #4facfe); margin-top: 15px;">继续上次鉴定</button>
         </div>
 
-        <div style="text-align: center; margin: 25px 0;">
-            <img id="qr-code" crossorigin="anonymous" style="width: 120px; height: 120px; border-radius: 10px; border: 3px solid #ff8fab; background: #fff;" alt="二维码">
-            <p style="font-size: 12px; color: var(--text-light); margin-top: 8px;">长按保存或扫码测测你的潜质</p>
+        <!-- 2. 答题页 -->
+        <div id="page-quiz" class="page">
+            <div class="top-nav">
+                <button class="btn-prev" id="btn-prev" onclick="prevQuestion()">⬅️ 上一题</button>
+                <span class="progress-text">进度: <span id="current-q">1</span> / 50</span>
+            </div>
+            <div
+                style="font-size: 12px; color: #ff8fab; text-align: center; margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;">
+                ⏳ 剩余时间越短，潜质暴露越真实（请凭第一直觉作答）
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+
+            <div id="q-badge" class="question-type-badge">态度自评题</div>
+            <h2 class="question-text" id="question-text">加载中...</h2>
+
+            <div class="options-wrapper" id="options-container"></div>
         </div>
 
-        <button class="btn-main mobile-share-btn" id="btn-share" onclick="nativeShare()" style="background: linear-gradient(45deg, #f6d365, #fda085); margin-bottom: 15px;">分享给兄弟测测</button>
-        <button class="btn-main" id="btn-download" onclick="downloadResult()" style="background: linear-gradient(45deg, #8eecf5, #4facfe); margin-bottom: 15px;">保存分析长图</button>
-        <button class="btn-main" onclick="resetTest()">重新抽取题库 / 再次测试</button>
+        <!-- 3. 加载页 -->
+        <div id="page-loading" class="page" style="text-align: center; padding: 60px 0;">
+            <div class="loader"></div>
+            <h3 style="color: #ff5c8a; margin-bottom: 10px;">正在生成深度鉴定报告...</h3>
+            <p style="color: #888; font-size: 14px;" id="loading-text">正在交叉比对行为与心理数据...</p>
+        </div>
+
+        <!-- 4. 结果页 (深度报告) -->
+        <div id="page-result" class="page">
+            <div class="report-header">
+                <p style="color: #888; font-size: 14px;">综合潜质鉴定得分</p>
+                <div class="score-num" id="final-score">0</div>
+                <div class="tier-badge" id="tier-title">评级加载中</div>
+                <div id="tier-desc" style="font-size: 14px; margin-top: 12px; font-weight: bold; letter-spacing: 1px;">
+                </div>
+                <div id="national-rank"
+                    style="font-size: 13px; color: var(--primary); margin-top: 8px; font-weight: bold;"></div>
+            </div>
+
+            <div class="section-title">核心潜质雷达图</div>
+            <div class="radar-box"><canvas id="radarChart"></canvas></div>
+
+            <div class="section-title">多维度明细剖析</div>
+            <div id="dim-breakdown">
+                <!-- 维度进度条由JS动态插入 -->
+            </div>
+
+            <div class="section-title">鉴定官专属深度报告</div>
+            <div class="conclusion-box">
+                <h3 style="color:var(--primary); text-align:center; margin-bottom:18px; font-size: 18px;"
+                    id="dom-trait-title">核心特征加载中</h3>
+                <div class="trait-section">
+                    <span class="trait-label">【潜意识解析】</span>
+                    <div class="trait-text" id="trait-analysis">加载中...</div>
+                </div>
+                <div class="trait-section">
+                    <span class="trait-label">【日常生活表现】</span>
+                    <div class="trait-text" id="trait-behavior">加载中...</div>
+                </div>
+                <div class="trait-section" style="margin-bottom: 0;">
+                    <span class="trait-label">【进阶整活建议】</span>
+                    <div class="trait-text" id="trait-advice">加载中...</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 25px 0;">
+                <img id="qr-code" crossorigin="anonymous"
+                    style="width: 120px; height: 120px; border-radius: 10px; border: 3px solid #ff8fab; background: #fff;"
+                    alt="二维码">
+                <p style="font-size: 12px; color: var(--text-light); margin-top: 8px;">长按保存或扫码测测你的潜质</p>
+            </div>
+
+            <button class="btn-main mobile-share-btn" id="btn-share" onclick="nativeShare()"
+                style="background: linear-gradient(45deg, #f6d365, #fda085); margin-bottom: 15px;">分享给兄弟测测</button>
+            <button class="btn-main" id="btn-download" onclick="downloadResult()"
+                style="background: linear-gradient(45deg, #8eecf5, #4facfe); margin-bottom: 15px;">保存分析长图</button>
+            <button class="btn-main" onclick="resetTest()">重新抽取题库 / 再次测试</button>
+        </div>
+
+        <button id="btn-stop-glitch" onclick="stopGlitch()"
+            style="display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 10000; background: rgba(30, 30, 46, 0.95); color: #ff8fab; padding: 12px 24px; border-radius: 30px; border: 2px solid #ff8fab; box-shadow: 0 4px 15px rgba(0,0,0,0.5); font-weight: bold; font-size: 15px; cursor: pointer; letter-spacing: 1px; transition: all 0.3s; white-space: nowrap;">
+            ✖ 关闭特效
+        </button>
     </div>
 
-</div>
+    <script>
 
-<script>
+        const standardOptions = [
+            { l: "完全符合", v: 5 }, { l: "比较符合", v: 4 }, { l: "中立/不确定", v: 3 },
+            { l: "比较不符合", v: 2 }, { l: "完全不符合", v: 1 }
+        ];
 
-    const standardOptions = [
-        { l: "完全符合", v: 5 }, { l: "比较符合", v: 4 }, { l: "中立/不确定", v: 3 },
-        { l: "比较不符合", v: 2 }, { l: "完全不符合", v: 1 }
-    ];
+        // 全局状态
+        let shuffledQuestions = [];
+        let userAnswers = new Array(50).fill(null);
+        let currentQIdx = 0;
+        let isAnswering = false;
+        let radarChartInstance = null;
+        let totalAnsweringTimeMs = 0;
+        let lastQTime = 0;
 
-    // 全局状态
-    let shuffledQuestions = [];
-    let userAnswers = new Array(50).fill(null); 
-    let currentQIdx = 0;
-    let isAnswering = false; 
-    let radarChartInstance = null;
-    
-    const dimNames = { A: "审美偏好", B: "行为习惯", C: "心理共情", D: "社交亚文化" };
-    let dimMaxScores = { A: 0, B: 0, C: 0, D: 0 };
+        const dimNames = { A: "审美偏好", B: "行为习惯", C: "心理共情", D: "社交亚文化" };
+        let dimMaxScores = { A: 0, B: 0, C: 0, D: 0 };
 
-    const pages = {
-        home: document.getElementById('page-home'), quiz: document.getElementById('page-quiz'),
-        loading: document.getElementById('page-loading'), result: document.getElementById('page-result')
-    };
-
-    function showPage(id) {
-        Object.values(pages).forEach(p => p.classList.remove('active'));
-        pages[id].classList.add('active');
-        window.scrollTo(0,0);
-    }
-
-    // --- 全局点击特效 ---
-    document.addEventListener('click', function(e) {
-        const ripple = document.createElement('div');
-        ripple.classList.add('click-ripple');
-        // 根据设备宽度，圆圈大小稍作固定
-        const size = 100;
-        ripple.style.width = ripple.style.height = `${size}px`;
-        ripple.style.left = `${e.clientX - size/2}px`;
-        ripple.style.top = `${e.clientY - size/2}px`;
-        document.body.appendChild(ripple);
-        setTimeout(() => { ripple.remove(); }, 600);
-    });
-
-    // --- 初始化及缓存逻辑 ---
-    window.onload = () => {
-        if(localStorage.getItem('nnTestState_v1')) {
-            document.getElementById('btn-continue').style.display = 'block';
-        }
-    };
-
-    function saveState() {
-        localStorage.setItem('nnTestState_v1', JSON.stringify({
-            shuffledQuestions, userAnswers, currentQIdx, dimMaxScores
-        }));
-    }
-
-    function continueTest() {
-        let st = JSON.parse(localStorage.getItem('nnTestState_v1'));
-        if(!st) return startTest();
-        shuffledQuestions = st.shuffledQuestions;
-        userAnswers = st.userAnswers;
-        currentQIdx = st.currentQIdx;
-        dimMaxScores = st.dimMaxScores;
-        showPage('quiz');
-        renderQuestion();
-    }
-
-    function resetTest() {
-        localStorage.removeItem('nnTestState_v1');
-        location.reload();
-    }
-
-    // --- 智能题库抽取引擎 ---
-    function initGame() {
-        // 定义每次测试的完美配比 (共50题)
-        const targetDistribution = {
-            A: { likert: 9, choice: 3 },  // 12题
-            B: { likert: 9, choice: 4 },  // 13题
-            C: { likert: 9, choice: 3 },  // 12题
-            D: { likert: 9, choice: 4 }   // 13题
+        const pages = {
+            home: document.getElementById('page-home'), quiz: document.getElementById('page-quiz'),
+            loading: document.getElementById('page-loading'), result: document.getElementById('page-result')
         };
 
-        let selectedQuestions = [];
-        dimMaxScores = { A: 0, B: 0, C: 0, D: 0 }; // 重置动态满分
-
-        // 将总题库打乱，使用更强的洗牌机制防止玩家刷题
-        let randomizedPool = JSON.parse(JSON.stringify(rawQuestionBank));
-        for (let i = randomizedPool.length - 1; i > 0; i--) {
-            let j;
-            if (window.crypto && window.crypto.getRandomValues) {
-                const array = new Uint32Array(1);
-                window.crypto.getRandomValues(array);
-                j = array[0] % (i + 1);
-            } else {
-                j = Math.floor(Math.random() * (i + 1));
-            }
-            [randomizedPool[i], randomizedPool[j]] = [randomizedPool[j], randomizedPool[i]];
+        function showPage(id) {
+            Object.values(pages).forEach(p => p.classList.remove('active'));
+            pages[id].classList.add('active');
+            window.scrollTo(0, 0);
         }
 
-        // 按维度和题型分类抽取
-        Object.keys(targetDistribution).forEach(dim => {
-            ['likert', 'choice'].forEach(type => {
-                let targetCount = targetDistribution[dim][type];
-                let matchedInPool = randomizedPool.filter(q => q.d === dim && q.type === type);
-                
-                // 取出所需的题数 (如果题库里的题不够，就全拿出来，防止报错)
-                let drawn = matchedInPool.slice(0, targetCount);
-                selectedQuestions = selectedQuestions.concat(drawn);
-            });
+        // --- 全局点击特效 ---
+        document.addEventListener('click', function (e) {
+            const ripple = document.createElement('div');
+            ripple.classList.add('click-ripple');
+            // 根据设备宽度，圆圈大小稍作固定
+            const size = 100;
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${e.clientX - size / 2}px`;
+            ripple.style.top = `${e.clientY - size / 2}px`;
+            document.body.appendChild(ripple);
+            setTimeout(() => { ripple.remove(); }, 600);
         });
 
-        // 将最终选出的50道题进行最终打乱，防止玩家察觉出规律
-        shuffledQuestions = selectedQuestions.sort(() => Math.random() - 0.5);
+        // --- 初始化及缓存逻辑 ---
+        window.onload = () => {
+            if (localStorage.getItem('nnTestState_v1')) {
+                document.getElementById('btn-continue').style.display = 'block';
+            }
+        };
 
-        // 动态计算本次抽取出的各个维度满分 (动态雷达分母机制)
-        shuffledQuestions.forEach(q => { dimMaxScores[q.d] += 5; });
-        
-        console.log("题库抽取完成，总题数:", shuffledQuestions.length);
-    }
-
-    function startTest() {
-        initGame();
-        currentQIdx = 0;
-        userAnswers.fill(null);
-        showPage('quiz');
-        renderQuestion();
-    }
-
-    function renderQuestion() {
-        isAnswering = false; 
-        const q = shuffledQuestions[currentQIdx];
-        
-        document.getElementById('current-q').innerText = currentQIdx + 1;
-        document.getElementById('progress').style.width = `${((currentQIdx) / shuffledQuestions.length) * 100}%`;
-        
-        const btnPrev = document.getElementById('btn-prev');
-        if (currentQIdx === 0) btnPrev.classList.add('hidden');
-        else btnPrev.classList.remove('hidden');
-
-        const badge = document.getElementById('q-badge');
-        if (q.type === 'likert') {
-            badge.innerText = "态度自评题";
-            badge.style.background = "#e0f7fa"; badge.style.color = "#00acc1";
-            document.getElementById('question-text').innerText = q.t.replace('【反向】', '');
-        } else {
-            badge.innerText = "情景模拟题";
-            badge.style.background = "#f3e5f5"; badge.style.color = "#8e24aa";
-            document.getElementById('question-text').innerText = q.t;
+        function saveState() {
+            localStorage.setItem('nnTestState_v1', JSON.stringify({
+                shuffledQuestions, userAnswers, currentQIdx, dimMaxScores, totalAnsweringTimeMs
+            }));
         }
 
-        const container = document.getElementById('options-container');
-        container.innerHTML = '';
-        const optsToRender = q.type === 'likert' ? standardOptions : q.options;
+        function continueTest() {
+            let st = JSON.parse(localStorage.getItem('nnTestState_v1'));
+            if (!st) return startTest();
+            shuffledQuestions = st.shuffledQuestions;
+            userAnswers = st.userAnswers;
+            currentQIdx = st.currentQIdx;
+            dimMaxScores = st.dimMaxScores;
+            totalAnsweringTimeMs = st.totalAnsweringTimeMs || 0;
+            showPage('quiz');
+            renderQuestion();
+        }
 
-        optsToRender.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerText = opt.l;
-            
-            let scoreVal = q.type === 'likert' && q.r ? (6 - opt.v) : opt.v;
-            if (userAnswers[currentQIdx] === scoreVal) { btn.classList.add('selected'); }
+        function resetTest() {
+            localStorage.removeItem('nnTestState_v1');
+            location.reload();
+        }
 
-            btn.onclick = () => {
-                if (isAnswering) return; 
-                isAnswering = true;
-                
-                document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                userAnswers[currentQIdx] = scoreVal;
-
-                setTimeout(() => {
-                    saveState();
-                    if (currentQIdx < shuffledQuestions.length - 1) {
-                        currentQIdx++; renderQuestion();
-                    } else {
-                        finishTest();
-                    }
-                }, 350);
+        // --- 智能题库抽取引擎 ---
+        function initGame() {
+            // 定义每次测试的完美配比 (共50题)
+            const targetDistribution = {
+                A: { likert: 9, choice: 3 },  // 12题
+                B: { likert: 9, choice: 4 },  // 13题
+                C: { likert: 9, choice: 3 },  // 12题
+                D: { likert: 9, choice: 4 }   // 13题
             };
-            container.appendChild(btn);
-        });
-    }
 
-    function prevQuestion() {
-        if (currentQIdx > 0) { currentQIdx--; renderQuestion(); }
-    }
+            let selectedQuestions = [];
+            dimMaxScores = { A: 0, B: 0, C: 0, D: 0 }; // 重置动态满分
 
-    function finishTest() {
-        document.getElementById('progress').style.width = '100%';
-        setTimeout(() => {
-            showPage('loading');
-            const allTexts = [
-                "正在构建核心行为树...", "深度分析潜意识倾向...", 
-                "匹配全网亚文化图谱...", "生成高维雷达模型...",
-                "探测灵魂深处的柔软度...", "调取肌肉记忆偏差值...",
-                "检测粉色基因觉醒进度...", "正在渲染最终形态图鉴...",
-                "正在连接北朝服务器...", "分析女装抵抗力阈值...",
-                "提纯刻在DNA里的娇软基因...", "正在过滤钢铁直男的虚假伪装...",
-                "计算JK制服完美匹配度...", "比对二次元通讯录成分..."
-            ];
-            const texts = allTexts.sort(() => Math.random() - 0.5).slice(0, 4);
-            let tIdx = 0;
-            const intv = setInterval(() => {
-                tIdx++;
-                if(tIdx < texts.length) document.getElementById('loading-text').innerText = texts[tIdx];
-                else { 
-                    clearInterval(intv); 
-                    loadChartjsAndResult(); 
+            // 将总题库打乱，使用更强的洗牌机制防止玩家刷题
+            let randomizedPool = JSON.parse(JSON.stringify(rawQuestionBank));
+            for (let i = randomizedPool.length - 1; i > 0; i--) {
+                let j;
+                if (window.crypto && window.crypto.getRandomValues) {
+                    const array = new Uint32Array(1);
+                    window.crypto.getRandomValues(array);
+                    j = array[0] % (i + 1);
+                } else {
+                    j = Math.floor(Math.random() * (i + 1));
                 }
-            }, 600);
-        }, 400);
-    }
-
-    function loadChartjsAndResult() {
-        if (typeof Chart !== 'undefined') {
-            generateResult();
-            return;
-        }
-        document.getElementById('loading-text').innerText = "加载制图引擎...";
-        const script = document.createElement('script');
-        script.src = "https://cdn.jsdelivr.net/npm/chart.js";
-        script.onload = generateResult;
-        document.head.appendChild(script);
-    }
-
-    function generateResult() {
-        showPage('result');
-        
-        let scores = { A: 0, B: 0, C: 0, D: 0 };
-        for(let i=0; i<shuffledQuestions.length; i++) {
-            let dim = shuffledQuestions[i].d;
-            scores[dim] += userAnswers[i];
-        }
-        
-        // 由于是动态题库，不能用定死的分数段。需转换为标准化百分制总分 (满分100)
-        let totalPercent = ((scores.A/dimMaxScores.A) + (scores.B/dimMaxScores.B) + (scores.C/dimMaxScores.C) + (scores.D/dimMaxScores.D)) / 4 * 100;
-        // 数字滚动动画使用 requestAnimationFrame
-        let displayScore = Math.round(totalPercent * 2.5); // 250分制
-        
-        let beatPercent = (displayScore / 250) * 100 * 0.8 + 15 + (Math.random() * 4.9);
-        if (displayScore < 50) beatPercent = 5 + Math.random() * 5;
-        if (displayScore >= 230) beatPercent = 99.1 + Math.random() * 0.8;
-        document.getElementById('national-rank').innerText = `🏆 击败了全国 ${(beatPercent).toFixed(1)}% 的受测者`;
-        
-        let testUrl = window.location.href.split('#')[0].split('?')[0];
-        if (!testUrl.startsWith('http')) testUrl = "https://github.com";
-        document.getElementById('qr-code').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(testUrl)}`;
-        
-        let curr = 0;
-        let step = Math.ceil(displayScore / 40); // 调整帧数
-        function updateScoreVisual() {
-            curr += step;
-            if (curr >= displayScore) curr = displayScore;
-            document.getElementById('final-score').innerText = curr;
-            if (curr < displayScore) {
-                requestAnimationFrame(updateScoreVisual);
-            } else {
-                drawRadar(scores);
-                localStorage.removeItem('nnTestState_v1'); // 答题完成，清除缓存
+                [randomizedPool[i], randomizedPool[j]] = [randomizedPool[j], randomizedPool[i]];
             }
-        }
-        requestAnimationFrame(updateScoreVisual);
 
-        // 标准化判定段位
-        let tier = "", tierDesc = "", tierColor = "";
-        
-        if (displayScore <= 75) { tier = "🛡️ 绝对钢铁壁垒"; tierDesc = "纯直·零波动·防弹级·毫无破绽"; tierColor = "#777777"; }
-        else if (displayScore <= 105) { tier = "🪨 硬核直男本色"; tierDesc = "直得发光·钢铁直男·毫无波澜"; tierColor = "#888888"; }
-        else if (displayScore <= 135) { tier = "📦 薛定谔的萌新"; tierDesc = "偶尔心动·但还藏得住·潜质初现"; tierColor = "#a0a0a0"; }
-        else if (displayScore <= 160) { tier = "🌸 浅度粉红觉醒"; tierDesc = "已经偷偷看可爱东西了·入门级"; tierColor = "#ff8fab"; }
-        else if (displayScore <= 185) { tier = "🎀 深度觉醒预备役"; tierDesc = "潜质已觉醒·只差临门一脚"; tierColor = "#ff5c8a"; }
-        else if (displayScore <= 205) { tier = "🧸 软妹基因初醒"; tierDesc = "行为开始叛变·本能系软妹"; tierColor = "#fa709a"; }
-        else if (displayScore <= 225) { tier = "🌈 纯度极高的男娘"; tierDesc = "天赋拉满·随时可以C位出道"; tierColor = "#a18cd1"; }
-        else { tier = "👑 究极天选男娘"; tierDesc = "传说级·纯度99.9%·已无药可救"; tierColor = "#ff1493"; }
+            // 按维度和题型分类抽取
+            Object.keys(targetDistribution).forEach(dim => {
+                ['likert', 'choice'].forEach(type => {
+                    let targetCount = targetDistribution[dim][type];
+                    let matchedInPool = randomizedPool.filter(q => q.d === dim && q.type === type);
 
-        const titleEl = document.getElementById('tier-title');
-        titleEl.innerText = tier;
-        titleEl.style.color = tierColor;
-        titleEl.style.background = "rgba(255, 255, 255, 0.9)";
-        titleEl.style.border = `2px solid ${tierColor}66`;
-        titleEl.style.boxShadow = `0 4px 12px ${tierColor}44`;
+                    // 取出所需的题数 (如果题库里的题不够，就全拿出来，防止报错)
+                    let drawn = matchedInPool.slice(0, targetCount);
+                    selectedQuestions = selectedQuestions.concat(drawn);
+                });
+            });
 
-        const descEl = document.getElementById('tier-desc');
-        if (descEl) {
-            descEl.innerText = tierDesc;
-            descEl.style.color = tierColor;
+            // 将最终选出的50道题进行最终打乱，防止玩家察觉出规律
+            shuffledQuestions = selectedQuestions.sort(() => Math.random() - 0.5);
+
+            // 动态计算本次抽取出的各个维度满分 (动态雷达分母机制)
+            shuffledQuestions.forEach(q => { dimMaxScores[q.d] += 5; });
+
+            console.log("题库抽取完成，总题数:", shuffledQuestions.length);
         }
 
-        const breakdownDiv = document.getElementById('dim-breakdown');
-        breakdownDiv.innerHTML = '';
-        Object.keys(scores).forEach(k => {
-            let percent = Math.round((scores[k] / dimMaxScores[k]) * 100);
-            let color = k==='A'?'#ff8fab':(k==='B'?'#a8e6cf':(k==='C'?'#d8b4fe':'#ffd700'));
-            let text = percent > 80 ? "极度凸显，已超越95%的人" : (percent > 50 ? "略有端倪，具备一定潜质" : "毫无波澜，如同钢铁");
+        function startTest() {
+            initGame();
+            currentQIdx = 0;
+            totalAnsweringTimeMs = 0;
+            userAnswers.fill(null);
+            showPage('quiz');
+            renderQuestion();
+        }
 
-            breakdownDiv.innerHTML += `
+        function renderQuestion() {
+            isAnswering = false;
+            const q = shuffledQuestions[currentQIdx];
+
+            document.getElementById('current-q').innerText = currentQIdx + 1;
+            document.getElementById('progress').style.width = `${((currentQIdx) / shuffledQuestions.length) * 100}%`;
+
+            const btnPrev = document.getElementById('btn-prev');
+            if (currentQIdx === 0) btnPrev.classList.add('hidden');
+            else btnPrev.classList.remove('hidden');
+
+            const badge = document.getElementById('q-badge');
+            if (q.type === 'likert') {
+                badge.innerText = "态度自评题";
+                badge.style.background = "#e0f7fa"; badge.style.color = "#00acc1";
+                document.getElementById('question-text').innerText = q.t.replace('【反向】', '');
+            } else {
+                badge.innerText = "情景模拟题";
+                badge.style.background = "#f3e5f5"; badge.style.color = "#8e24aa";
+                document.getElementById('question-text').innerText = q.t;
+            }
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            const optsToRender = q.type === 'likert' ? standardOptions : q.options;
+
+            optsToRender.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt.l;
+
+                let scoreVal = q.type === 'likert' && q.r ? (6 - opt.v) : opt.v;
+                if (userAnswers[currentQIdx] === scoreVal) { btn.classList.add('selected'); }
+
+                btn.onclick = () => {
+                    if (isAnswering) return;
+                    isAnswering = true;
+
+                    totalAnsweringTimeMs += (Date.now() - lastQTime);
+
+                    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    userAnswers[currentQIdx] = scoreVal;
+
+                    setTimeout(() => {
+                        saveState();
+                        if (currentQIdx < shuffledQuestions.length - 1) {
+                            currentQIdx++; renderQuestion();
+                        } else {
+                            finishTest();
+                        }
+                    }, 350);
+                };
+                container.appendChild(btn);
+            });
+            lastQTime = Date.now();
+        }
+
+        function prevQuestion() {
+            if (currentQIdx > 0) { currentQIdx--; renderQuestion(); }
+        }
+
+        function finishTest() {
+            const totalSecs = totalAnsweringTimeMs / 1000;
+            window.spamStatus = 0;
+
+            if (totalSecs < 35) {
+                window.spamStatus = 1;
+                window.spamVal = totalSecs.toFixed(1);
+            } else {
+                let valCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+                userAnswers.forEach(ans => { if (ans) valCounts[ans] = (valCounts[ans] || 0) + 1 });
+                let maxSameCount = Math.max(...Object.values(valCounts));
+                if (maxSameCount >= 42) {
+                    window.spamStatus = 2;
+                    window.spamVal = maxSameCount;
+                }
+            }
+
+            document.getElementById('progress').style.width = '100%';
+            setTimeout(() => {
+                showPage('loading');
+                const allTexts = window.spamStatus > 0 ? [
+                    "⚠️ 检测到异常作答脑电波...", "启动核心测谎防御系统...",
+                    "正在拦截机械化狂点信号...", "提取系统识别日志...",
+                    "已放弃对该样本的灵魂解析...", "正在生成小丑专属图鉴..."
+                ] : [
+                    "正在构建核心行为树...", "深度分析潜意识倾向...",
+                    "匹配全网亚文化图谱...", "生成高维雷达模型...",
+                    "探测灵魂深处的柔软度...", "调取肌肉记忆偏差值...",
+                    "检测粉色基因觉醒进度...", "正在渲染最终形态图鉴...",
+                    "正在连接北朝服务器...", "分析女装抵抗力阈值...",
+                    "提纯刻在DNA里的娇软基因...", "正在过滤钢铁直男的虚假伪装...",
+                    "计算JK制服完美匹配度...", "比打二次元通讯录成分..."
+                ];
+                const texts = allTexts.sort(() => Math.random() - 0.5).slice(0, 4);
+                let tIdx = 0;
+                const intv = setInterval(() => {
+                    tIdx++;
+                    if (tIdx < texts.length) document.getElementById('loading-text').innerText = texts[tIdx];
+                    else {
+                        clearInterval(intv);
+                        loadChartjsAndResult();
+                    }
+                }, 600);
+            }, 400);
+        }
+
+        function loadChartjsAndResult() {
+            if (typeof Chart !== 'undefined') {
+                generateResult();
+                return;
+            }
+            document.getElementById('loading-text').innerText = "加载制图引擎...";
+            const script = document.createElement('script');
+            script.src = "https://cdn.jsdelivr.net/npm/chart.js";
+            script.onload = generateResult;
+            document.head.appendChild(script);
+        }
+
+        function generateResult() {
+            showPage('result');
+
+            if (window.spamStatus > 0) {
+                document.getElementById('final-score').innerText = '0';
+                document.getElementById('national-rank').innerText = '🏆 击败了全国 114514% 的人（毫无感情）';
+                document.getElementById('national-rank').style.color = '#ff4d4f';
+
+                const titleEl = document.getElementById('tier-title');
+                titleEl.innerText = '🤡 骗骗哥们就行了，别把自己骗了（';
+                titleEl.style.color = '#fff';
+                titleEl.style.background = '#ff4d4f';
+                titleEl.style.border = 'none';
+                titleEl.style.boxShadow = '0 4px 15px rgba(255, 77, 79, 0.4)';
+
+                const descEl = document.getElementById('tier-desc');
+                descEl.innerText = window.spamStatus === 1
+                    ? `你乱点的吧 · 极速狂点（均题约 ${(window.spamVal / 50).toFixed(2)} 秒）`
+                    : `你乱点的吧 · 高度机械规律（同频度达 ${window.spamVal} 次）`;
+                descEl.style.color = '#ff4d4f';
+
+                document.getElementById('dom-trait-title').innerText = '🚫 潜质评估已强制终止';
+                document.getElementById('trait-analysis').innerText = window.spamStatus === 1
+                    ? `系统检测到你的总用时仅有 ${window.spamVal} 秒。你连题目都懒得看一眼，凭什么指望系统能给出精准的灵魂雷达？男娘的觉醒是需要直溯内心的，不是靠手速瞎按刷出来的！`
+                    : '你的回答完美避开了正常人类心理应有的起伏波动，呈现出极其机械的规律性（无脑全选同一个方向）。测谎防御网关已将你无情拦截。';
+                document.getElementById('trait-behavior').innerText = '你的行为特征表现为：急躁、机械、带有极强的敷衍性（为了看特殊彩蛋而疯狂乱点）。在二次元圈子里，这种存在通常被称为“走肾不走心的测慌仪反面教材”。';
+                document.getElementById('trait-advice').innerText = '清空杂念，卸下所有防备！退出去重新凭你的【真实第一直觉】填一遍！你骗得过电脑里的死程序，但永远骗不过你真实的DNA！';
+
+                document.getElementById('dim-breakdown').innerHTML = '<div style="text-align:center;color:#ff4d4f;margin:30px 0;font-weight:bold;font-size:16px;">检测到极度异常数据<br>本局各大维度底层面板已自毁 🈲</div>';
+
+                let fakeScores = { A: 0, B: 0, C: 0, D: 0 };
+                drawRadar(fakeScores);
+
+                document.getElementById('page-result').classList.add('spam-punish-effect');
+                document.getElementById('btn-stop-glitch').style.display = 'block';
+                localStorage.removeItem('nnTestState_v1');
+
+                let testUrl = window.location.href.split('#')[0].split('?')[0];
+                if (!testUrl.startsWith('http')) testUrl = "https://github.com";
+                document.getElementById('qr-code').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(testUrl)}`;
+
+                return;
+            }
+
+            let scores = { A: 0, B: 0, C: 0, D: 0 };
+            for (let i = 0; i < shuffledQuestions.length; i++) {
+                let dim = shuffledQuestions[i].d;
+                scores[dim] += userAnswers[i];
+            }
+
+            // 由于是动态题库，不能用定死的分数段。需转换为标准化百分制总分 (满分100)
+            let totalPercent = ((scores.A / dimMaxScores.A) + (scores.B / dimMaxScores.B) + (scores.C / dimMaxScores.C) + (scores.D / dimMaxScores.D)) / 4 * 100;
+            // 数字滚动动画使用 requestAnimationFrame
+            let displayScore = Math.round(totalPercent * 2.5); // 250分制
+
+            let beatPercent = (displayScore / 250) * 100 * 0.8 + 15 + (Math.random() * 4.9);
+            if (displayScore < 50) beatPercent = 5 + Math.random() * 5;
+            if (displayScore >= 230) beatPercent = 99.1 + Math.random() * 0.8;
+            document.getElementById('national-rank').innerText = `🏆 击败了全国 ${(beatPercent).toFixed(1)}% 的受测者`;
+
+            let testUrl = window.location.href.split('#')[0].split('?')[0];
+            if (!testUrl.startsWith('http')) testUrl = "https://github.com";
+            document.getElementById('qr-code').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(testUrl)}`;
+
+            let curr = 0;
+            let step = Math.ceil(displayScore / 40); // 调整帧数
+            function updateScoreVisual() {
+                curr += step;
+                if (curr >= displayScore) curr = displayScore;
+                document.getElementById('final-score').innerText = curr;
+                if (curr < displayScore) {
+                    requestAnimationFrame(updateScoreVisual);
+                } else {
+                    drawRadar(scores);
+                    localStorage.removeItem('nnTestState_v1'); // 答题完成，清除缓存
+                }
+            }
+            requestAnimationFrame(updateScoreVisual);
+
+            // 标准化判定段位
+            let tier = "", tierDesc = "", tierColor = "";
+
+            if (displayScore <= 75) { tier = "🛡️ 绝对钢铁壁垒"; tierDesc = "纯直·零波动·防弹级·毫无破绽"; tierColor = "#777777"; }
+            else if (displayScore <= 105) { tier = "🪨 硬核直男本色"; tierDesc = "直得发光·钢铁直男·毫无波澜"; tierColor = "#888888"; }
+            else if (displayScore <= 135) { tier = "📦 薛定谔的萌新"; tierDesc = "偶尔心动·但还藏得住·潜质初现"; tierColor = "#a0a0a0"; }
+            else if (displayScore <= 160) { tier = "🌸 浅度粉红觉醒"; tierDesc = "已经偷偷看可爱东西了·入门级"; tierColor = "#ff8fab"; }
+            else if (displayScore <= 185) { tier = "🎀 深度觉醒预备役"; tierDesc = "潜质已觉醒·只差临门一脚"; tierColor = "#ff5c8a"; }
+            else if (displayScore <= 205) { tier = "🧸 软妹基因初醒"; tierDesc = "行为开始叛变·本能系软妹"; tierColor = "#fa709a"; }
+            else if (displayScore <= 225) { tier = "🌈 纯度极高的男娘"; tierDesc = "天赋拉满·随时可以C位出道"; tierColor = "#a18cd1"; }
+            else { tier = "👑 究极天选男娘"; tierDesc = "传说级·纯度99.9%·已无药可救"; tierColor = "#ff1493"; }
+
+            const titleEl = document.getElementById('tier-title');
+            titleEl.innerText = tier;
+            titleEl.style.color = tierColor;
+            titleEl.style.background = "rgba(255, 255, 255, 0.9)";
+            titleEl.style.border = `2px solid ${tierColor}66`;
+            titleEl.style.boxShadow = `0 4px 12px ${tierColor}44`;
+
+            const descEl = document.getElementById('tier-desc');
+            if (descEl) {
+                descEl.innerText = tierDesc;
+                descEl.style.color = tierColor;
+            }
+
+            const breakdownDiv = document.getElementById('dim-breakdown');
+            breakdownDiv.innerHTML = '';
+            Object.keys(scores).forEach(k => {
+                let percent = Math.round((scores[k] / dimMaxScores[k]) * 100);
+                let color = k === 'A' ? '#ff8fab' : (k === 'B' ? '#a8e6cf' : (k === 'C' ? '#d8b4fe' : '#ffd700'));
+                let text = percent > 80 ? "极度凸显，已超越95%的人" : (percent > 50 ? "略有端倪，具备一定潜质" : "毫无波澜，如同钢铁");
+
+                breakdownDiv.innerHTML += `
                 <div class="dim-item">
                     <div class="dim-header">
                         <span>${dimNames[k]}</span>
@@ -676,206 +1102,212 @@
                     <div class="dim-desc">${text}</div>
                 </div>
             `;
-        });
+            });
 
-        let percs = {
-            A: scores.A / dimMaxScores.A,
-            B: scores.B / dimMaxScores.B,
-            C: scores.C / dimMaxScores.C,
-            D: scores.D / dimMaxScores.D
-        };
-        let sortedDims = Object.keys(percs).sort((a,b) => percs[b] - percs[a]);
-        let maxDim1 = sortedDims[0];
-        let maxDim2 = sortedDims[1];
-
-        const traits = {
-            A: {
-                title: "🎯 核心突变基因：【视觉系娇娘】",
-                analysis: "表面上你是个普通的男生，但你的感官雷达对“柔和、精致、可爱”的事物有着本能的趋光性。你对粗糙、敷衍的直男审美有强烈的潜意识排斥，极其容易被美好的事物所俘获。",
-                behavior: "也许你自己都没发现，你在游戏里捏脸比女生还细致，买个杯子都要挑马卡龙色。遇到好看的衣物饰品总会多看两眼。潜意识里，你一直在偷偷渴望用粉嫩和柔软将自己包裹起来。",
-                advice: "不要再盯着女装店的橱窗看了！勇敢点，既然底子这么好，先从网购一双过膝袜开始你的绝妙蜕变吧！"
-            },
-            B: {
-                title: "🎯 核心突变基因：【本能系软妹】",
-                analysis: "极度危险！你的行为逻辑已经彻底背叛了你的生理性别。你的肌肉记忆中刻满了“收敛”、“轻柔”和“极度精致”。这是一种脱离了大脑控制的本能反应。",
-                behavior: "拧不开瓶盖下意识想求助、坐姿乖巧双腿并拢、喝奶茶喜欢咬吸管、对体毛极其介意……你的日常小动作比很多真正的女孩子还要标准和自然。",
-                advice: "这种浑然天成的娇憨感是装不出来的。建议直接买套JK制服原地C位出道，别浪费了这与生俱来的天赋！"
-            },
-            C: {
-                title: "🎯 核心突变基因：【灵魂系共鸣】",
-                analysis: "你的灵魂仿佛生错了躯壳。你拥有极其敏锐的共情能力和极低的情绪阈值，传统的“阳刚之气”对你来说是一种沉重的精神枷锁。你的灵魂在性别的边界上自由流动。",
-                behavior: "看个感人视频能哭得稀里哗啦，受到委屈时极度渴望被拥抱、被宠爱、被保护。在社交中，你总是那个默默提供情绪价值，像小动物一样温顺的“小天使”。",
-                advice: "卸下伪装的坚强吧，找一个能把你当小猫一样疯狂揉搓、无限包容你的伴侣，才是你这柔软灵魂的最终归宿。"
-            },
-            D: {
-                title: "🎯 核心突变基因：【环境系同化】",
-                analysis: "你的社交属性已经完全被二次元和网络亚文化腌入味了。你在网络上的精神状态和性别认知，领先当前社会普通版本至少五个大段，且极度自洽。",
-                behavior: "熟练使用各种萌妹/猫猫表情包，被兄弟们叫“老婆”不仅不生气甚至会顺杆往上爬。在虚拟世界里，你的性别早就变成了一个随时可以无缝切换的薛定谔状态。",
-                advice: "既然线上已经这么放飞自我了，不如线下也给兄弟们开个眼？穿上那件黑白女仆装，你就是群聊里最亮眼的那束光。"
-            }
-        };
-
-        const straightTrait = {
-            title: "🛡️ 核心特征：【纯正的钢铁】",
-            analysis: "经过系统严密的数据比对，你的深层逻辑中不存在哪怕一丝一毫的柔性投射。你的精神世界比承重墙还要坚固。",
-            behavior: "极端的实用主义者，对一切可爱事物毫无波澜，甚至觉得买个带猫耳朵的水杯是智商税。你的生活主打一个大开大合的“糙”字。",
-            advice: "二次元电波和柔软基因在你的防御系统面前统统失效。保持你的硬汉本色！不过友情提示，太直可能会错过一些别样的风景哦。"
-        };
-        
-        let conclusion;
-        if (displayScore >= 230) {
-            conclusion = {
-                title: "👑 隐藏神级形态：【天选男娘·世界级宝藏】",
-                analysis: "检测仪直接爆表！你已经不是单纯的潜质问题了，这是刻在DNA底层的终极觉醒！这浑然天成的娇憨与极品纯度，哪怕是最硬的钢铁直男在你面前也会瞬间融化。你就是传说中百年难得一遇的神级白菜！",
-                behavior: "无论是举手投足的微表情，还是潜意识的脑回路，都已经完美跨越了性别的次元壁。在懂得欣赏的人眼里，你现在的每一个小动作都散发着致命的魅惑力。",
-                advice: "还测什么试？赶紧开播！全地球的兄弟们都在等着你拯救他们的审美！快穿上专门为你准备的战袍，去征服世界吧！"
+            let percs = {
+                A: scores.A / dimMaxScores.A,
+                B: scores.B / dimMaxScores.B,
+                C: scores.C / dimMaxScores.C,
+                D: scores.D / dimMaxScores.D
             };
-        } else if (displayScore <= 105) {
-            conclusion = straightTrait;
-        } else {
-            let mixSet = new Set([maxDim1, maxDim2]);
-            if (mixSet.has('A') && mixSet.has('B')) {
-                conclusion = {
-                    title: "✨ 罕见双核心：【视觉系娇娘 + 本能系软妹】双重觉醒",
-                    analysis: "不仅对粉嫩可爱的事物有着本能的狂热追求，连身体的肌肉记忆都已经完美同步。这种由内而外的知行合一是极其罕见的！你的大脑和身体已经达成了高度的一致。",
-                    behavior: "你可能一边逛着马卡龙色系的购物网页，一边下意识地夹紧双腿、咬着笔盖。你的存在本身就是一件令人赏心悦目的艺术品。",
-                    advice: "别犹豫了，你的出厂设置自带浑然天成，根本不需要任何后天修饰，快把购物车里的可爱小裙子带回家吧！"
-                };
-            } else if (mixSet.has('C') && mixSet.has('D')) {
-                conclusion = {
-                    title: "✨ 罕见双核心：【灵魂系共情 + 环境系同化】社恐小天使",
-                    analysis: "你拥有极其柔软敏感的灵魂，同时也深谙二次元网络亚文化的精髓。这造就了你如同“社恐小天使”般的奇妙体质：线上重拳出击，线下软萌易推倒。",
-                    behavior: "群聊里你是老公老婆满天飞的“懂哥”，现实中被开个玩笑就容易红着脸不知所措。这种极致的反差萌具有毁灭级的杀伤力。",
-                    advice: "保护好这颗敏感又温柔的心，继续在赛博空间里释放天性吧！如果有信得过的朋友，试着在线下也卸下防备撒个娇？"
-                };
-            } else {
-                conclusion = traits[maxDim1];
-            }
-        }
+            let sortedDims = Object.keys(percs).sort((a, b) => percs[b] - percs[a]);
+            let maxDim1 = sortedDims[0];
+            let maxDim2 = sortedDims[1];
 
-        document.getElementById('dom-trait-title').innerText = conclusion.title;
-        document.getElementById('trait-analysis').innerText = conclusion.analysis;
-        document.getElementById('trait-behavior').innerText = conclusion.behavior;
-        document.getElementById('trait-advice').innerText = conclusion.advice;
-    }
-
-    function drawRadar(scores) {
-        if (radarChartInstance) { radarChartInstance.destroy(); }
-        
-        const isDark = document.body.classList.contains('dark-mode');
-        const gridColor = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
-        const labelColor = isDark ? '#eee' : '#666';
-
-        const ctx = document.getElementById('radarChart').getContext('2d');
-        radarChartInstance = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: ['审美', '行为', '心理', '社交'],
-                datasets: [{
-                    label: '能力值',
-                    data: [
-                        (scores.A / dimMaxScores.A)*100, 
-                        (scores.B / dimMaxScores.B)*100, 
-                        (scores.C / dimMaxScores.C)*100, 
-                        (scores.D / dimMaxScores.D)*100
-                    ],
-                    backgroundColor: 'rgba(255, 92, 138, 0.3)',
-                    borderColor: '#ff5c8a',
-                    borderWidth: 2,
-                    pointBackgroundColor: ['#ff8fab', '#a8e6cf', '#d8b4fe', '#ffd700'],
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 7
-                }]
-            },
-            options: {
-                scales: {
-                    r: { 
-                        min: 0, max: 100, 
-                        ticks: { display: false }, 
-                        grid: { color: gridColor },
-                        angleLines: { color: gridColor },
-                        pointLabels: { color: labelColor, font: { size: 14, weight: 'bold' } } 
-                    }
+            const traits = {
+                A: {
+                    title: "🎯 核心突变基因：【视觉系娇娘】",
+                    analysis: "表面上你是个普通的男生，但你的感官雷达对“柔和、精致、可爱”的事物有着本能的趋光性。你对粗糙、敷衍的直男审美有强烈的潜意识排斥，极其容易被美好的事物所俘获。",
+                    behavior: "也许你自己都没发现，你在游戏里捏脸比女生还细致，买个杯子都要挑马卡龙色。遇到好看的衣物饰品总会多看两眼。潜意识里，你一直在偷偷渴望用粉嫩和柔软将自己包裹起来。",
+                    advice: "不要再盯着女装店的橱窗看了！勇敢点，既然底子这么好，先从网购一双过膝袜开始你的绝妙蜕变吧！"
                 },
-                plugins: { legend: { display: false } }
+                B: {
+                    title: "🎯 核心突变基因：【本能系软妹】",
+                    analysis: "极度危险！你的行为逻辑已经彻底背叛了你的生理性别。你的肌肉记忆中刻满了“收敛”、“轻柔”和“极度精致”。这是一种脱离了大脑控制的本能反应。",
+                    behavior: "拧不开瓶盖下意识想求助、坐姿乖巧双腿并拢、喝奶茶喜欢咬吸管、对体毛极其介意……你的日常小动作比很多真正的女孩子还要标准和自然。",
+                    advice: "这种浑然天成的娇憨感是装不出来的。建议直接买套JK制服原地C位出道，别浪费了这与生俱来的天赋！"
+                },
+                C: {
+                    title: "🎯 核心突变基因：【灵魂系共鸣】",
+                    analysis: "你的灵魂仿佛生错了躯壳。你拥有极其敏锐的共情能力和极低的情绪阈值，传统的“阳刚之气”对你来说是一种沉重的精神枷锁。你的灵魂在性别的边界上自由流动。",
+                    behavior: "看个感人视频能哭得稀里哗啦，受到委屈时极度渴望被拥抱、被宠爱、被保护。在社交中，你总是那个默默提供情绪价值，像小动物一样温顺的“小天使”。",
+                    advice: "卸下伪装的坚强吧，找一个能把你当小猫一样疯狂揉搓、无限包容你的伴侣，才是你这柔软灵魂的最终归宿。"
+                },
+                D: {
+                    title: "🎯 核心突变基因：【环境系同化】",
+                    analysis: "你的社交属性已经完全被二次元和网络亚文化腌入味了。你在网络上的精神状态和性别认知，领先当前社会普通版本至少五个大段，且极度自洽。",
+                    behavior: "熟练使用各种萌妹/猫猫表情包，被兄弟们叫“老婆”不仅不生气甚至会顺杆往上爬。在虚拟世界里，你的性别早就变成了一个随时可以无缝切换的薛定谔状态。",
+                    advice: "既然线上已经这么放飞自我了，不如线下也给兄弟们开个眼？穿上那件黑白女仆装，你就是群聊里最亮眼的那束光。"
+                }
+            };
+
+            const straightTrait = {
+                title: "🛡️ 核心特征：【纯正的钢铁】",
+                analysis: "经过系统严密的数据比对，你的深层逻辑中不存在哪怕一丝一毫的柔性投射。你的精神世界比承重墙还要坚固。",
+                behavior: "极端的实用主义者，对一切可爱事物毫无波澜，甚至觉得买个带猫耳朵的水杯是智商税。你的生活主打一个大开大合的“糙”字。",
+                advice: "二次元电波和柔软基因在你的防御系统面前统统失效。保持你的硬汉本色！不过友情提示，太直可能会错过一些别样的风景哦。"
+            };
+
+            let conclusion;
+            if (displayScore >= 230) {
+                conclusion = {
+                    title: "👑 隐藏神级形态：【天选男娘·世界级宝藏】",
+                    analysis: "检测仪直接爆表！你已经不是单纯的潜质问题了，这是刻在DNA底层的终极觉醒！这浑然天成的娇憨与极品纯度，哪怕是最硬的钢铁直男在你面前也会瞬间融化。你就是传说中百年难得一遇的神级白菜！",
+                    behavior: "无论是举手投足的微表情，还是潜意识的脑回路，都已经完美跨越了性别的次元壁。在懂得欣赏的人眼里，你现在的每一个小动作都散发着致命的魅惑力。",
+                    advice: "还测什么试？赶紧开播！全地球的兄弟们都在等着你拯救他们的审美！快穿上专门为你准备的战袍，去征服世界吧！"
+                };
+            } else if (displayScore <= 105) {
+                conclusion = straightTrait;
+            } else {
+                let mixSet = new Set([maxDim1, maxDim2]);
+                if (mixSet.has('A') && mixSet.has('B')) {
+                    conclusion = {
+                        title: "✨ 罕见双核心：【视觉系娇娘 + 本能系软妹】双重觉醒",
+                        analysis: "不仅对粉嫩可爱的事物有着本能的狂热追求，连身体的肌肉记忆都已经完美同步。这种由内而外的知行合一是极其罕见的！你的大脑和身体已经达成了高度的一致。",
+                        behavior: "你可能一边逛着马卡龙色系的购物网页，一边下意识地夹紧双腿、咬着笔盖。你的存在本身就是一件令人赏心悦目的艺术品。",
+                        advice: "别犹豫了，你的出厂设置自带浑然天成，根本不需要任何后天修饰，快把购物车里的可爱小裙子带回家吧！"
+                    };
+                } else if (mixSet.has('C') && mixSet.has('D')) {
+                    conclusion = {
+                        title: "✨ 罕见双核心：【灵魂系共情 + 环境系同化】社恐小天使",
+                        analysis: "你拥有极其柔软敏感的灵魂，同时也深谙二次元网络亚文化的精髓。这造就了你如同“社恐小天使”般的奇妙体质：线上重拳出击，线下软萌易推倒。",
+                        behavior: "群聊里你是老公老婆满天飞的“懂哥”，现实中被开个玩笑就容易红着脸不知所措。这种极致的反差萌具有毁灭级的杀伤力。",
+                        advice: "保护好这颗敏感又温柔的心，继续在赛博空间里释放天性吧！如果有信得过的朋友，试着在线下也卸下防备撒个娇？"
+                    };
+                } else {
+                    conclusion = traits[maxDim1];
+                }
             }
-        });
-    }
 
-    // --- 下载分享长图逻辑 ---
-    function downloadResult() {
-        const btn = document.getElementById('btn-download');
-        const oldText = btn.innerText;
-        btn.innerText = "生成截图中...";
-        btn.style.pointerEvents = 'none';
+            document.getElementById('dom-trait-title').innerText = conclusion.title;
+            document.getElementById('trait-analysis').innerText = conclusion.analysis;
+            document.getElementById('trait-behavior').innerText = conclusion.behavior;
+            document.getElementById('trait-advice').innerText = conclusion.advice;
+        }
 
-        // 隐藏重置按钮避免入镜
-        const originalButtons = document.querySelectorAll('#page-result .btn-main');
-        originalButtons.forEach(b => b.style.display = 'none');
+        function drawRadar(scores) {
+            if (radarChartInstance) { radarChartInstance.destroy(); }
 
-        // 临时移除动画防止 html2canvas 渲染出半透明样式
-        const activePage = document.querySelector('.page.active');
-        activePage.style.animation = 'none';
-        activePage.style.opacity = '1';
+            const isDark = document.body.classList.contains('dark-mode');
+            const gridColor = window.spamStatus > 0 ? 'rgba(255, 0, 0, 0.5)' : (isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)');
+            const labelColor = window.spamStatus > 0 ? '#ff0000' : (isDark ? '#eee' : '#666');
 
-        // 截图目标改为 container 才能截取到卡片背景，并设定外围底色
-        const isDarkMode = document.body.classList.contains('dark-mode');
-        html2canvas(document.querySelector('.container'), {
-            scale: 2, 
-            useCORS: true,
-            backgroundColor: isDarkMode ? '#1a1a2e' : '#ffc2d1' 
-        }).then(canvas => {
-            // 恢复原始状态
-            originalButtons.forEach(b => b.style.display = 'block');
-            btn.innerText = oldText;
-            btn.style.pointerEvents = 'auto';
-            activePage.style.animation = '';
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            radarChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['审美', '行为', '心理', '社交'],
+                    datasets: [{
+                        label: '能力值',
+                        data: [
+                            (scores.A / dimMaxScores.A) * 100,
+                            (scores.B / dimMaxScores.B) * 100,
+                            (scores.C / dimMaxScores.C) * 100,
+                            (scores.D / dimMaxScores.D) * 100
+                        ],
+                        backgroundColor: window.spamStatus > 0 ? 'rgba(255, 0, 0, 0.4)' : 'rgba(255, 92, 138, 0.3)',
+                        borderColor: window.spamStatus > 0 ? '#ff0000' : '#ff5c8a',
+                        borderWidth: 2,
+                        pointBackgroundColor: window.spamStatus > 0 ? ['#ff0000', '#000', '#ff0000', '#000'] : ['#ff8fab', '#a8e6cf', '#d8b4fe', '#ffd700'],
+                        pointBorderColor: window.spamStatus > 0 ? '#ff0000' : '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            min: 0, max: 100,
+                            ticks: { display: false },
+                            grid: { color: gridColor },
+                            angleLines: { color: gridColor },
+                            pointLabels: { color: labelColor, font: { size: 14, weight: 'bold' } }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
 
-            // 下载图片
-            let link = document.createElement('a');
-            link.download = '男娘潜质鉴定报告.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        });
-    }
+        // --- 下载分享长图逻辑 ---
+        function downloadResult() {
+            const btn = document.getElementById('btn-download');
+            const oldText = btn.innerText;
+            btn.innerText = "生成截图中...";
+            btn.style.pointerEvents = 'none';
 
-    // --- 扩展功能：黑暗模式与原生分享 ---
-    function toggleDarkMode() {
-        const isDark = document.body.classList.toggle('dark-mode');
-        const btn = document.getElementById('dark-mode-toggle');
-        btn.innerText = isDark ? '☀️' : '🌙';
-        
-        // 动态更新雷达图的网格和文字颜色
-        if (typeof radarChartInstance !== 'undefined' && radarChartInstance) {
-            const gridColor = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
-            const labelColor = isDark ? '#eee' : '#666';
-            
-            if (radarChartInstance.options.scales.r) {
-                if (!radarChartInstance.options.scales.r.grid) radarChartInstance.options.scales.r.grid = {};
-                if (!radarChartInstance.options.scales.r.angleLines) radarChartInstance.options.scales.r.angleLines = {};
-                if (!radarChartInstance.options.scales.r.pointLabels) radarChartInstance.options.scales.r.pointLabels = {};
-                
-                radarChartInstance.options.scales.r.grid.color = gridColor;
-                radarChartInstance.options.scales.r.angleLines.color = gridColor;
-                radarChartInstance.options.scales.r.pointLabels.color = labelColor;
-                radarChartInstance.update();
+            // 隐藏重置按钮避免入镜
+            const originalButtons = document.querySelectorAll('#page-result .btn-main');
+            originalButtons.forEach(b => b.style.display = 'none');
+
+            // 临时移除动画防止 html2canvas 渲染出半透明样式
+            const activePage = document.querySelector('.page.active');
+            activePage.style.animation = 'none';
+            activePage.style.opacity = '1';
+
+            // 截图目标改为 container 才能截取到卡片背景，并设定外围底色
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            html2canvas(document.querySelector('.container'), {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: isDarkMode ? '#1a1a2e' : '#ffc2d1'
+            }).then(canvas => {
+                // 恢复原始状态
+                originalButtons.forEach(b => b.style.display = 'block');
+                btn.innerText = oldText;
+                btn.style.pointerEvents = 'auto';
+                activePage.style.animation = '';
+
+                // 下载图片
+                let link = document.createElement('a');
+                link.download = '男娘潜质鉴定报告.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        // --- 扩展功能：黑暗模式与原生分享 ---
+        function toggleDarkMode() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('dark-mode-toggle');
+            btn.innerText = isDark ? '☀️' : '🌙';
+
+            // 动态更新雷达图的网格和文字颜色
+            if (typeof radarChartInstance !== 'undefined' && radarChartInstance) {
+                const gridColor = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
+                const labelColor = isDark ? '#eee' : '#666';
+
+                if (radarChartInstance.options.scales.r) {
+                    if (!radarChartInstance.options.scales.r.grid) radarChartInstance.options.scales.r.grid = {};
+                    if (!radarChartInstance.options.scales.r.angleLines) radarChartInstance.options.scales.r.angleLines = {};
+                    if (!radarChartInstance.options.scales.r.pointLabels) radarChartInstance.options.scales.r.pointLabels = {};
+
+                    radarChartInstance.options.scales.r.grid.color = gridColor;
+                    radarChartInstance.options.scales.r.angleLines.color = gridColor;
+                    radarChartInstance.options.scales.r.pointLabels.color = labelColor;
+                    radarChartInstance.update();
+                }
             }
         }
-    }
 
-    function nativeShare() {
-        if (navigator.share) {
-            navigator.share({
-                title: '男娘潜质综合评估量表',
-                text: '我刚测了自己的男娘潜质，快来测测你离北朝还有多远？',
-                url: window.location.href
-            }).catch(e => console.log('分享取消或失败', e));
-        } else {
-            alert('当前浏览器不支持原生分享，请使用浏览器自带分享功能哦~');
+        function nativeShare() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '男娘潜质综合评估量表',
+                    text: '我刚测了自己的男娘潜质，快来测测你离北朝还有多远？',
+                    url: window.location.href
+                }).catch(e => console.log('分享取消或失败', e));
+            } else {
+                alert('当前浏览器不支持原生分享，请使用浏览器自带分享功能哦~');
+            }
         }
-    }
-</script>
+
+        function stopGlitch() {
+            document.getElementById('page-result').classList.remove('spam-punish-effect');
+            document.getElementById('btn-stop-glitch').style.display = 'none';
+        }
+    </script>
 </body>
+
 </html>
