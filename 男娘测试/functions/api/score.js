@@ -27,6 +27,52 @@ function safeSubmissionId(value) {
   return crypto.randomUUID();
 }
 
+async function getScoreStats(db) {
+  const stats = await db.prepare(`
+    SELECT
+      COUNT(*) AS count,
+      ROUND(AVG(score), 2) AS averageScore,
+      MIN(score) AS minScore,
+      MAX(score) AS maxScore,
+      MAX(created_at) AS lastSubmittedAt
+    FROM score_submissions
+    WHERE is_spam = 0
+  `).first();
+
+  const totals = await db.prepare(`
+    SELECT
+      COUNT(*) AS totalCount,
+      SUM(CASE WHEN is_spam = 0 THEN 1 ELSE 0 END) AS validCount,
+      SUM(CASE WHEN is_spam = 1 THEN 1 ELSE 0 END) AS spamCount
+    FROM score_submissions
+  `).first();
+
+  const recent = await db.prepare(`
+    SELECT
+      id,
+      score,
+      score_max AS scoreMax,
+      ROUND(score_percent, 2) AS scorePercent,
+      is_spam AS isSpam,
+      algorithm_version AS algorithmVersion,
+      question_version AS questionVersion,
+      created_at AS createdAt
+    FROM score_submissions
+    ORDER BY created_at DESC
+    LIMIT 5
+  `).all();
+
+  return {
+    stats,
+    totals: {
+      totalCount: totals?.totalCount ?? 0,
+      validCount: totals?.validCount ?? 0,
+      spamCount: totals?.spamCount ?? 0
+    },
+    recent: recent.results || []
+  };
+}
+
 export async function onRequestOptions() {
   return new Response(null, { status: 204, headers: jsonHeaders });
 }
@@ -37,18 +83,8 @@ export async function onRequestGet({ env }) {
   }
 
   try {
-    const stats = await env.DB.prepare(`
-      SELECT
-        COUNT(*) AS count,
-        ROUND(AVG(score), 2) AS averageScore,
-        MIN(score) AS minScore,
-        MAX(score) AS maxScore,
-        MAX(created_at) AS lastSubmittedAt
-      FROM score_submissions
-      WHERE is_spam = 0
-    `).first();
-
-    return json({ ok: true, stats });
+    const scoreStats = await getScoreStats(env.DB);
+    return json({ ok: true, ...scoreStats });
   } catch (err) {
     return json({ ok: false, error: err.message }, 500);
   }
@@ -87,7 +123,7 @@ export async function onRequestPost({ request, env }) {
   const scorePercent = optionalNumber(body.scorePercent) ?? (score / scoreMax) * 100;
 
   try {
-    await env.DB.prepare(`
+    const result = await env.DB.prepare(`
       INSERT OR IGNORE INTO score_submissions (
         id,
         score,
@@ -123,7 +159,14 @@ export async function onRequestPost({ request, env }) {
       now
     ).run();
 
-    return json({ ok: true });
+    const scoreStats = await getScoreStats(env.DB);
+    return json({
+      ok: true,
+      inserted: (result.meta?.changes || result.changes || 0) > 0,
+      changes: result.meta?.changes ?? result.changes ?? null,
+      id,
+      ...scoreStats
+    });
   } catch (err) {
     return json({ ok: false, error: err.message }, 500);
   }
