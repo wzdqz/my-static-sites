@@ -923,7 +923,7 @@
         }
 
         async function submitScoreSummary(data) {
-            if (!window.fetch) return;
+            if (!window.fetch) return null;
 
             const payload = {
                 clientSubmissionId: createSubmissionId(),
@@ -943,15 +943,45 @@
             };
 
             try {
-                await fetch(SCORE_COLLECTION_ENDPOINT, {
+                const response = await fetch(SCORE_COLLECTION_ENDPOINT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
                     keepalive: true
                 });
+                if (!response.ok) return null;
+                return await response.json();
             } catch (err) {
                 console.warn('Score collection failed:', err);
+                return null;
             }
+        }
+
+        function renderScoreStats(summary, currentScore, isSpam) {
+            const rankEl = document.getElementById('national-rank');
+            if (!rankEl) return;
+
+            if (isSpam) {
+                rankEl.innerText = '📊 异常样本已记录，不计入公开均值';
+                rankEl.style.color = '#ff4d4f';
+                return;
+            }
+
+            if (!summary || !summary.stats || !summary.stats.count) {
+                rankEl.innerText = '📊 样本均值暂时不可用，稍后刷新可查看';
+                rankEl.style.color = 'var(--primary)';
+                return;
+            }
+
+            const average = Number(summary.stats.averageScore);
+            const count = Number(summary.stats.count);
+            const delta = Math.round(currentScore - average);
+            let compareText = '刚好贴近当前均值';
+            if (delta > 0) compareText = `高于均值 ${delta} 分`;
+            if (delta < 0) compareText = `低于均值 ${Math.abs(delta)} 分`;
+
+            rankEl.innerText = `📊 当前有效样本均分 ${average.toFixed(1)} / 250 · 已收录 ${count} 份 · 你${compareText}`;
+            rankEl.style.color = 'var(--primary)';
         }
 
         function normalizeSavedAnswers(answers, len) {
@@ -1257,9 +1287,8 @@
 
             if (window.spamStatus > 0) {
                 document.getElementById('final-score').innerText = '0';
-                document.getElementById('national-rank').innerText = '🏆 击败了全国 114514% 的人（毫无感情）';
-                document.getElementById('national-rank').style.color = '#ff4d4f';
-                void submitScoreSummary({
+                renderScoreStats(null, 0, true);
+                submitScoreSummary({
                     score: 0,
                     rawScore: null,
                     rawPercent: null,
@@ -1267,7 +1296,7 @@
                     consistencyDiscount: consistencyInfo ? consistencyInfo.discount : null,
                     isSpam: true,
                     spamStatus: window.spamStatus || 0
-                });
+                }).then(summary => renderScoreStats(summary, 0, true));
 
                 const titleEl = document.getElementById('tier-title');
                 titleEl.innerText = '🤡 骗骗哥们就行了，别把自己骗了（';
@@ -1329,7 +1358,9 @@
             const rawDisplayScore = Math.round(totalPercent * 2.5); // 250分制
             let displayScore = Math.round(rawDisplayScore * ((consistencyInfo && consistencyInfo.discount) || 1));
             renderStabilityCard(consistencyInfo);
-            void submitScoreSummary({
+            document.getElementById('national-rank').innerText = '📊 正在同步真实样本均值...';
+            document.getElementById('national-rank').style.color = 'var(--primary)';
+            submitScoreSummary({
                 score: displayScore,
                 rawScore: rawDisplayScore,
                 rawPercent: Number(totalPercent.toFixed(2)),
@@ -1337,12 +1368,7 @@
                 consistencyDiscount: (consistencyInfo && consistencyInfo.discount) || 1,
                 isSpam: false,
                 spamStatus: 0
-            });
-
-            let beatPercent = (displayScore / 250) * 100 * 0.8 + 15 + (Math.random() * 4.9);
-            if (displayScore < 50) beatPercent = 5 + Math.random() * 5;
-            if (displayScore >= 230) beatPercent = 99.1 + Math.random() * 0.8;
-            document.getElementById('national-rank').innerText = `🏆 击败了全国 ${(beatPercent).toFixed(1)}% 的受测者`;
+            }).then(summary => renderScoreStats(summary, displayScore, false));
 
             let testUrl = window.location.href.split('#')[0].split('?')[0];
             if (!testUrl.startsWith('http')) testUrl = "https://github.com";
