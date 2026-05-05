@@ -198,3 +198,267 @@
             { v: 1, l: "剑、盾牌、火焰等代表力量的硬核元素" }, { v: 2, l: "简单的几何图形或干脆不挂留白" },
             { v: 4, l: "小皇冠、星星、月亮或云朵等中性唯美的元素" }, { v: 5, l: "粉色的蝴蝶结、小草莓、爱心或者可爱的猫爪印" } ]}
     ];
+
+    // =====================================================================
+    // 题库扩展层：补足到 168 题，并为旧题统一补齐元数据
+    // =====================================================================
+    const supplementalQuestionBank = [
+        // --- A：审美与感官调节（新增计分题） ---
+        { id: 'A-L22', type: 'likert', d: 'A', facet: 'visual_harmony', scored: true, r: false, face: 1, t: "同样是常用物品，我会更容易注意到它放在桌面上是否和周围环境协调。" },
+        { id: 'A-L23', type: 'likert', d: 'A', facet: 'texture_comfort', scored: true, r: false, face: 1, t: "衣物或床品的触感如果偏硬、扎人或摩擦感明显，会直接影响我的心情。" },
+        { id: 'A-L24', type: 'likert', d: 'A', facet: 'scent_cleanliness', scored: true, r: false, face: 1, t: "我会倾向于把洗护用品、香氛或洗衣液选成闻起来干净舒服的类型，而不是只看功能。" },
+        { id: 'A-L25', type: 'likert', d: 'A', facet: 'detail_sensitivity', scored: true, r: false, face: 1, t: "看到排版、颜色或摆放略微不协调时，即使不影响使用，我也会忍不住想调整一下。" },
+        { id: 'A-L26', type: 'likert', d: 'A', facet: 'visual_harmony', scored: true, r: true, face: 1, t: "我几乎不会关心东西摆在一起是否好看，只要能用就完全足够。" },
+        { id: 'A-C09', type: 'choice', d: 'A', facet: 'detail_sensitivity', scored: true, r: false, face: 1, t: "买一个每天都会用的小物件时，几款价格差不多，你更可能因为哪点下单？", options: [
+            { v: 2, l: "评价里说它很结实耐用" }, { v: 4, l: "尺寸刚好，放在桌上不突兀" },
+            { v: 1, l: "最便宜，坏了再换也无所谓" }, { v: 5, l: "细节处理很顺眼，拿在手里会开心" } ]},
+        { id: 'A-C10', type: 'choice', d: 'A', facet: 'texture_comfort', scored: true, r: false, face: 1, t: "如果要选一件居家常穿的外套，你会优先考虑：", options: [
+            { v: 4, l: "版型松弛但不邋遢，摸起来舒服" }, { v: 2, l: "耐洗耐磨，怎么穿都省心" },
+            { v: 5, l: "一穿上就有被包住的安心感" }, { v: 1, l: "随便，家里穿不用讲究" } ]},
+
+        // --- B：身体空间与动作幅度（新增计分题） ---
+        { id: 'B-L22', type: 'likert', d: 'B', facet: 'space_usage', scored: true, r: false, face: 1, t: "在公共空间里，我会下意识确认自己有没有挡住别人或占用太多位置。" },
+        { id: 'B-L23', type: 'likert', d: 'B', facet: 'motion_control', scored: true, r: false, face: 1, t: "拿放易碎或容易发出声音的东西时，我通常会自动放慢动作。" },
+        { id: 'B-L24', type: 'likert', d: 'B', facet: 'self_grooming', scored: true, r: false, face: 1, t: "出门前发现衣领、袖口或头发有一点不顺，我会很想把它整理好再走。" },
+        { id: 'B-L25', type: 'likert', d: 'B', facet: 'organization', scored: true, r: false, face: 1, t: "我更喜欢把随身小物放在固定位置，免得需要时翻得很狼狈。" },
+        { id: 'B-L26', type: 'likert', d: 'B', facet: 'motion_control', scored: true, r: true, face: 1, t: "我做事动作通常很大，碰出一点声音或弄乱一点周围环境也不太会在意。" },
+        { id: 'B-C09', type: 'choice', d: 'B', facet: 'space_usage', scored: true, r: false, face: 1, t: "和别人一起坐小桌子吃饭，桌面空间有限时，你通常会：", options: [
+            { v: 4, l: "把自己的东西收紧一点，方便大家夹菜" }, { v: 1, l: "先顾自己，东西放哪顺手就放哪" },
+            { v: 5, l: "主动把杯子、纸巾和餐具都整理到边上" }, { v: 2, l: "只要不明显碍事就不特别处理" } ]},
+        { id: 'B-C10', type: 'choice', d: 'B', facet: 'self_grooming', scored: true, r: false, face: 1, t: "临出门前发现衣服有轻微褶皱，你更接近哪种反应？", options: [
+            { v: 2, l: "看情况，赶时间就算了" }, { v: 5, l: "会想办法压平或换一件，心里才舒服" },
+            { v: 1, l: "完全无所谓，别人不会盯着看" }, { v: 4, l: "顺手拉平明显的位置再出门" } ]},
+
+        // --- C：情绪回应与支持偏好（新增计分题） ---
+        { id: 'C-L21', type: 'likert', d: 'C', facet: 'support_need', scored: true, r: false, face: 1, t: "压力很大时，我通常需要先让情绪稳定下来，才有力气处理具体问题。" },
+        { id: 'C-L22', type: 'likert', d: 'C', facet: 'empathy', scored: true, r: false, face: 1, t: "别人讲述一件委屈的事时，我会先感受到他的情绪，再去判断事情本身。" },
+        { id: 'C-L23', type: 'likert', d: 'C', facet: 'conflict_response', scored: true, r: false, face: 1, t: "冲突发生后，即使表面已经过去，我也会反复回想当时对方的语气和表情。" },
+        { id: 'C-L24', type: 'likert', d: 'C', facet: 'support_need', scored: true, r: false, face: 1, t: "被否定时，比起马上得到解决方案，我更希望先被理解和接住情绪。" },
+        { id: 'C-L25', type: 'likert', d: 'C', facet: 'empathy', scored: true, r: true, face: 1, t: "我很少被别人的低落情绪影响，通常能迅速把自己和对方的感受分开。" },
+        { id: 'C-L26', type: 'likert', d: 'C', facet: 'conflict_response', scored: true, r: true, face: 1, t: "发生争执时，我更习惯立刻把话说重一点，先在气势上压住对方。" },
+        { id: 'C-C09', type: 'choice', d: 'C', facet: 'support_need', scored: true, r: false, face: 1, t: "项目出错后你已经很累了，这时最能让你恢复状态的是：", options: [
+            { v: 2, l: "安静睡一觉，醒来再处理" }, { v: 4, l: "有人帮你一起梳理下一步" },
+            { v: 1, l: "立刻加班修完，别想太多" }, { v: 5, l: "有人先认真安慰你，让你觉得没被丢下" } ]},
+        { id: 'C-C10', type: 'choice', d: 'C', facet: 'empathy', scored: true, r: false, face: 1, t: "朋友发来一大段吐槽，逻辑有点乱，你第一反应更像是：", options: [
+            { v: 5, l: "先回应他的委屈，让他慢慢讲" }, { v: 1, l: "指出哪里不合理，让他别钻牛角尖" },
+            { v: 4, l: "问清楚发生了什么，再陪他分析" }, { v: 2, l: "等自己有空再认真看" } ]},
+
+        // --- D：社交表达与身份弹性（新增计分题） ---
+        { id: 'D-L21', type: 'likert', d: 'D', facet: 'tone_softening', scored: true, r: false, face: 1, t: "发消息时，我会下意识调整语气，避免让对方感觉太冷或太冲。" },
+        { id: 'D-L22', type: 'likert', d: 'D', facet: 'boundary_flex', scored: true, r: false, face: 1, t: "熟人开一些不带恶意的玩笑误读我的特质时，我通常不会急着把边界画得很硬。" },
+        { id: 'D-L23', type: 'likert', d: 'D', facet: 'online_expression', scored: true, r: false, face: 1, t: "在网络上，我比线下更容易使用轻松、柔和或带一点亲近感的表达方式。" },
+        { id: 'D-L24', type: 'likert', d: 'D', facet: 'role_flex', scored: true, r: false, face: 1, t: "如果一个虚拟身份能让我暂时摆脱现实里的固定形象，我会觉得挺有趣。" },
+        { id: 'D-L25', type: 'likert', d: 'D', facet: 'tone_softening', scored: true, r: true, face: 1, t: "我发消息基本只追求效率，语气冷不冷、硬不硬都不是我会考虑的问题。" },
+        { id: 'D-L26', type: 'likert', d: 'D', facet: 'boundary_flex', scored: true, r: true, face: 1, t: "只要别人对我的形象有一点误读，我就会立刻严肃纠正，不能留下模糊空间。" },
+        { id: 'D-C09', type: 'choice', d: 'D', facet: 'online_expression', scored: true, r: false, face: 1, t: "群里气氛有点冷，你想回一句话缓和一下，更可能选择：", options: [
+            { v: 2, l: "发一句正常回应，别让话题断掉" }, { v: 5, l: "用轻松一点的语气或表情把尴尬接过去" },
+            { v: 1, l: "不回，冷了就冷了" }, { v: 4, l: "补充一个不冒犯的小玩笑" } ]},
+        { id: 'D-C10', type: 'choice', d: 'D', facet: 'role_flex', scored: true, r: false, face: 2, t: "游戏里允许自由设计角色身份和外观时，你通常会：", options: [
+            { v: 4, l: "认真设计一个和现实不同但顺眼的形象" }, { v: 1, l: "直接默认，能玩就行" },
+            { v: 5, l: "享受切换身份带来的反差和新鲜感" }, { v: 2, l: "稍微调整一下，别太奇怪就行" } ]},
+
+        // --- 填充题：不参与计分，只稀释意图 ---
+        { id: 'F-L01', type: 'likert', d: 'F', facet: 'routine', scored: false, r: false, face: 1, t: "我通常会在一天开始前大致想好今天要完成哪些事。" },
+        { id: 'F-L02', type: 'likert', d: 'F', facet: 'routine', scored: false, r: false, face: 1, t: "如果计划突然被打乱，我需要一点时间重新安排节奏。" },
+        { id: 'F-L03', type: 'likert', d: 'F', facet: 'information', scored: false, r: false, face: 1, t: "面对复杂信息时，我喜欢先抓住结构，再看细节。" },
+        { id: 'F-L04', type: 'likert', d: 'F', facet: 'information', scored: false, r: false, face: 1, t: "我更容易记住别人讲过的例子，而不是抽象概念本身。" },
+        { id: 'F-L05', type: 'likert', d: 'F', facet: 'consumption', scored: false, r: false, face: 1, t: "买东西前，我会看几条评价来确认它是否真的适合自己。" },
+        { id: 'F-L06', type: 'likert', d: 'F', facet: 'consumption', scored: false, r: false, face: 1, t: "如果一个东西短期内用不上，即使喜欢我也会犹豫要不要买。" },
+        { id: 'F-L07', type: 'likert', d: 'F', facet: 'organization', scored: false, r: false, face: 1, t: "我会周期性清理手机相册、下载文件或聊天缓存。" },
+        { id: 'F-L08', type: 'likert', d: 'F', facet: 'entertainment', scored: false, r: false, face: 1, t: "线上娱乐时，我常常会在几个内容之间切换，而不是一直看同一种。" },
+        { id: 'F-C01', type: 'choice', d: 'F', facet: 'routine', scored: false, r: false, face: 1, t: "周末突然空出半天，你更可能：", options: [
+            { v: 3, l: "补觉或发呆" }, { v: 3, l: "处理一些拖着的小事" },
+            { v: 3, l: "约人出去吃点东西" }, { v: 3, l: "随机找点内容看" } ]},
+        { id: 'F-C02', type: 'choice', d: 'F', facet: 'information', scored: false, r: false, face: 1, t: "学习一个新工具时，你会先：", options: [
+            { v: 3, l: "直接上手试" }, { v: 3, l: "看一遍教程" },
+            { v: 3, l: "找别人用过的经验" }, { v: 3, l: "先弄清楚它能解决什么问题" } ]},
+        { id: 'F-C03', type: 'choice', d: 'F', facet: 'consumption', scored: false, r: false, face: 1, t: "面对同类商品的促销，你通常会：", options: [
+            { v: 3, l: "看是否真的需要" }, { v: 3, l: "比一下历史价格" },
+            { v: 3, l: "先收藏再说" }, { v: 3, l: "有用就直接买" } ]},
+        { id: 'F-C04', type: 'choice', d: 'F', facet: 'organization', scored: false, r: false, face: 1, t: "整理电脑桌面时，你更像：", options: [
+            { v: 3, l: "按项目建文件夹" }, { v: 3, l: "先把明显没用的删掉" },
+            { v: 3, l: "全部先塞进临时文件夹" }, { v: 3, l: "平时就尽量不堆东西" } ]},
+        { id: 'F-C05', type: 'choice', d: 'F', facet: 'entertainment', scored: false, r: false, face: 1, t: "刷到一个长视频，你通常会：", options: [
+            { v: 3, l: "先看评论判断值不值得" }, { v: 3, l: "倍速看重点" },
+            { v: 3, l: "收藏起来以后再看" }, { v: 3, l: "有兴趣就完整看完" } ]},
+        { id: 'F-C06', type: 'choice', d: 'F', facet: 'routine', scored: false, r: false, face: 1, t: "临时要出门，你最先确认的是：", options: [
+            { v: 3, l: "钥匙和手机" }, { v: 3, l: "路线和时间" },
+            { v: 3, l: "天气和交通" }, { v: 3, l: "自己还有没有遗漏事项" } ]},
+        { id: 'F-C07', type: 'choice', d: 'F', facet: 'information', scored: false, r: false, face: 1, t: "别人给你推荐一个应用，你会更在意：", options: [
+            { v: 3, l: "它有没有广告" }, { v: 3, l: "它能不能提高效率" },
+            { v: 3, l: "它是否容易上手" }, { v: 3, l: "它占不占空间" } ]},
+        { id: 'F-C08', type: 'choice', d: 'F', facet: 'entertainment', scored: false, r: false, face: 1, t: "休息时选背景音乐，你更常选：", options: [
+            { v: 3, l: "熟悉的歌单" }, { v: 3, l: "随机推荐" },
+            { v: 3, l: "纯音乐或白噪音" }, { v: 3, l: "当前热门内容" } ]},
+
+        // --- 一致性题：不参与总分，用于稳定度判断 ---
+        { id: 'K-L01', type: 'likert', d: 'K', facet: 'space_usage', scored: false, r: false, face: 1, consistencyKey: 'space', consistencyPolarity: 1, t: "人多的地方，我会自然把动作和随身物品收得更规矩一点。" },
+        { id: 'K-L02', type: 'likert', d: 'K', facet: 'space_usage', scored: false, r: false, face: 1, consistencyKey: 'space', consistencyPolarity: -1, t: "只要不是故意妨碍别人，我不太会在意自己在公共空间里占了多少位置。" },
+        { id: 'K-L03', type: 'likert', d: 'K', facet: 'boundary_flex', scored: false, r: false, face: 1, consistencyKey: 'boundary', consistencyPolarity: 1, t: "熟人之间轻微误读我的形象时，我一般会先看语境，而不是马上反击。" },
+        { id: 'K-L04', type: 'likert', d: 'K', facet: 'boundary_flex', scored: false, r: false, face: 1, consistencyKey: 'boundary', consistencyPolarity: -1, t: "别人拿我的形象开一点玩笑，我很容易立刻变得警觉和排斥。" },
+        { id: 'K-L05', type: 'likert', d: 'K', facet: 'support_need', scored: false, r: false, face: 1, consistencyKey: 'support', consistencyPolarity: 1, t: "情绪受挫时，温和的陪伴往往比直接讲道理更能让我恢复。" },
+        { id: 'K-L06', type: 'likert', d: 'K', facet: 'support_need', scored: false, r: false, face: 1, consistencyKey: 'support', consistencyPolarity: -1, t: "我情绪不好时，最不需要别人安慰，直接告诉我怎么解决就行。" },
+        { id: 'K-L07', type: 'likert', d: 'K', facet: 'detail_sensitivity', scored: false, r: false, face: 1, consistencyKey: 'detail', consistencyPolarity: 1, t: "细节上的不协调会比我想象中更容易吸走我的注意力。" },
+        { id: 'K-L08', type: 'likert', d: 'K', facet: 'detail_sensitivity', scored: false, r: false, face: 1, consistencyKey: 'detail', consistencyPolarity: -1, t: "只要功能没问题，我通常完全不会在意细节是否协调。" }
+    ];
+
+    rawQuestionBank.push(...supplementalQuestionBank);
+
+    const facetByDim = {
+        A: ['visual_harmony', 'texture_comfort', 'scent_cleanliness', 'detail_sensitivity'],
+        B: ['space_usage', 'motion_control', 'self_grooming', 'organization'],
+        C: ['empathy', 'conflict_response', 'support_need', 'emotional_resonance'],
+        D: ['tone_softening', 'boundary_flex', 'online_expression', 'role_flex'],
+        F: ['filler'],
+        K: ['consistency']
+    };
+
+    const highFaceHints = [
+        '粉', '可爱', '萌', '女装', 'JK', '老婆', '男娘', '猫猫', '蝴蝶结', '软妹',
+        '小动物', '奶妈', '撒娇', '娇', '宠', '伪装', 'Cosplay', 'VTuber'
+    ];
+
+    rawQuestionBank.forEach((q, idx) => {
+        const dim = q.d || 'F';
+        const dimCountBefore = rawQuestionBank.slice(0, idx).filter(item => (item.d || 'F') === dim).length + 1;
+        q.id = q.id || `${dim}-${q.type === 'choice' ? 'C' : 'L'}${String(dimCountBefore).padStart(2, '0')}`;
+        q.facet = q.facet || facetByDim[dim]?.[(dimCountBefore - 1) % facetByDim[dim].length] || 'general';
+        q.scored = q.scored !== false && dim !== 'F' && dim !== 'K';
+        q.r = q.r === true;
+        q.options = q.type === 'choice' ? q.options : null;
+
+        if (!q.face) {
+            const text = `${q.t || ''} ${(q.options || []).map(opt => opt.l).join(' ')}`;
+            q.face = highFaceHints.some(hint => text.includes(hint)) ? 3 : 2;
+        }
+    });
+
+    const legacyChoiceRewrites = {
+        'A-C22': { face: 1, t: "卧室角落空出来一块位置，你更愿意添置能改善哪种体验的东西？", options: [
+            { v: 4, l: "让房间看起来更有层次的小型绿植或灯具" }, { v: 1, l: "直接留空，方便以后堆临时物品" },
+            { v: 5, l: "能明显提升放松感的舒适座位或靠垫" }, { v: 2, l: "耐用好打理的收纳架" } ]},
+        'A-C23': { face: 1, t: "给房间选择一款日常气味，你更偏向：", options: [
+            { v: 2, l: "清爽、存在感低，不打扰就好" }, { v: 5, l: "闻起来有一点温暖和安定感" },
+            { v: 1, l: "能除味就行，具体味道不重要" }, { v: 4, l: "干净柔和，久闻也不腻" } ]},
+        'A-C24': { face: 1, t: "几款耳机音质差不多，你最后更可能被哪点打动？", options: [
+            { v: 5, l: "整体比例和细节让人越看越顺眼" }, { v: 2, l: "经典配色，不容易出错" },
+            { v: 4, l: "小巧轻便，和日常物品搭配自然" }, { v: 1, l: "便宜结实，坏了也不心疼" } ]},
+        'A-C25': { face: 1, t: "下雨天出门前，你挑伞时更在意：", options: [
+            { v: 2, l: "大小合适，收纳方便" }, { v: 4, l: "颜色或透明度让雨天没那么沉闷" },
+            { v: 1, l: "伞骨粗、遮雨面积大，别的无所谓" }, { v: 5, l: "轻便、细节顺眼，拿着不会破坏心情" } ]},
+        'A-C26': { face: 1, t: "朋友送你一套多色标记笔，你更可能怎么用？", options: [
+            { v: 4, l: "写东西时顺手按内容类型区分颜色" }, { v: 1, l: "放进抽屉，想起来再说" },
+            { v: 5, l: "会把常用颜色排好，使用时保持版面舒服" }, { v: 2, l: "偶尔拿一支随便划重点" } ]},
+        'A-C27': { face: 1, t: "买洗发水时，几款功能接近，你会优先选：", options: [
+            { v: 1, l: "功能标语最直接、看起来最强效的" }, { v: 4, l: "包装清爽，气味也不会太冲的" },
+            { v: 2, l: "大容量促销，性价比明确的" }, { v: 5, l: "使用感和留香都让自己舒服的" } ]},
+        'A-C28': { face: 1, t: "选手机壳时，你更接近哪种思路？", options: [
+            { v: 4, l: "轻薄、有一点设计感，但不夸张" }, { v: 1, l: "防摔第一，厚重也没关系" },
+            { v: 5, l: "摸起来舒服，细节让人愿意多看几眼" }, { v: 2, l: "透明或基础款，别影响手机本身" } ]},
+        'A-C29': { face: 1, t: "挑一本日常记录用的本子，你最看重：", options: [
+            { v: 2, l: "价格合适，随手写不心疼" }, { v: 5, l: "纸张、开合和封面触感都让人想使用" },
+            { v: 1, l: "结实厚重，耐造就行" }, { v: 4, l: "封面干净，纸质细腻，长期看不烦" } ]},
+
+        'B-C22': { face: 1, t: "遇到一个很难打开的罐头盖，你更可能先：", options: [
+            { v: 4, l: "换个角度或垫块布，尽量稳一点处理" }, { v: 1, l: "直接使劲拧，必要时用工具硬撬" },
+            { v: 5, l: "试几次后找更合适的人或方法帮忙" }, { v: 3, l: "冲热水、敲边缘，按经验慢慢试" } ]},
+        'B-C23': { face: 1, t: "休息日天气转凉，你在家通常会怎么保暖？", options: [
+            { v: 2, l: "正常加一件外套或开空调" }, { v: 5, l: "换上触感舒服、包裹感强的家居衣物" },
+            { v: 1, l: "随便扛一会儿，冷了再说" }, { v: 4, l: "给腿上盖条毯子，活动也方便" } ]},
+        'B-C24': { face: 1, t: "喝带吸管的饮品时，你更常出现哪种习惯？", options: [
+            { v: 5, l: "轻轻咬住或含住边缘，慢慢喝" }, { v: 1, l: "大口喝完，不太在意动作" },
+            { v: 4, l: "用嘴唇轻轻抿着吸管口" }, { v: 2, l: "一边喝一边无意识把吸管压扁" } ]},
+        'B-C25': { face: 1, t: "桌面线缆和小物件乱了，你更可能：", options: [
+            { v: 1, l: "先全塞到不碍事的地方" }, { v: 4, l: "把常用的理顺，至少看起来清爽" },
+            { v: 2, l: "随手捆一下，能用就行" }, { v: 5, l: "按类别固定好，之后拿取也顺手" } ]},
+        'B-C26': { face: 1, t: "几个人并排走在人行道上，迎面有人过来时你会：", options: [
+            { v: 4, l: "主动侧身或放慢一点，让空间顺过去" }, { v: 2, l: "稍微调整一下肩膀位置" },
+            { v: 5, l: "把手臂和随身物品也收一收" }, { v: 1, l: "保持原路线，对方也可以调整" } ]},
+        'B-C27': { face: 1, t: "朋友讲了个很好笑的事，你的身体反应更像：", options: [
+            { v: 2, l: "正常大笑，动作不特别控制" }, { v: 5, l: "笑得很开心，但会自然收住一些动作" },
+            { v: 1, l: "笑得很放开，拍桌子或拍腿都可能" }, { v: 4, l: "开心但幅度不大，主要用表情回应" } ]},
+        'B-C28': { face: 1, t: "公共交通上旁边有空位，你坐下后通常会：", options: [
+            { v: 5, l: "把腿、包和手臂都收在自己的范围内" }, { v: 1, l: "怎么舒服怎么坐，不太想管姿势" },
+            { v: 2, l: "自然坐着，不刻意调整" }, { v: 4, l: "注意不要碰到旁边的人或东西" } ]},
+        'B-C29': { face: 1, t: "吃容易掉渣或沾手的食物时，你会：", options: [
+            { v: 2, l: "正常吃，脏了再擦" }, { v: 4, l: "稍微压一下或调整角度，尽量少弄乱" },
+            { v: 1, l: "直接大口吃，方便最重要" }, { v: 5, l: "会准备纸巾或用手挡一下，避免弄脏" } ]},
+
+        'C-C21': { face: 1, t: "听到一首情绪很浓但没有歌词的音乐，你更可能：", options: [
+            { v: 4, l: "联想到一些过往片段，心情被带走一点" }, { v: 1, l: "没太大感觉，只是背景音" },
+            { v: 5, l: "身体也跟着放慢，想安静待一会儿" }, { v: 2, l: "注意它适合什么场景或视频" } ]},
+        'C-C22': { face: 1, t: "你的小失误影响了朋友计划，对方语气不好时你会：", options: [
+            { v: 2, l: "压住情绪，先说明原因和补救办法" }, { v: 5, l: "很受对方语气影响，先需要缓一下" },
+            { v: 1, l: "觉得对方反应过度，容易顶回去" }, { v: 4, l: "认真道歉，并尽快承担自己那部分" } ]},
+        'C-C23': { face: 1, t: "路上遇到一只看起来需要帮助的小动物，你通常会：", options: [
+            { v: 4, l: "停下看一会儿，判断能不能安全帮忙" }, { v: 2, l: "觉得可怜，但赶时间就先走" },
+            { v: 5, l: "很容易被牵动，想立刻做点什么" }, { v: 1, l: "不太受影响，继续自己的行程" } ]},
+        'C-C24': { face: 1, t: "压力大到快撑不住时，你更需要：", options: [
+            { v: 1, l: "立刻做点强刺激的事把情绪发出去" }, { v: 4, l: "找信任的人把事情讲清楚" },
+            { v: 2, l: "一个人睡一觉，暂时不交流" }, { v: 5, l: "先被安抚和接住，再慢慢处理问题" } ]},
+        'C-C25': { face: 1, t: "看到陌生人的困难故事时，你更常见的反应是：", options: [
+            { v: 2, l: "感叹一下，但不会停留太久" }, { v: 5, l: "代入感很强，情绪会持续一阵" },
+            { v: 1, l: "保持距离，先判断信息真假" }, { v: 4, l: "心情变沉，会想留下安慰或支持" } ]},
+        'C-C26': { face: 1, t: "小组任务分配明显偏重你这边，你会：", options: [
+            { v: 4, l: "先做起来，同时找机会沟通调整" }, { v: 1, l: "当场强硬拒绝，不能吃亏" },
+            { v: 5, l: "不太敢当面拒绝，之后自己消化委屈" }, { v: 3, l: "整理理由，要求重新分配" } ]},
+        'C-C27': { face: 1, t: "和很可靠、能力强的亲近对象相处时，你更舒服的模式是：", options: [
+            { v: 2, l: "互相独立，彼此尊重边界" }, { v: 5, l: "能放心依赖对方，偶尔卸下防备" },
+            { v: 1, l: "必须平等较劲，不能显得弱" }, { v: 4, l: "一些决定交给对方，自己负责配合" } ]},
+        'C-C28': { face: 1, t: "恐怖片或游戏突然吓你一下时，你更可能：", options: [
+            { v: 5, l: "身体明显缩一下，想抓住附近的东西" }, { v: 2, l: "僵一下，然后继续看" },
+            { v: 4, l: "闭眼或遮住屏幕，缓过来再继续" }, { v: 1, l: "爆粗口或生气，靠输出压住害怕" } ]},
+
+        'D-C21': { face: 1, t: "游戏允许自由设计角色外观时，你通常会把时间花在：", options: [
+            { v: 4, l: "整体比例和风格是否协调" }, { v: 1, l: "默认预设，尽快进游戏" },
+            { v: 5, l: "五官、肤色、细节质感这些微小调整" }, { v: 2, l: "简单调一下轮廓和身高" } ]},
+        'D-C22': { face: 2, t: "参加一个需要主题造型的聚会，你更可能选择：", options: [
+            { v: 2, l: "简单道具加基础服装，完成要求" }, { v: 5, l: "尝试和平时反差较大的完整形象" },
+            { v: 1, l: "能遮住自己、越省事越好" }, { v: 4, l: "认真还原一个自己喜欢的角色风格" } ]},
+        'D-C23': { face: 1, t: "刷到一个风格很轻松、表达很外放的视频，你会：", options: [
+            { v: 4, l: "觉得气氛不错，可能会看完" }, { v: 1, l: "觉得无聊，马上划走" },
+            { v: 5, l: "被感染到，甚至想象自己换种方式表达" }, { v: 2, l: "看几秒判断是不是自己喜欢的内容" } ]},
+        'D-C24': { face: 1, t: "群里有人发了一个语气很热情的问候，你会怎么接？", options: [
+            { v: 5, l: "用同样轻松亲近的方式回应" }, { v: 2, l: "正常回一句文字" },
+            { v: 4, l: "配一个不冒犯的小表情或玩笑" }, { v: 1, l: "回得很短，避免被带进气氛" } ]},
+        'D-C25': { face: 1, t: "网购咨询客服时，你的表达方式更像：", options: [
+            { v: 2, l: "礼貌说明需求，问清楚尺码" }, { v: 5, l: "语气会更软一点，希望沟通顺畅" },
+            { v: 1, l: "只发关键信息，越短越好" }, { v: 4, l: "加上谢谢、麻烦之类缓和语气" } ]},
+        'D-C26': { face: 1, t: "匿名场景里别人误判了你的身份或气质，你的第一反应是：", options: [
+            { v: 4, l: "当成一个社交小插曲，不急着打断" }, { v: 1, l: "强烈不适，立刻纠正" },
+            { v: 5, l: "有点新鲜，想观察这个误会会怎么发展" }, { v: 2, l: "觉得好笑，但会适时说明" } ]},
+        'D-C27': { face: 1, t: "你在群里发消息后冷场了，通常会：", options: [
+            { v: 2, l: "等一等，不强行补救" }, { v: 5, l: "用轻松的语气或表情把尴尬带过去" },
+            { v: 1, l: "完全不管，退出去做别的" }, { v: 4, l: "补一句自嘲或撤回，降低尴尬感" } ]},
+        'D-C28': { face: 1, t: "社交软件可以选一个个人状态挂件，你会偏向：", options: [
+            { v: 4, l: "星星、云朵、月亮这类轻量装饰" }, { v: 1, l: "力量感或竞技感明显的元素" },
+            { v: 5, l: "小巧、有亲和力、让页面显得柔和的元素" }, { v: 2, l: "几何图形或干脆不挂" } ]}
+    };
+
+    rawQuestionBank.forEach(q => {
+        const rewrite = legacyChoiceRewrites[q.id];
+        if (!rewrite) return;
+        Object.assign(q, rewrite);
+    });
+
+    const legacyLikertRewrites = {
+        'A-L02': { face: 1, t: "选购日常用品时，如果它的造型和手感都更顺眼，即使实用性差不多，我也会更倾向于选择它。" },
+        'A-L13': { face: 1, t: "【反向】如果某种家居配色明显偏柔和，我会觉得和自己完全不搭，甚至影响使用心情。" },
+        'D-L01': { face: 1, t: "在网络社交中，为了缓和语气或表达友好，我会习惯性使用一些不那么生硬的符号或表情。" },
+        'D-L05': { face: 1, t: "【反向】如果有人用比较亲近或轻松的称呼叫我，我会明显不适并立刻要求对方改掉。" },
+        'D-L06': { face: 1, t: "在熟悉的亲密朋友面前，我能接受他们围绕我的性格或气质开一些不带恶意的玩笑。" },
+        'D-L07': { face: 1, t: "如果别人用“有亲和力”“不难接近”之类的词评价我，我通常不会觉得被冒犯。" },
+        'D-L08': { face: 1, t: "选择网络头像时，我更常使用风格温和、有辨识度或能表达情绪的图片，而不是纯功能性图片。" },
+        'D-L09': { face: 1, t: "【反向】我几乎不会在社交平台使用情绪化或风格化的表情图，觉得那样很不成熟。" },
+        'D-L10': { face: 1, t: "和关系很好的朋友聊天时，我偶尔会故意把语气放轻松一点，用来活跃气氛或表达亲近。" },
+        'D-L12': { face: 1, t: "在看影视或动画时，比起强冲突和强刺激，我有时更享受节奏慢、氛围稳定的日常内容。" },
+        'D-L14': { face: 1, t: "我的常用表情或快捷回复里，通常会有一些用来表达尴尬、委屈或缓和气氛的内容。" },
+        'D-L15': { face: 1, t: "多人游戏或团队活动里，我有时会享受提供辅助、维持节奏或照顾队友状态的位置。" },
+        'D-L18': { face: 1, t: "在匿名群聊中，比起一直主导话题，我更喜欢做那个偶尔接话、缓和气氛的人。" }
+    };
+
+    rawQuestionBank.forEach(q => {
+        const rewrite = legacyLikertRewrites[q.id];
+        if (!rewrite) return;
+        Object.assign(q, rewrite);
+    });

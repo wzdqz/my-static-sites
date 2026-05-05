@@ -417,6 +417,51 @@
             margin-top: 4px;
         }
 
+        .stability-card {
+            border: 1px dashed rgba(255, 92, 138, 0.38);
+            background: rgba(255, 248, 251, 0.88);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 18px;
+        }
+
+        .stability-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 800;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .stability-level {
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        .stability-meter {
+            height: 8px;
+            background: #f1f1f1;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .stability-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #8eecf5, #ff8fab);
+            border-radius: 999px;
+        }
+
+        .stability-desc {
+            color: var(--text-light);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
         .conclusion-box {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -650,12 +695,13 @@
             <h1>男娘潜质综合评估量表</h1>
             <div class="desc-box">
                 <p>这是一份结合了<b>心理学量表</b>与<b>行为逻辑测试</b>的深度鉴定系统。</p><br>
-                <p>系统已接入 <strong>130题</strong> 的动态题库引擎，本次将为你随机抽取 <strong>50</strong> 道专属测验题，分为：</p>
+                <p>系统已接入 <strong>168题</strong> 的动态题库引擎，本次将为你随机抽取 <strong>50</strong> 道专属测验题，分为：</p>
                 <ul style="margin-left: 20px; margin-top: 5px; color: #666;">
                     <li>同意度自评题 (测验潜意识态度)</li>
                     <li>情景模拟选择题 (测验下意识行为)</li>
                 </ul><br>
                 <p>⚠️ 请放下防备，凭第一直觉作答。结束后将生成专属深度分析报告。</p>
+                <p style="font-size: 12px; color: #999; margin-top: 8px;">本测试主打娱乐整活，结论请和奶茶甜度一样理性参考。</p>
             </div>
             <button class="btn-main" onclick="startTest()">抽取题库，开始鉴定</button>
             <button class="btn-main" id="btn-continue" onclick="continueTest()"
@@ -676,7 +722,7 @@
                 <div class="progress-fill" id="progress"></div>
             </div>
 
-            <div id="q-badge" class="question-type-badge">态度自评题</div>
+            <div id="q-badge" class="question-type-badge">偏好判断</div>
             <h2 class="question-text" id="question-text">加载中...</h2>
 
             <div class="options-wrapper" id="options-container"></div>
@@ -703,6 +749,18 @@
 
             <div class="section-title">核心潜质雷达图</div>
             <div class="radar-box"><canvas id="radarChart"></canvas></div>
+
+            <div class="section-title">本次画像稳定度</div>
+            <div id="stability-card" class="stability-card">
+                <div class="stability-head">
+                    <span>灵魂波形稳定度</span>
+                    <span class="stability-level" id="stability-level">计算中</span>
+                </div>
+                <div class="stability-meter">
+                    <div class="stability-fill" id="stability-fill"></div>
+                </div>
+                <div class="stability-desc" id="stability-desc">正在校验前后作答波形...</div>
+            </div>
 
             <div class="section-title">多维度明细剖析</div>
             <div id="dim-breakdown">
@@ -769,6 +827,7 @@
         let radarChartInstance = null;
         let totalAnsweringTimeMs = 0;
         let lastQTime = 0;
+        let consistencyInfo = null;
 
         const dimNames = { A: "审美偏好", B: "行为习惯", C: "心理共情", D: "社交亚文化" };
         let dimMaxScores = { A: 0, B: 0, C: 0, D: 0 };
@@ -806,7 +865,7 @@
 
         function saveState() {
             localStorage.setItem('nnTestState_v1', JSON.stringify({
-                shuffledQuestions, userAnswers, currentQIdx, dimMaxScores, totalAnsweringTimeMs
+                shuffledQuestions, userAnswers, currentQIdx, dimMaxScores, totalAnsweringTimeMs, consistencyInfo
             }));
         }
 
@@ -818,6 +877,9 @@
             currentQIdx = st.currentQIdx;
             dimMaxScores = st.dimMaxScores;
             totalAnsweringTimeMs = st.totalAnsweringTimeMs || 0;
+            consistencyInfo = st.consistencyInfo || null;
+            userAnswers = normalizeSavedAnswers(userAnswers, shuffledQuestions.length);
+            ensureRenderedOptionOrders();
             showPage('quiz');
             renderQuestion();
         }
@@ -827,50 +889,100 @@
             location.reload();
         }
 
+        function getRandomIndex(max) {
+            if (window.crypto && window.crypto.getRandomValues) {
+                const array = new Uint32Array(1);
+                window.crypto.getRandomValues(array);
+                return array[0] % max;
+            }
+            return Math.floor(Math.random() * max);
+        }
+
+        function shuffleArray(items) {
+            const arr = JSON.parse(JSON.stringify(items));
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = getRandomIndex(i + 1);
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function getAnswerScore(ans) {
+            if (ans == null) return null;
+            return typeof ans === 'object' ? ans.score : ans;
+        }
+
+        function normalizeSavedAnswers(answers, len) {
+            const normalized = new Array(len).fill(null);
+            (answers || []).slice(0, len).forEach((ans, idx) => {
+                if (ans == null) return;
+                normalized[idx] = typeof ans === 'object' ? ans : { score: ans, raw: ans, label: '' };
+            });
+            return normalized;
+        }
+
+        function prepareQuestionOptions(q) {
+            if (q.type !== 'choice') return;
+            if (!q.renderOptions || q.renderOptions.length !== q.options.length) {
+                q.renderOptions = shuffleArray(q.options).map((opt, idx) => ({ ...opt, _key: `${q.id || q.t}-${idx}-${opt.l}` }));
+            }
+        }
+
+        function ensureRenderedOptionOrders() {
+            shuffledQuestions.forEach(prepareQuestionOptions);
+        }
+
+        function drawFaceCapped(pool, count, highFaceState) {
+            const selected = [];
+            const deferredHighFace = [];
+            shuffleArray(pool).forEach(q => {
+                if (selected.length >= count) return;
+                const isHighFace = (q.face || 2) >= 3;
+                if (isHighFace && highFaceState.used >= highFaceState.max) {
+                    deferredHighFace.push(q);
+                    return;
+                }
+                if (isHighFace) highFaceState.used++;
+                selected.push(q);
+            });
+            return selected.concat(deferredHighFace.slice(0, count - selected.length));
+        }
+
+        function drawConsistencyPair(pool) {
+            const grouped = pool.reduce((map, q) => {
+                const key = q.consistencyKey || q.facet || q.id;
+                if (!map[key]) map[key] = [];
+                map[key].push(q);
+                return map;
+            }, {});
+            const pairs = Object.values(grouped).filter(group => group.length >= 2);
+            if (!pairs.length) return shuffleArray(pool).slice(0, 2);
+            return shuffleArray(pairs[getRandomIndex(pairs.length)]).slice(0, 2);
+        }
+
         // --- 智能题库抽取引擎 ---
         function initGame() {
-            // 定义每次测试的完美配比 (共50题)
-            const targetDistribution = {
-                A: { likert: 9, choice: 3 },  // 12题
-                B: { likert: 9, choice: 4 },  // 13题
-                C: { likert: 9, choice: 3 },  // 12题
-                D: { likert: 9, choice: 4 }   // 13题
-            };
-
             let selectedQuestions = [];
-            dimMaxScores = { A: 0, B: 0, C: 0, D: 0 }; // 重置动态满分
+            dimMaxScores = { A: 0, B: 0, C: 0, D: 0 };
+            const highFaceState = { used: 0, max: 4 };
 
-            // 将总题库打乱，使用更强的洗牌机制防止玩家刷题
-            let randomizedPool = JSON.parse(JSON.stringify(rawQuestionBank));
-            for (let i = randomizedPool.length - 1; i > 0; i--) {
-                let j;
-                if (window.crypto && window.crypto.getRandomValues) {
-                    const array = new Uint32Array(1);
-                    window.crypto.getRandomValues(array);
-                    j = array[0] % (i + 1);
-                } else {
-                    j = Math.floor(Math.random() * (i + 1));
-                }
-                [randomizedPool[i], randomizedPool[j]] = [randomizedPool[j], randomizedPool[i]];
-            }
-
-            // 按维度和题型分类抽取
-            Object.keys(targetDistribution).forEach(dim => {
-                ['likert', 'choice'].forEach(type => {
-                    let targetCount = targetDistribution[dim][type];
-                    let matchedInPool = randomizedPool.filter(q => q.d === dim && q.type === type);
-
-                    // 取出所需的题数 (如果题库里的题不够，就全拿出来，防止报错)
-                    let drawn = matchedInPool.slice(0, targetCount);
-                    selectedQuestions = selectedQuestions.concat(drawn);
-                });
+            ['A', 'B', 'C', 'D'].forEach(dim => {
+                const pool = rawQuestionBank.filter(q => q.scored !== false && q.d === dim);
+                selectedQuestions = selectedQuestions.concat(drawFaceCapped(pool, 11, highFaceState));
             });
 
-            // 将最终选出的50道题进行最终打乱，防止玩家察觉出规律
-            shuffledQuestions = selectedQuestions.sort(() => Math.random() - 0.5);
+            const fillerPool = rawQuestionBank.filter(q => q.scored === false && q.d === 'F');
+            selectedQuestions = selectedQuestions.concat(shuffleArray(fillerPool).slice(0, 4));
 
-            // 动态计算本次抽取出的各个维度满分 (动态雷达分母机制)
-            shuffledQuestions.forEach(q => { dimMaxScores[q.d] += 5; });
+            const consistencyPool = rawQuestionBank.filter(q => q.scored === false && q.d === 'K');
+            selectedQuestions = selectedQuestions.concat(drawConsistencyPair(consistencyPool));
+
+            shuffledQuestions = shuffleArray(selectedQuestions);
+            ensureRenderedOptionOrders();
+
+            shuffledQuestions.forEach(q => {
+                if (q.scored !== false && dimMaxScores[q.d] !== undefined) dimMaxScores[q.d] += 5;
+            });
 
             console.log("题库抽取完成，总题数:", shuffledQuestions.length);
         }
@@ -879,7 +991,8 @@
             initGame();
             currentQIdx = 0;
             totalAnsweringTimeMs = 0;
-            userAnswers.fill(null);
+            consistencyInfo = null;
+            userAnswers = new Array(shuffledQuestions.length).fill(null);
             showPage('quiz');
             renderQuestion();
         }
@@ -897,18 +1010,19 @@
 
             const badge = document.getElementById('q-badge');
             if (q.type === 'likert') {
-                badge.innerText = "态度自评题";
+                badge.innerText = q.scored === false ? "状态校验" : "偏好判断";
                 badge.style.background = "#e0f7fa"; badge.style.color = "#00acc1";
                 document.getElementById('question-text').innerText = q.t.replace('【反向】', '');
             } else {
-                badge.innerText = "情景模拟题";
+                badge.innerText = q.scored === false ? "日常切片" : "情境选择";
                 badge.style.background = "#f3e5f5"; badge.style.color = "#8e24aa";
                 document.getElementById('question-text').innerText = q.t;
             }
 
             const container = document.getElementById('options-container');
             container.innerHTML = '';
-            const optsToRender = q.type === 'likert' ? standardOptions : q.options;
+            prepareQuestionOptions(q);
+            const optsToRender = q.type === 'likert' ? standardOptions : q.renderOptions;
 
             optsToRender.forEach(opt => {
                 const btn = document.createElement('button');
@@ -916,7 +1030,10 @@
                 btn.innerText = opt.l;
 
                 let scoreVal = q.type === 'likert' && q.r ? (6 - opt.v) : opt.v;
-                if (userAnswers[currentQIdx] === scoreVal) { btn.classList.add('selected'); }
+                const savedAnswer = userAnswers[currentQIdx];
+                if (savedAnswer && (savedAnswer.label === opt.l || (!savedAnswer.label && getAnswerScore(savedAnswer) === scoreVal))) {
+                    btn.classList.add('selected');
+                }
 
                 btn.onclick = () => {
                     if (isAnswering) return;
@@ -926,7 +1043,7 @@
 
                     document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
                     btn.classList.add('selected');
-                    userAnswers[currentQIdx] = scoreVal;
+                    userAnswers[currentQIdx] = { score: scoreVal, raw: opt.v, label: opt.l };
 
                     setTimeout(() => {
                         saveState();
@@ -946,20 +1063,95 @@
             if (currentQIdx > 0) { currentQIdx--; renderQuestion(); }
         }
 
+        function longestRun(values) {
+            let longest = 0;
+            let current = 0;
+            let prev = null;
+            values.forEach(v => {
+                if (v == null) return;
+                if (v === prev) current++;
+                else current = 1;
+                prev = v;
+                longest = Math.max(longest, current);
+            });
+            return longest;
+        }
+
+        function calculateConsistencyInfo() {
+            const answerScores = userAnswers.map(getAnswerScore).filter(v => v != null);
+            const valCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+            answerScores.forEach(v => { valCounts[v] = (valCounts[v] || 0) + 1; });
+
+            const consistencyGroups = {};
+            shuffledQuestions.forEach((q, idx) => {
+                if (!q.consistencyKey) return;
+                const ans = getAnswerScore(userAnswers[idx]);
+                if (ans == null) return;
+                const normalized = q.consistencyPolarity === -1 ? 6 - ans : ans;
+                if (!consistencyGroups[q.consistencyKey]) consistencyGroups[q.consistencyKey] = [];
+                consistencyGroups[q.consistencyKey].push(normalized);
+            });
+
+            let contradictionPenalty = 0;
+            Object.values(consistencyGroups).forEach(group => {
+                if (group.length < 2) return;
+                contradictionPenalty += Math.abs(group[0] - group[1]) * 15;
+            });
+
+            const maxSameCount = Math.max(...Object.values(valCounts));
+            const extremeCount = (valCounts[1] || 0) + (valCounts[5] || 0);
+            const streak = longestRun(userAnswers.map(getAnswerScore));
+            let patternPenalty = 0;
+            if (streak >= 18) patternPenalty += 25;
+            else if (streak >= 12) patternPenalty += 12;
+            if (extremeCount >= 40) patternPenalty += 18;
+            else if (extremeCount >= 34) patternPenalty += 8;
+
+            const score = Math.max(0, Math.min(100, 100 - contradictionPenalty - patternPenalty));
+            let level = "高";
+            let grade = "high";
+            let desc = "前后作答波形比较稳定，系统决定认真给你算一卦。";
+            let discount = 1;
+            if (score < 45) {
+                level = "极低";
+                grade = "very_low";
+                desc = "前后回答像在左右横跳，测谎防御网关已经开始冒烟。";
+                discount = 0;
+            } else if (score < 65) {
+                level = "偏低";
+                grade = "low";
+                desc = "检测到一点防御性作答或前后摇摆，最终分数会被轻微打折。";
+                discount = 0.92;
+            } else if (score < 85) {
+                level = "中等";
+                grade = "medium";
+                desc = "样本有轻微波动，但还在可解析范围内，别紧张，仪器还没爆。";
+            }
+
+            return { score, level, grade, desc, discount, maxSameCount, extremeCount, streak };
+        }
+
         function finishTest() {
             const totalSecs = totalAnsweringTimeMs / 1000;
             window.spamStatus = 0;
+            consistencyInfo = calculateConsistencyInfo();
 
             if (totalSecs < 35) {
                 window.spamStatus = 1;
                 window.spamVal = totalSecs.toFixed(1);
             } else {
-                let valCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-                userAnswers.forEach(ans => { if (ans) valCounts[ans] = (valCounts[ans] || 0) + 1 });
-                let maxSameCount = Math.max(...Object.values(valCounts));
-                if (maxSameCount >= 42) {
+                if (consistencyInfo.maxSameCount >= 42) {
                     window.spamStatus = 2;
-                    window.spamVal = maxSameCount;
+                    window.spamVal = consistencyInfo.maxSameCount;
+                } else if (consistencyInfo.streak >= 25) {
+                    window.spamStatus = 3;
+                    window.spamVal = consistencyInfo.streak;
+                } else if (consistencyInfo.extremeCount >= 46) {
+                    window.spamStatus = 4;
+                    window.spamVal = consistencyInfo.extremeCount;
+                } else if (consistencyInfo.grade === 'very_low') {
+                    window.spamStatus = 5;
+                    window.spamVal = consistencyInfo.score;
                 }
             }
 
@@ -1004,6 +1196,20 @@
             document.head.appendChild(script);
         }
 
+        function renderStabilityCard(info, isPunished = false) {
+            const safeInfo = info || { score: 100, level: "高", desc: "前后作答波形比较稳定，系统决定认真给你算一卦。" };
+            const fill = document.getElementById('stability-fill');
+            const level = document.getElementById('stability-level');
+            const desc = document.getElementById('stability-desc');
+            if (!fill || !level || !desc) return;
+
+            fill.style.width = `${Math.max(0, Math.min(100, safeInfo.score))}%`;
+            level.innerText = isPunished ? `已拦截 · ${safeInfo.level || '异常'}` : `${safeInfo.level} (${Math.round(safeInfo.score)}%)`;
+            desc.innerText = isPunished
+                ? `${safeInfo.desc || '这份样本的灵魂波形太抽象，系统决定先把整活惩罚端上来。'}`
+                : safeInfo.desc;
+        }
+
         function generateResult() {
             showPage('result');
 
@@ -1019,20 +1225,31 @@
                 titleEl.style.border = 'none';
                 titleEl.style.boxShadow = '0 4px 15px rgba(255, 77, 79, 0.4)';
 
+                const punishDesc = {
+                    1: `你乱点的吧 · 极速狂点（均题约 ${(window.spamVal / 50).toFixed(2)} 秒）`,
+                    2: `你乱点的吧 · 高度机械规律（同频度达 ${window.spamVal} 次）`,
+                    3: `你乱点的吧 · 连续同频作答（最长连击 ${window.spamVal} 题）`,
+                    4: `你乱点的吧 · 极端选项堆叠（极端值 ${window.spamVal} 次）`,
+                    5: `你乱点的吧 · 前后矛盾过载（稳定度 ${Math.round(window.spamVal)}%）`
+                };
                 const descEl = document.getElementById('tier-desc');
-                descEl.innerText = window.spamStatus === 1
-                    ? `你乱点的吧 · 极速狂点（均题约 ${(window.spamVal / 50).toFixed(2)} 秒）`
-                    : `你乱点的吧 · 高度机械规律（同频度达 ${window.spamVal} 次）`;
+                descEl.innerText = punishDesc[window.spamStatus] || '你乱点的吧 · 异常样本';
                 descEl.style.color = '#ff4d4f';
 
                 document.getElementById('dom-trait-title').innerText = '🚫 潜质评估已强制终止';
-                document.getElementById('trait-analysis').innerText = window.spamStatus === 1
-                    ? `系统检测到你的总用时仅有 ${window.spamVal} 秒。你连题目都懒得看一眼，凭什么指望系统能给出精准的灵魂雷达？男娘的觉醒是需要直溯内心的，不是靠手速瞎按刷出来的！`
-                    : '你的回答完美避开了正常人类心理应有的起伏波动，呈现出极其机械的规律性（无脑全选同一个方向）。测谎防御网关已将你无情拦截。';
+                const punishAnalysis = {
+                    1: `系统检测到你的总用时仅有 ${window.spamVal} 秒。你连题目都懒得看一眼，凭什么指望系统能给出精准的灵魂雷达？男娘的觉醒是需要直溯内心的，不是靠手速瞎按刷出来的！`,
+                    2: '你的回答完美避开了正常人类心理应有的起伏波动，呈现出极其机械的规律性（无脑全选同一个方向）。测谎防御网关已将你无情拦截。',
+                    3: '系统检测到你在一长串题目里维持同一方向作答，灵魂波形平得像尺子。哥们，防御可以有，但别把自己答成复读机。',
+                    4: '你的极端选项密度过高，像是全程按着油门冲进结论区。鉴定官怀疑你不是在答题，而是在和按钮较劲。',
+                    5: '一致性校验显示你前后回答互相拆台，上一秒说收敛，下一秒说无所谓，样本已经开始自我打架。'
+                };
+                document.getElementById('trait-analysis').innerText = punishAnalysis[window.spamStatus] || '检测到异常作答模式，系统拒绝继续认真解析。';
                 document.getElementById('trait-behavior').innerText = '你的行为特征表现为：急躁、机械、带有极强的敷衍性（为了看特殊彩蛋而疯狂乱点）。在二次元圈子里，这种存在通常被称为“走肾不走心的测慌仪反面教材”。';
                 document.getElementById('trait-advice').innerText = '清空杂念，卸下所有防备！退出去重新凭你的【真实第一直觉】填一遍！你骗得过电脑里的死程序，但永远骗不过你真实的DNA！';
 
                 document.getElementById('dim-breakdown').innerHTML = '<div style="text-align:center;color:#ff4d4f;margin:30px 0;font-weight:bold;font-size:16px;">检测到极度异常数据<br>本局各大维度底层面板已自毁 🈲</div>';
+                renderStabilityCard(consistencyInfo || { score: 0, level: '异常', desc: '这份样本的灵魂波形太抽象，系统决定先把整活惩罚端上来。' }, true);
 
                 let fakeScores = { A: 0, B: 0, C: 0, D: 0 };
                 drawRadar(fakeScores);
@@ -1050,14 +1267,17 @@
 
             let scores = { A: 0, B: 0, C: 0, D: 0 };
             for (let i = 0; i < shuffledQuestions.length; i++) {
-                let dim = shuffledQuestions[i].d;
-                scores[dim] += userAnswers[i];
+                const q = shuffledQuestions[i];
+                if (q.scored === false || scores[q.d] === undefined) continue;
+                scores[q.d] += getAnswerScore(userAnswers[i]) || 0;
             }
 
             // 由于是动态题库，不能用定死的分数段。需转换为标准化百分制总分 (满分100)
             let totalPercent = ((scores.A / dimMaxScores.A) + (scores.B / dimMaxScores.B) + (scores.C / dimMaxScores.C) + (scores.D / dimMaxScores.D)) / 4 * 100;
             // 数字滚动动画使用 requestAnimationFrame
-            let displayScore = Math.round(totalPercent * 2.5); // 250分制
+            const rawDisplayScore = Math.round(totalPercent * 2.5); // 250分制
+            let displayScore = Math.round(rawDisplayScore * ((consistencyInfo && consistencyInfo.discount) || 1));
+            renderStabilityCard(consistencyInfo);
 
             let beatPercent = (displayScore / 250) * 100 * 0.8 + 15 + (Math.random() * 4.9);
             if (displayScore < 50) beatPercent = 5 + Math.random() * 5;
