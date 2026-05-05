@@ -828,6 +828,9 @@
         let totalAnsweringTimeMs = 0;
         let lastQTime = 0;
         let consistencyInfo = null;
+        const SCORE_COLLECTION_ENDPOINT = '/api/score';
+        const SCORE_ALGORITHM_VERSION = 'classic_250_v1';
+        const QUESTION_BANK_VERSION = 'questions_2026_05_06_v1';
 
         const dimNames = { A: "审美偏好", B: "行为习惯", C: "心理共情", D: "社交亚文化" };
         let dimMaxScores = { A: 0, B: 0, C: 0, D: 0 };
@@ -910,6 +913,45 @@
         function getAnswerScore(ans) {
             if (ans == null) return null;
             return typeof ans === 'object' ? ans.score : ans;
+        }
+
+        function createSubmissionId() {
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+                return window.crypto.randomUUID();
+            }
+            return `score_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+        }
+
+        async function submitScoreSummary(data) {
+            if (!window.fetch) return;
+
+            const payload = {
+                clientSubmissionId: createSubmissionId(),
+                score: data.score,
+                scoreMax: 250,
+                scorePercent: Number(((data.score / 250) * 100).toFixed(2)),
+                rawScore: data.rawScore ?? null,
+                rawPercent: data.rawPercent ?? null,
+                stabilityScore: data.stabilityScore ?? null,
+                consistencyDiscount: data.consistencyDiscount ?? null,
+                isSpam: Boolean(data.isSpam),
+                spamStatus: data.spamStatus ?? 0,
+                durationSeconds: Number((totalAnsweringTimeMs / 1000).toFixed(2)),
+                questionCount: shuffledQuestions.length,
+                algorithmVersion: SCORE_ALGORITHM_VERSION,
+                questionVersion: QUESTION_BANK_VERSION
+            };
+
+            try {
+                await fetch(SCORE_COLLECTION_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    keepalive: true
+                });
+            } catch (err) {
+                console.warn('Score collection failed:', err);
+            }
         }
 
         function normalizeSavedAnswers(answers, len) {
@@ -1217,6 +1259,15 @@
                 document.getElementById('final-score').innerText = '0';
                 document.getElementById('national-rank').innerText = '🏆 击败了全国 114514% 的人（毫无感情）';
                 document.getElementById('national-rank').style.color = '#ff4d4f';
+                void submitScoreSummary({
+                    score: 0,
+                    rawScore: null,
+                    rawPercent: null,
+                    stabilityScore: consistencyInfo ? Number(consistencyInfo.score.toFixed(2)) : null,
+                    consistencyDiscount: consistencyInfo ? consistencyInfo.discount : null,
+                    isSpam: true,
+                    spamStatus: window.spamStatus || 0
+                });
 
                 const titleEl = document.getElementById('tier-title');
                 titleEl.innerText = '🤡 骗骗哥们就行了，别把自己骗了（';
@@ -1278,6 +1329,15 @@
             const rawDisplayScore = Math.round(totalPercent * 2.5); // 250分制
             let displayScore = Math.round(rawDisplayScore * ((consistencyInfo && consistencyInfo.discount) || 1));
             renderStabilityCard(consistencyInfo);
+            void submitScoreSummary({
+                score: displayScore,
+                rawScore: rawDisplayScore,
+                rawPercent: Number(totalPercent.toFixed(2)),
+                stabilityScore: consistencyInfo ? Number(consistencyInfo.score.toFixed(2)) : null,
+                consistencyDiscount: (consistencyInfo && consistencyInfo.discount) || 1,
+                isSpam: false,
+                spamStatus: 0
+            });
 
             let beatPercent = (displayScore / 250) * 100 * 0.8 + 15 + (Math.random() * 4.9);
             if (displayScore < 50) beatPercent = 5 + Math.random() * 5;
