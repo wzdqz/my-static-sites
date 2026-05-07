@@ -128,24 +128,26 @@
   "scoreStats.compareHigh": "{delta}",
   "scoreStats.compareLow": "{delta}",
   "scoreStats.summaryCompare": "{compareText}",
-  "dimensions.names": {
-    "A": "",
-    "B": "",
-    "C": "",
-    "D": ""
-  },
-  "dimensions.meta": {
-    "A": { "icon": "", "color": "#ff8fab", "short": "" },
-    "B": { "icon": "", "color": "#a8e6cf", "short": "" },
-    "C": { "icon": "", "color": "#d8b4fe", "short": "" },
-    "D": { "icon": "", "color": "#ffd166", "short": "" }
-  },
-  "dimensions.levels": {
-    "over": { "tag": "", "text": "" },
-    "high": { "tag": "", "text": "" },
-    "medium": { "tag": "", "text": "" },
-    "low": { "tag": "", "text": "" },
-    "none": { "tag": "", "text": "" }
+  "dimensions": {
+    "names": {
+      "A": "",
+      "B": "",
+      "C": "",
+      "D": ""
+    },
+    "meta": {
+      "A": { "icon": "", "color": "#ff8fab", "short": "" },
+      "B": { "icon": "", "color": "#a8e6cf", "short": "" },
+      "C": { "icon": "", "color": "#d8b4fe", "short": "" },
+      "D": { "icon": "", "color": "#ffd166", "short": "" }
+    },
+    "levels": {
+      "over": { "tag": "", "text": "" },
+      "high": { "tag": "", "text": "" },
+      "medium": { "tag": "", "text": "" },
+      "low": { "tag": "", "text": "" },
+      "none": { "tag": "", "text": "" }
+    }
   },
   "chart.A": "",
   "chart.B": "",

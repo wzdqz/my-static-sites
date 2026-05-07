@@ -14,8 +14,7 @@ for (const key of [
   'meta.title',
   'language.selectLabel',
   'question.standardOptions',
-  'dimensions.names',
-  'dimensions.meta',
+  'dimensions',
   'result.sections.report',
   'punish.stampText',
   'punish.descs.1',
@@ -29,6 +28,10 @@ for (const key of [
 
 assert.ok(Array.isArray(template['question.standardOptions']), 'template should show the quiz option array shape');
 assert.ok(Array.isArray(template.tiers), 'template should show the result tier array shape');
+assert.ok(template.dimensions && typeof template.dimensions === 'object', 'template should show the dimensions object shape');
+assert.ok(template.dimensions.names && typeof template.dimensions.names === 'object', 'template should show dimension names');
+assert.ok(template.dimensions.meta && typeof template.dimensions.meta === 'object', 'template should show dimension metadata');
+assert.ok(template.dimensions.levels && typeof template.dimensions.levels === 'object', 'template should show dimension levels');
 assert.ok(template.traits && typeof template.traits === 'object', 'template should show the traits object shape');
 
 console.log('translation template tests passed');

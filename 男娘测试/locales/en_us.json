@@ -222,7 +222,7 @@
   "result.actions.dockReset": "Retest",
   "result.actions.stopGlitch": "Close effect",
   "result.actions.enableGlitch": "Enable effect",
-  "result.actions.disableGlitch": "Disable ffect",
+  "result.actions.disableGlitch": "Disable intense effect",
   "result.actions.glitchRiskConfirm": "This effect includes rapid flashing, shaking, and high-contrast color changes, which may trigger photosensitive discomfort or photosensitive epilepsy. Enable it anyway?",
   "result.dimensionFallbackHtml": "<div style=\"text-align:center;color:#ff4d4f;margin:30px 0;font-weight:bold;font-size:16px;\">Extremely abnormal data detected<br>The dimension panel has self-destructed.</div>",
   "confirm.exit": "Are you sure you want to exit this assessment? Your current progress will be saved, and you can continue next time.",
@@ -251,24 +251,26 @@
   "scoreStats.compareHigh": "{delta} points above average",
   "scoreStats.compareLow": "{delta} points below average",
   "scoreStats.summaryCompare": "{compareText}",
-  "dimensions.names": {
-    "A": "Aesthetic preference",
-    "B": "Behavioral habits",
-    "C": "Psychological empathy",
-    "D": "Social subculture"
-  },
-  "dimensions.meta": {
-    "A": { "icon": "A", "color": "#ff8fab", "short": "aesthetic radar" },
-    "B": { "icon": "B", "color": "#a8e6cf", "short": "behavior instinct" },
-    "C": { "icon": "C", "color": "#d8b4fe", "short": "psychological empathy" },
-    "D": { "icon": "D", "color": "#ffd166", "short": "social assimilation" }
-  },
-  "dimensions.levels": {
-    "over": { "tag": "Overflowing", "text": "This dimension is far above ordinary sample range." },
-    "high": { "tag": "High", "text": "This tendency is clear and stable." },
-    "medium": { "tag": "Medium", "text": "This dimension has visible traces, but it is not dominant." },
-    "low": { "tag": "Low", "text": "This dimension is relatively restrained." },
-    "none": { "tag": "Dormant", "text": "This dimension is barely visible in this sample." }
+  "dimensions": {
+    "names": {
+      "A": "Aesthetic preference",
+      "B": "Behavioral habits",
+      "C": "Psychological empathy",
+      "D": "Social subculture"
+    },
+    "meta": {
+      "A": { "icon": "A", "color": "#ff8fab", "short": "aesthetic radar" },
+      "B": { "icon": "B", "color": "#a8e6cf", "short": "behavior instinct" },
+      "C": { "icon": "C", "color": "#d8b4fe", "short": "psychological empathy" },
+      "D": { "icon": "D", "color": "#ffd166", "short": "social assimilation" }
+    },
+    "levels": {
+      "over": { "tag": "Overflowing", "text": "This dimension is far above ordinary sample range." },
+      "high": { "tag": "High", "text": "This tendency is clear and stable." },
+      "medium": { "tag": "Medium", "text": "This dimension has visible traces, but it is not dominant." },
+      "low": { "tag": "Low", "text": "This dimension is relatively restrained." },
+      "none": { "tag": "Dormant", "text": "This dimension is barely visible in this sample." }
+    }
   },
   "stability.defaultLevel": "High",
   "stability.defaultDesc": "Your answer waveform is stable, and the report can be used as a valid entertainment sample.",
