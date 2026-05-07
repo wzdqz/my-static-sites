@@ -107,6 +107,44 @@
             background-color: #333;
         }
 
+        body.dark-mode .result-summary-card {
+            background: linear-gradient(135deg, rgba(58, 42, 61, 0.92), rgba(24, 54, 62, 0.72));
+            border-color: rgba(255, 143, 171, 0.24);
+        }
+
+        body.dark-mode .dim-item,
+        body.dark-mode .loading-step {
+            background: rgba(42, 42, 62, 0.76);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        body.dark-mode .summary-item,
+        body.dark-mode .trait-section {
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        body.dark-mode .summary-title {
+            color: #ff8fab;
+        }
+
+        body.dark-mode .stability-card {
+            background: #252538;
+            border-color: rgba(255, 143, 171, 0.34);
+            color: #ddd;
+        }
+
+        body.dark-mode .stability-head {
+            color: #ddd;
+        }
+
+        body.dark-mode .stability-meter {
+            background: #33334a;
+        }
+
+        body.dark-mode .stability-desc {
+            color: #bbb;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -229,6 +267,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            gap: 10px;
         }
 
         .btn-prev {
@@ -242,8 +281,27 @@
             align-items: center;
         }
 
+        .quiz-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .btn-quiz-lite {
+            background: rgba(255, 143, 171, 0.1);
+            border: 1px solid rgba(255, 143, 171, 0.25);
+            color: var(--primary);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
         .btn-prev.hidden {
-            visibility: hidden;
+            display: none;
         }
 
         .progress-text {
@@ -256,8 +314,8 @@
             width: 100%;
             height: 8px;
             background-color: #f0f0f0;
-            border-radius: 4px;
-            margin-bottom: 25px;
+            border-radius: 999px;
+            margin-bottom: 8px;
             overflow: hidden;
         }
 
@@ -266,6 +324,15 @@
             background: linear-gradient(90deg, #8eecf5, #ff8fab);
             width: 0%;
             transition: width 0.3s ease;
+        }
+
+        .progress-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 12px;
+            margin-bottom: 22px;
         }
 
         .question-type-badge {
@@ -277,6 +344,13 @@
             border-radius: 10px;
             margin-bottom: 10px;
             font-weight: bold;
+        }
+
+        .question-helper {
+            color: var(--text-light);
+            font-size: 12px;
+            line-height: 1.5;
+            margin: -4px 0 12px;
         }
 
         .question-text {
@@ -306,6 +380,7 @@
             font-weight: 500;
             display: flex;
             align-items: center;
+            min-height: 56px;
         }
 
         .option-btn:hover {
@@ -319,6 +394,51 @@
             color: #e91e63;
             animation: pop 0.3s ease;
             box-shadow: 0 0 0 4px rgba(255, 143, 171, 0.3);
+        }
+
+        .loading-steps {
+            display: grid;
+            gap: 8px;
+            margin: 22px auto 0;
+            max-width: 340px;
+            text-align: left;
+        }
+
+        .loading-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            font-size: 12px;
+            padding: 8px 10px;
+            border: 1px solid rgba(255, 143, 171, 0.16);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        .loading-step::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: #ddd;
+            flex: 0 0 auto;
+        }
+
+        .loading-step.active {
+            color: var(--primary);
+            border-color: rgba(255, 143, 171, 0.38);
+            background: rgba(255, 240, 243, 0.85);
+            font-weight: 800;
+        }
+
+        .loading-step.active::before {
+            background: var(--primary);
+            box-shadow: 0 0 0 4px rgba(255, 143, 171, 0.16);
+        }
+
+        .loading-step.done::before {
+            background: #8eecf5;
         }
 
         @keyframes pop {
@@ -341,6 +461,55 @@
             border-bottom: 2px dashed #eee;
             padding-bottom: 20px;
             margin-bottom: 20px;
+        }
+
+        .result-summary-card {
+            border: 1px solid rgba(255, 143, 171, 0.22);
+            background: linear-gradient(135deg, rgba(255, 240, 243, 0.92), rgba(224, 247, 250, 0.74));
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 22px;
+        }
+
+        .summary-kicker {
+            color: var(--text-light);
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .summary-title {
+            color: #ff5c8a;
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1.35;
+            margin-bottom: 12px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .summary-item {
+            border-top: 1px solid rgba(255, 143, 171, 0.16);
+            padding: 9px 0 0;
+            min-width: 0;
+        }
+
+        .summary-label {
+            color: var(--text-light);
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+
+        .summary-value {
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 900;
+            line-height: 1.35;
+            word-break: break-word;
         }
 
         .score-num {
@@ -385,7 +554,20 @@
             margin: 0 auto;
         }
 
+        .radar-summary {
+            color: var(--text-light);
+            font-size: 12px;
+            line-height: 1.6;
+            text-align: center;
+            margin: 8px auto 18px;
+            max-width: 360px;
+        }
+
         .dim-item {
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.62);
+            border-radius: 10px;
+            padding: 12px;
             margin-bottom: 15px;
         }
 
@@ -395,6 +577,44 @@
             font-size: 13px;
             margin-bottom: 5px;
             color: #555;
+        }
+
+        .dim-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            font-weight: 800;
+        }
+
+        .dim-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            flex: 0 0 auto;
+        }
+
+        .dim-score {
+            text-align: right;
+            font-size: 12px;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .dim-tag {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 2px 8px;
+            margin-left: 6px;
+            background: rgba(255, 143, 171, 0.12);
+            font-size: 11px;
+            font-weight: 800;
         }
 
         .dim-bar-bg {
@@ -472,6 +692,39 @@
             color: #444;
             margin-bottom: 20px;
             text-align: left;
+        }
+
+        .trait-section {
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            padding-top: 12px;
+        }
+
+        .result-title-token {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 143, 171, 0.24);
+            border-radius: 999px;
+            background: rgba(255, 143, 171, 0.1);
+            color: var(--primary);
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .punish-notice {
+            display: none;
+            border: 1px solid rgba(255, 77, 79, 0.38);
+            background: rgba(255, 77, 79, 0.08);
+            color: #ff4d4f;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 18px;
+            font-size: 13px;
+            line-height: 1.6;
+            font-weight: 800;
+            text-align: center;
         }
 
         @keyframes hardcore-glitch {
@@ -599,6 +852,85 @@
             overflow-wrap: break-word;
         }
 
+        body.capture-mode .result-action-dock {
+            display: none !important;
+        }
+
+        .result-action-dock {
+            position: fixed;
+            left: 50%;
+            bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+            z-index: 9000;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            width: min(440px, calc(100% - 28px));
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 18px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-50%) translateY(18px);
+            transition: opacity 0.24s ease, transform 0.24s ease;
+        }
+
+        .result-action-dock.is-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        body.dark-mode .result-action-dock {
+            background: rgba(30, 30, 46, 0.92);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .result-action-dock button {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 6px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            min-width: 0;
+        }
+
+        #btn-stop-glitch {
+            transition: bottom 0.24s ease, transform 0.24s ease, opacity 0.2s ease;
+        }
+
+        body.dock-visible #btn-stop-glitch {
+            bottom: calc(92px + env(safe-area-inset-bottom, 0px)) !important;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(30, 30, 46, 0.94);
+            color: #fff;
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 800;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s;
+            z-index: 12000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
         /* 加载动画 */
         .loader {
             border: 4px solid #f3f3f3;
@@ -649,6 +981,7 @@
                 padding: 12px 15px;
                 font-size: 14px;
                 border-radius: 10px;
+                min-height: 54px;
             }
 
             .score-num {
@@ -664,6 +997,15 @@
                 padding: 15px;
                 font-size: 13px;
             }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #page-result {
+                padding-bottom: 96px;
+            }
+
         }
 
         @media (min-width: 481px) {
@@ -693,13 +1035,15 @@
 
         body.dark-mode #dark-mode-toggle {
             border-color: #3a3a52;
+            background: #252538;
+            box-shadow: 0 0 0 3px rgba(255, 143, 171, 0.12), 0 4px 10px rgba(0, 0, 0, 0.25);
         }
     </style>
 </head>
 
 <body>
 
-    <button id="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+    <button id="dark-mode-toggle" onclick="toggleDarkMode()" title="切换深浅色模式" aria-label="切换深浅色模式">🌙</button>
 
     <div class="container">
 
@@ -725,18 +1069,26 @@
         <!-- 2. 答题页 -->
         <div id="page-quiz" class="page">
             <div class="top-nav">
-                <button class="btn-prev" id="btn-prev" onclick="prevQuestion()">⬅️ 上一题</button>
+                <div class="quiz-actions">
+                    <button class="btn-prev" id="btn-prev" onclick="prevQuestion()">⬅️ 上一题</button>
+                    <button class="btn-quiz-lite" onclick="confirmExitTest()">退出</button>
+                </div>
                 <span class="progress-text">进度: <span id="current-q">1</span> / 50</span>
             </div>
             <div
                 style="font-size: 12px; color: #ff8fab; text-align: center; margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;">
-                ⏳ 剩余时间越短，潜质暴露越真实（请凭第一直觉作答）
+                🧭 请凭第一直觉作答，系统会校验前后作答波形
             </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progress"></div>
             </div>
+            <div class="progress-detail">
+                <span id="progress-percent">0% 已完成</span>
+                <span id="progress-left">剩余 50 题</span>
+            </div>
 
             <div id="q-badge" class="question-type-badge">偏好判断</div>
+            <div id="q-helper" class="question-helper">按第一反应选择，不用反复推敲。</div>
             <h2 class="question-text" id="question-text">加载中...</h2>
 
             <div class="options-wrapper" id="options-container"></div>
@@ -747,6 +1099,12 @@
             <div class="loader"></div>
             <h3 style="color: #ff5c8a; margin-bottom: 10px;">正在生成深度鉴定报告...</h3>
             <p style="color: #888; font-size: 14px;" id="loading-text">正在交叉比对行为与心理数据...</p>
+            <div class="loading-steps" id="loading-steps">
+                <div class="loading-step active">校验作答波形</div>
+                <div class="loading-step">生成潜质雷达图</div>
+                <div class="loading-step">匹配专属鉴定档案</div>
+                <div class="loading-step">封装整活报告</div>
+            </div>
         </div>
 
         <!-- 4. 结果页 (深度报告) -->
@@ -761,8 +1119,34 @@
                     style="font-size: 13px; color: var(--primary); margin-top: 8px; font-weight: bold;"></div>
             </div>
 
+            <div class="punish-notice" id="punish-notice">检测到异常作答，本次报告已切换为惩罚鉴定模式。</div>
+
+            <div class="result-summary-card" id="result-summary-card">
+                <div class="summary-kicker">本次解锁称号</div>
+                <div class="summary-title" id="summary-title">正在生成称号...</div>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-label">最终得分</div>
+                        <div class="summary-value" id="summary-score">-- / 250</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">鉴定等级</div>
+                        <div class="summary-value" id="summary-tier">计算中</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">核心倾向</div>
+                        <div class="summary-value" id="summary-dominant">分析中</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">样本参照</div>
+                        <div class="summary-value" id="summary-rank">同步中</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="section-title">核心潜质雷达图</div>
             <div class="radar-box"><canvas id="radarChart"></canvas></div>
+            <div class="radar-summary" id="radar-summary">雷达图生成后将显示你的最高与最低维度。</div>
 
             <div class="section-title">本次画像稳定度</div>
             <div id="stability-card" class="stability-card">
@@ -786,15 +1170,15 @@
                 <h3 style="color:var(--primary); text-align:center; margin-bottom:18px; font-size: 18px;"
                     id="dom-trait-title">核心特征加载中</h3>
                 <div class="trait-section">
-                    <span class="trait-label">【潜意识解析】</span>
+                    <span class="result-title-token">潜意识解析</span>
                     <div class="trait-text" id="trait-analysis">加载中...</div>
                 </div>
                 <div class="trait-section">
-                    <span class="trait-label">【日常生活表现】</span>
+                    <span class="result-title-token">日常生活表现</span>
                     <div class="trait-text" id="trait-behavior">加载中...</div>
                 </div>
                 <div class="trait-section" style="margin-bottom: 0;">
-                    <span class="trait-label">【进阶整活建议】</span>
+                    <span class="result-title-token">进阶整活建议</span>
                     <div class="trait-text" id="trait-advice">加载中...</div>
                 </div>
             </div>
@@ -806,11 +1190,16 @@
                 <p style="font-size: 12px; color: var(--text-light); margin-top: 8px;">长按保存或扫码测测你的潜质</p>
             </div>
 
-            <button class="btn-main mobile-share-btn" id="btn-share" onclick="nativeShare()"
-                style="background: linear-gradient(45deg, #f6d365, #fda085); margin-bottom: 15px;">分享给兄弟测测</button>
-            <button class="btn-main" id="btn-download" onclick="downloadResult()"
-                style="background: linear-gradient(45deg, #8eecf5, #4facfe); margin-bottom: 15px;">保存分析长图</button>
-            <button class="btn-main" onclick="resetTest()">重新抽取题库 / 再次测试</button>
+            <div class="result-actions" id="result-actions">
+                <button class="btn-main mobile-share-btn" id="btn-share" onclick="nativeShare()"
+                    style="background: linear-gradient(45deg, #f6d365, #fda085); margin-bottom: 15px;">分享给兄弟测测</button>
+                <button class="btn-main" id="btn-copy" onclick="copyResultText()"
+                    style="background: linear-gradient(45deg, #ffb86c, #ff7f50); margin-bottom: 15px;">复制结果文案</button>
+                <button class="btn-main" id="btn-download" onclick="downloadResult()"
+                    style="background: linear-gradient(45deg, #8eecf5, #4facfe); margin-bottom: 15px;">保存分析长图</button>
+                <button class="btn-main" onclick="resetTest()">重新抽取题库 / 再次测试</button>
+            </div>
+
         </div>
 
         <button id="btn-stop-glitch" onclick="stopGlitch()"
@@ -829,6 +1218,15 @@
         </div>
     </div>
 
+    <div class="result-action-dock">
+        <button onclick="nativeShare()" style="background: linear-gradient(45deg, #f6d365, #fda085);">分享</button>
+        <button onclick="downloadResult()" style="background: linear-gradient(45deg, #8eecf5, #4facfe);">保存</button>
+        <button onclick="copyResultText()" style="background: linear-gradient(45deg, #ffb86c, #ff7f50);">复制</button>
+        <button onclick="resetTest()" style="background: linear-gradient(45deg, #ff8fab, #ff5c8a);">重测</button>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
     <script>
 
         const standardOptions = [
@@ -845,11 +1243,21 @@
         let totalAnsweringTimeMs = 0;
         let lastQTime = 0;
         let consistencyInfo = null;
+        let latestResultShareText = '我刚测了自己的男娘潜质，快来测测你的隐藏属性。';
+        let toastTimer = null;
+        let dockTicking = false;
+        let debugBypassSpam = false;
         const SCORE_COLLECTION_ENDPOINT = '/api/score';
         const SCORE_ALGORITHM_VERSION = 'classic_250_v1';
         const QUESTION_BANK_VERSION = 'questions_2026_05_06_v1';
 
         const dimNames = { A: "审美偏好", B: "行为习惯", C: "心理共情", D: "社交亚文化" };
+        const dimMeta = {
+            A: { icon: "美", color: "#ff8fab", short: "审美雷达" },
+            B: { icon: "行", color: "#a8e6cf", short: "行为本能" },
+            C: { icon: "心", color: "#d8b4fe", short: "心理共情" },
+            D: { icon: "圈", color: "#ffd166", short: "社交同化" }
+        };
         let dimMaxScores = { A: 0, B: 0, C: 0, D: 0 };
 
         const pages = {
@@ -861,6 +1269,121 @@
             Object.values(pages).forEach(p => p.classList.remove('active'));
             pages[id].classList.add('active');
             window.scrollTo(0, 0);
+            requestAnimationFrame(updateResultDockVisibility);
+        }
+
+        function setText(id, text) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = text;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            clearTimeout(toastTimer);
+            toast.innerText = message;
+            toast.classList.add('show');
+            toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+
+        function updateResultDockVisibility() {
+            const dock = document.querySelector('.result-action-dock');
+            const actions = document.getElementById('result-actions');
+            if (!dock || !actions) return;
+
+            const isResultPage = pages.result && pages.result.classList.contains('active');
+            if (!isResultPage || document.body.classList.contains('capture-mode')) {
+                dock.classList.remove('is-visible');
+                document.body.classList.remove('dock-visible');
+                return;
+            }
+
+            const rect = actions.getBoundingClientRect();
+            const viewportHeight = (window.visualViewport && window.visualViewport.height) || window.innerHeight || document.documentElement.clientHeight;
+            const viewportPadding = 18;
+            const actionsFullyVisible = rect.top >= viewportPadding && rect.bottom <= viewportHeight - viewportPadding;
+            const shouldShowDock = !actionsFullyVisible;
+            dock.classList.toggle('is-visible', shouldShowDock);
+            document.body.classList.toggle('dock-visible', shouldShowDock);
+        }
+
+        function requestDockUpdate() {
+            if (dockTicking) return;
+            dockTicking = true;
+            requestAnimationFrame(() => {
+                dockTicking = false;
+                updateResultDockVisibility();
+            });
+        }
+
+        function confirmExitTest() {
+            const answered = userAnswers.filter(ans => ans != null).length;
+            if (answered > 0 && !confirm('确定退出本次鉴定吗？当前进度会保留，下次可以继续。')) return;
+            saveState();
+            showPage('home');
+            document.getElementById('btn-continue').style.display = 'block';
+        }
+
+        function getQuestionHelper(q) {
+            if (q.type === 'likert') {
+                return q.scored === false ? '用于校验前后作答波形，照常按第一反应选择。' : '判断这句话与你的真实状态有多接近。';
+            }
+            return q.scored === false ? '这题不直接计入总分，但会影响报告可信度。' : '代入场景，选择最像你会做出的反应。';
+        }
+
+        function updateLoadingSteps(activeIndex) {
+            document.querySelectorAll('#loading-steps .loading-step').forEach((step, idx) => {
+                step.classList.toggle('active', idx === activeIndex);
+                step.classList.toggle('done', idx < activeIndex);
+            });
+        }
+
+        function getDimLevel(percent) {
+            if (percent >= 85) return { tag: '爆表', text: '特征极度凸显，属于一眼能看出来的主导倾向。' };
+            if (percent >= 70) return { tag: '偏高', text: '倾向已经比较明显，日常表现里会经常冒头。' };
+            if (percent >= 50) return { tag: '中等', text: '存在一定波动，偶尔会被特定场景触发。' };
+            if (percent >= 30) return { tag: '偏低', text: '相关信号较弱，更多停留在轻微兴趣或偶发表现。' };
+            return { tag: '钢板', text: '几乎没有有效波形，系统暂时没捕捉到明显迹象。' };
+        }
+
+        function getUnlockedTitle(score, tier, dominantName, isSpam = false) {
+            if (isSpam) return '异常样本拦截者';
+            if (score >= 230) return '天选级隐藏宝藏';
+            if (score >= 205) return `${dominantName}满载体质`;
+            if (score >= 160) return '深度觉醒预备役';
+            if (score >= 135) return '浅度粉红觉醒';
+            if (score >= 105) return '萌新潜质样本';
+            return '钢铁防线守门员';
+        }
+
+        function buildShareText(score, tier, title, dominantName, rankText) {
+            return `我测出了「${title}」：${score}/250，${tier}，核心倾向是${dominantName}。${rankText || '快来测测你的隐藏属性。'}`;
+        }
+
+        function copyResultText() {
+            const text = latestResultShareText || '我刚测了自己的男娘潜质，快来测测你的隐藏属性。';
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => showToast('结果文案已复制')).catch(() => fallbackCopyText(text));
+            } else {
+                fallbackCopyText(text);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            const area = document.createElement('textarea');
+            area.value = text;
+            area.style.position = 'fixed';
+            area.style.left = '-9999px';
+            document.body.appendChild(area);
+            area.focus();
+            area.select();
+            try {
+                document.execCommand('copy');
+                showToast('结果文案已复制');
+            } catch (error) {
+                showToast('复制失败，请手动复制');
+            }
+            area.remove();
         }
 
         // --- 全局点击特效 ---
@@ -881,7 +1404,16 @@
             if (localStorage.getItem('nnTestState_v1')) {
                 document.getElementById('btn-continue').style.display = 'block';
             }
+            updateResultDockVisibility();
         };
+
+        window.addEventListener('scroll', requestDockUpdate, { passive: true });
+        window.addEventListener('resize', requestDockUpdate);
+        window.addEventListener('touchmove', requestDockUpdate, { passive: true });
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', requestDockUpdate);
+            window.visualViewport.addEventListener('scroll', requestDockUpdate);
+        }
 
         function saveState() {
             localStorage.setItem('nnTestState_v1', JSON.stringify({
@@ -905,6 +1437,7 @@
         }
 
         function resetTest() {
+            if (!confirm('确定重新抽取题库并开始新一轮鉴定吗？当前报告不会保留在页面上。')) return;
             localStorage.removeItem('nnTestState_v1');
             location.reload();
         }
@@ -980,12 +1513,14 @@
 
             if (isSpam) {
                 rankEl.innerText = '📊 异常样本已记录，不计入公开均值';
+                setText('summary-rank', '异常样本');
                 rankEl.style.color = '#ff4d4f';
                 return;
             }
 
             if (!summary || !summary.stats || !summary.stats.count) {
                 rankEl.innerText = '📊 样本均值暂时不可用，稍后刷新可查看';
+                setText('summary-rank', '等待样本');
                 rankEl.style.color = 'var(--primary)';
                 return;
             }
@@ -993,11 +1528,12 @@
             const average = Number(summary.stats.averageScore);
             const count = Number(summary.stats.count);
             const delta = Math.round(currentScore - average);
-            let compareText = '刚好贴近当前均值';
+            let compareText = '贴近当前均值';
             if (delta > 0) compareText = `高于均值 ${delta} 分`;
             if (delta < 0) compareText = `低于均值 ${Math.abs(delta)} 分`;
 
             rankEl.innerText = `📊 当前有效样本均分 ${average.toFixed(1)} / 250 · 已收录 ${count} 份 · 你${compareText}`;
+            setText('summary-rank', `你${compareText}`);
             rankEl.style.color = 'var(--primary)';
         }
 
@@ -1081,17 +1617,86 @@
             currentQIdx = 0;
             totalAnsweringTimeMs = 0;
             consistencyInfo = null;
+            debugBypassSpam = false;
             userAnswers = new Array(shuffledQuestions.length).fill(null);
             showPage('quiz');
             renderQuestion();
         }
+
+        function pickNearestOption(options, targetScore) {
+            return options.reduce((best, opt) => {
+                if (!best) return opt;
+                return Math.abs(opt.v - targetScore) < Math.abs(best.v - targetScore) ? opt : best;
+            }, null);
+        }
+
+        function createSyntheticAnswer(q, targetScore) {
+            if (q.type === 'likert') {
+                const rawValue = q.r ? 6 - targetScore : targetScore;
+                const opt = standardOptions.find(item => item.v === rawValue) || standardOptions[2];
+                return { score: targetScore, raw: opt.v, label: opt.l };
+            }
+
+            prepareQuestionOptions(q);
+            const opt = pickNearestOption(q.renderOptions || q.options || [], targetScore);
+            if (!opt) return { score: targetScore, raw: targetScore, label: '' };
+            return { score: opt.v, raw: opt.v, label: opt.l };
+        }
+
+        function runSyntheticResult(profile = 'high') {
+            const patterns = {
+                low: [2, 1, 2, 3, 1, 2],
+                mid: [3, 4, 2, 3, 4, 3],
+                high: [5, 4, 5, 4, 3, 5],
+                max: [5, 5, 4, 5, 4, 5],
+                cheat: [5],
+                perfect: [5],
+                random: [5, 4, 3, 2, 4, 5]
+            };
+            const isCheat = profile === 'cheat';
+            const isPerfect = profile === 'perfect';
+            const fixed = Number(profile);
+            const pattern = Number.isInteger(fixed) && fixed >= 1 && fixed <= 5
+                ? [fixed, Math.max(1, fixed - 1), fixed, Math.max(1, fixed - 2)]
+                : (patterns[profile] || patterns.high);
+            const consistencyTargets = {};
+
+            initGame();
+            userAnswers = shuffledQuestions.map((q, idx) => {
+                let targetScore = pattern[idx % pattern.length];
+                if (isPerfect && q.scored !== false) targetScore = 5;
+                if (isPerfect && q.scored === false && !q.consistencyKey) targetScore = [2, 3, 4][idx % 3];
+                if (q.consistencyKey) {
+                    const key = q.consistencyKey;
+                    if (!consistencyTargets[key]) consistencyTargets[key] = isCheat ? 5 : 3;
+                    const normalized = consistencyTargets[key];
+                    targetScore = q.consistencyPolarity === -1 ? 6 - normalized : normalized;
+                }
+                return createSyntheticAnswer(q, targetScore);
+            });
+            currentQIdx = shuffledQuestions.length - 1;
+            totalAnsweringTimeMs = isCheat ? shuffledQuestions.length * 120 : shuffledQuestions.length * 1800;
+            debugBypassSpam = isPerfect;
+            localStorage.removeItem('nnTestState_v1');
+            finishTest();
+        }
+
+        Object.defineProperty(window, '__nn_dev_quick', {
+            value: runSyntheticResult,
+            enumerable: false,
+            configurable: false
+        });
 
         function renderQuestion() {
             isAnswering = false;
             const q = shuffledQuestions[currentQIdx];
 
             document.getElementById('current-q').innerText = currentQIdx + 1;
-            document.getElementById('progress').style.width = `${((currentQIdx) / shuffledQuestions.length) * 100}%`;
+            const answeredCount = userAnswers.filter(ans => ans != null).length;
+            const progressPercent = Math.round((answeredCount / shuffledQuestions.length) * 100);
+            document.getElementById('progress').style.width = `${progressPercent}%`;
+            setText('progress-percent', `${progressPercent}% 已完成`);
+            setText('progress-left', `剩余 ${Math.max(0, shuffledQuestions.length - answeredCount)} 题`);
 
             const btnPrev = document.getElementById('btn-prev');
             if (currentQIdx === 0) btnPrev.classList.add('hidden');
@@ -1107,6 +1712,7 @@
                 badge.style.background = "#f3e5f5"; badge.style.color = "#8e24aa";
                 document.getElementById('question-text').innerText = q.t;
             }
+            setText('q-helper', getQuestionHelper(q));
 
             const container = document.getElementById('options-container');
             container.innerHTML = '';
@@ -1225,7 +1831,13 @@
             window.spamStatus = 0;
             consistencyInfo = calculateConsistencyInfo();
 
-            if (totalSecs < 35) {
+            if (debugBypassSpam) {
+                consistencyInfo.score = 100;
+                consistencyInfo.level = '高';
+                consistencyInfo.grade = 'high';
+                consistencyInfo.desc = '调试作弊档已启用，本次样本跳过异常拦截并按满分画像渲染。';
+                consistencyInfo.discount = 1;
+            } else if (totalSecs < 35) {
                 window.spamStatus = 1;
                 window.spamVal = totalSecs.toFixed(1);
             } else {
@@ -1245,8 +1857,11 @@
             }
 
             document.getElementById('progress').style.width = '100%';
+            setText('progress-percent', '100% 已完成');
+            setText('progress-left', '剩余 0 题');
             setTimeout(() => {
                 showPage('loading');
+                updateLoadingSteps(0);
                 const allTexts = window.spamStatus > 0 ? [
                     "⚠️ 检测到异常作答脑电波...", "启动核心测谎防御系统...",
                     "正在拦截机械化狂点信号...", "提取系统识别日志...",
@@ -1262,8 +1877,10 @@
                 ];
                 const texts = allTexts.sort(() => Math.random() - 0.5).slice(0, 4);
                 let tIdx = 0;
+                document.getElementById('loading-text').innerText = texts[0];
                 const intv = setInterval(() => {
                     tIdx++;
+                    updateLoadingSteps(Math.min(tIdx, 3));
                     if (tIdx < texts.length) document.getElementById('loading-text').innerText = texts[tIdx];
                     else {
                         clearInterval(intv);
@@ -1299,12 +1916,46 @@
                 : safeInfo.desc;
         }
 
+        function renderRadarSummary(scores, isPunished = false) {
+            if (isPunished) {
+                setText('radar-summary', '异常作答导致雷达图被强制归零，系统无法给出有效最高/最低维度。');
+                return;
+            }
+            const percs = Object.keys(scores).map(k => ({
+                key: k,
+                percent: Math.round((scores[k] / dimMaxScores[k]) * 100)
+            })).sort((a, b) => b.percent - a.percent);
+            const top = percs[0];
+            const low = percs[percs.length - 1];
+            setText('radar-summary', `最高维度是「${dimNames[top.key]}」${top.percent}%，最低维度是「${dimNames[low.key]}」${low.percent}%。整体画像主要由${dimMeta[top.key].short}驱动。`);
+        }
+
+        function updateResultSummary({ score, tier, title, dominantName, isSpam = false }) {
+            setText('summary-title', title);
+            setText('summary-score', `${score} / 250`);
+            setText('summary-tier', tier.replace(/^[^\u4e00-\u9fa5A-Za-z0-9]+/, ''));
+            setText('summary-dominant', dominantName);
+            if (isSpam) setText('summary-rank', '异常样本');
+        }
+
+        function resetResultUi() {
+            const punishNotice = document.getElementById('punish-notice');
+            if (punishNotice) punishNotice.style.display = 'none';
+            document.getElementById('page-result').classList.remove('spam-punish-effect');
+            const stopBtn = document.getElementById('btn-stop-glitch');
+            if (stopBtn) stopBtn.style.display = 'none';
+            setText('summary-rank', '同步中');
+        }
+
         function generateResult() {
             showPage('result');
+            resetResultUi();
 
             if (window.spamStatus > 0) {
                 document.getElementById('final-score').innerText = '0';
                 renderScoreStats(null, 0, true);
+                const punishNotice = document.getElementById('punish-notice');
+                if (punishNotice) punishNotice.style.display = 'block';
                 submitScoreSummary({
                     score: 0,
                     rawScore: null,
@@ -1332,6 +1983,14 @@
                 const descEl = document.getElementById('tier-desc');
                 descEl.innerText = punishDesc[window.spamStatus] || '你乱点的吧 · 异常样本';
                 descEl.style.color = '#ff4d4f';
+                updateResultSummary({
+                    score: 0,
+                    tier: '异常作答拦截',
+                    title: getUnlockedTitle(0, '异常作答拦截', '无效样本', true),
+                    dominantName: '无效样本',
+                    isSpam: true
+                });
+                latestResultShareText = '我把男娘潜质测试答成了异常样本，系统已经把我拦截了。';
 
                 document.getElementById('dom-trait-title').innerText = '🚫 潜质评估已强制终止';
                 const punishAnalysis = {
@@ -1350,6 +2009,7 @@
 
                 let fakeScores = { A: 0, B: 0, C: 0, D: 0 };
                 drawRadar(fakeScores);
+                renderRadarSummary(fakeScores, true);
 
                 document.getElementById('page-result').classList.add('spam-punish-effect');
                 document.getElementById('btn-stop-glitch').style.display = 'block';
@@ -1358,6 +2018,7 @@
                 let testUrl = window.location.href.split('#')[0].split('?')[0];
                 if (!testUrl.startsWith('http')) testUrl = "https://github.com";
                 document.getElementById('qr-code').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(testUrl)}`;
+                setTimeout(updateResultDockVisibility, 80);
 
                 return;
             }
@@ -1390,6 +2051,7 @@
             let testUrl = window.location.href.split('#')[0].split('?')[0];
             if (!testUrl.startsWith('http')) testUrl = "https://github.com";
             document.getElementById('qr-code').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(testUrl)}`;
+            setTimeout(updateResultDockVisibility, 80);
 
             let curr = 0;
             let step = Math.ceil(displayScore / 40); // 调整帧数
@@ -1431,32 +2093,42 @@
                 descEl.style.color = tierColor;
             }
 
+            const dimPercList = Object.keys(scores).map(k => ({
+                key: k,
+                percent: Math.round((scores[k] / dimMaxScores[k]) * 100)
+            })).sort((a, b) => b.percent - a.percent);
+            const dominantKey = dimPercList[0].key;
+            const dominantName = dimNames[dominantKey];
+            const unlockedTitle = getUnlockedTitle(displayScore, tier, dominantName);
+            updateResultSummary({
+                score: displayScore,
+                tier,
+                title: unlockedTitle,
+                dominantName: `${dominantName} ${dimPercList[0].percent}%`
+            });
+            renderRadarSummary(scores);
+            latestResultShareText = buildShareText(displayScore, tier, unlockedTitle, dominantName, '');
+
             const breakdownDiv = document.getElementById('dim-breakdown');
             breakdownDiv.innerHTML = '';
             Object.keys(scores).forEach(k => {
                 let percent = Math.round((scores[k] / dimMaxScores[k]) * 100);
-                let color = k === 'A' ? '#ff8fab' : (k === 'B' ? '#a8e6cf' : (k === 'C' ? '#d8b4fe' : '#ffd700'));
-                let text = percent > 80 ? "极度凸显，已超越95%的人" : (percent > 50 ? "略有端倪，具备一定潜质" : "毫无波澜，如同钢铁");
+                let meta = dimMeta[k];
+                let level = getDimLevel(percent);
 
                 breakdownDiv.innerHTML += `
                 <div class="dim-item">
                     <div class="dim-header">
-                        <span>${dimNames[k]}</span>
-                        <span style="color:${color}; font-weight:bold;">${scores[k]}/${dimMaxScores[k]} (${percent}%)</span>
+                        <span class="dim-name"><span class="dim-icon" style="background:${meta.color};">${meta.icon}</span>${dimNames[k]}<span class="dim-tag" style="color:${meta.color};">${level.tag}</span></span>
+                        <span class="dim-score" style="color:${meta.color};">${scores[k]}/${dimMaxScores[k]} (${percent}%)</span>
                     </div>
-                    <div class="dim-bar-bg"><div class="dim-bar-fill" style="width:${percent}%; background:${color};"></div></div>
-                    <div class="dim-desc">${text}</div>
+                    <div class="dim-bar-bg"><div class="dim-bar-fill" style="width:${percent}%; background:${meta.color};"></div></div>
+                    <div class="dim-desc">${level.text}</div>
                 </div>
             `;
             });
 
-            let percs = {
-                A: scores.A / dimMaxScores.A,
-                B: scores.B / dimMaxScores.B,
-                C: scores.C / dimMaxScores.C,
-                D: scores.D / dimMaxScores.D
-            };
-            let sortedDims = Object.keys(percs).sort((a, b) => percs[b] - percs[a]);
+            let sortedDims = dimPercList.map(item => item.key);
             let maxDim1 = sortedDims[0];
             let maxDim2 = sortedDims[1];
 
@@ -1596,6 +2268,7 @@
                 activePage.style.animation = oldAnimation;
                 activePage.style.opacity = oldOpacity;
                 document.body.classList.remove('capture-mode');
+                updateResultDockVisibility();
             };
 
             try {
@@ -1621,6 +2294,7 @@
                 link.download = '男娘潜质鉴定报告.png';
                 link.href = canvas.toDataURL('image/png');
                 link.click();
+                showToast('长图已生成');
             } catch (error) {
                 console.error('生成截图失败', error);
                 alert('截图生成失败，请稍后再试或换个浏览器保存。');
@@ -1634,6 +2308,8 @@
             const isDark = document.body.classList.toggle('dark-mode');
             const btn = document.getElementById('dark-mode-toggle');
             btn.innerText = isDark ? '☀️' : '🌙';
+            btn.title = isDark ? '切换为浅色模式' : '切换为深色模式';
+            btn.setAttribute('aria-label', btn.title);
 
             // 动态更新雷达图的网格和文字颜色
             if (typeof radarChartInstance !== 'undefined' && radarChartInstance) {
@@ -1657,17 +2333,19 @@
             if (navigator.share) {
                 navigator.share({
                     title: '男娘潜质综合评估量表',
-                    text: '我刚测了自己的男娘潜质，快来测测你离北朝还有多远？',
+                    text: latestResultShareText || '我刚测了自己的男娘潜质，快来测测你离北朝还有多远？',
                     url: window.location.href
                 }).catch(e => console.log('分享取消或失败', e));
             } else {
-                alert('当前浏览器不支持原生分享，请使用浏览器自带分享功能哦~');
+                copyResultText();
+                showToast('浏览器不支持原生分享，已复制文案');
             }
         }
 
         function stopGlitch() {
             document.getElementById('page-result').classList.remove('spam-punish-effect');
             document.getElementById('btn-stop-glitch').style.display = 'none';
+            updateResultDockVisibility();
         }
     </script>
 </body>
