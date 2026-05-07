@@ -1298,15 +1298,25 @@
         }
 
         function normalizeLocale(locale) {
+            return matchSupportedLocale(locale) || DEFAULT_LOCALE;
+        }
+
+        function matchSupportedLocale(locale) {
             const value = canonicalizeLocale(locale);
-            if (!value) return DEFAULT_LOCALE;
+            if (!value) return '';
             const supported = Object.keys(SUPPORTED_LOCALES || {});
-            const exact = supported.find(item => canonicalizeLocale(item) === value);
+            const isEnabled = item => SUPPORTED_LOCALES[item]?.enabled;
+            const exact = supported.find(item => isEnabled(item) && canonicalizeLocale(item) === value);
             if (exact) return exact;
             const languageCode = value.split('-')[0];
-            const languageMatch = supported.find(item => canonicalizeLocale(item).split('-')[0] === languageCode);
+            const languageMatch = supported.find(item => isEnabled(item) && canonicalizeLocale(item).split('-')[0] === languageCode);
             if (languageMatch) return languageMatch;
-            return DEFAULT_LOCALE;
+            return '';
+        }
+
+        function getDeviceLocaleCandidates() {
+            const languages = Array.isArray(navigator.languages) ? navigator.languages : [];
+            return [...languages, navigator.language].filter(Boolean);
         }
 
         function normalizeLanguageConfig(config) {
@@ -1354,12 +1364,12 @@
             const candidates = [
                 params.get('lang'),
                 localStorage.getItem(LOCALE_STORAGE_KEY),
-                navigator.language,
+                ...getDeviceLocaleCandidates(),
                 DEFAULT_LOCALE
             ];
             for (const candidate of candidates) {
-                const normalized = normalizeLocale(candidate);
-                if (SUPPORTED_LOCALES[normalized]?.enabled) return normalized;
+                const normalized = matchSupportedLocale(candidate);
+                if (normalized) return normalized;
             }
             return DEFAULT_LOCALE;
         }
@@ -1409,6 +1419,7 @@
             } catch (error) {
                 console.warn(`Locale load failed for ${locale}:`, error);
                 activeMessages = fallbackMessages;
+                activeLocale = DEFAULT_LOCALE;
             }
         }
 
@@ -1498,6 +1509,12 @@
                 questionBankReady = false;
                 questionBankError = error.message || t('errors.questionLoad', {}, '题库加载失败，请刷新后重试。');
                 console.error('Question bank load failed:', error);
+                if (locale !== DEFAULT_LOCALE) {
+                    activeLocale = DEFAULT_LOCALE;
+                    await loadLocaleMessages(DEFAULT_LOCALE);
+                    applyTranslations();
+                    await loadQuestionsForLocale(DEFAULT_LOCALE);
+                }
             }
         }
 
