@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta property="og:title" content="男娘潜质综合评估量表" />
-    <meta property="og:description" content="一份结合了心理学量表与行为逻辑测试的深度鉴定系统" />
+    <meta property="og:title" content="男娘潜质综合评估量表" data-i18n-content="meta.ogTitle" />
+    <meta property="og:description" content="一份结合了心理学量表与行为逻辑测试的深度鉴定系统" data-i18n-content="meta.ogDescription" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <title>男娘潜质综合评估量表｜测测你离北朝还有多远？</title>
@@ -15,7 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <script src="questions.js"></script>
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -767,7 +766,7 @@
         }
 
         .spam-punish-effect::before {
-            content: "你乱点的吧";
+            content: attr(data-punish-stamp);
             position: fixed;
             top: 40%;
             left: -10%;
@@ -820,6 +819,12 @@
             color: #f00 !important;
             border: 2px solid #f00 !important;
             font-size: 22px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .spam-punish-effect {
+                animation: none !important;
+            }
         }
 
         .trait-section {
@@ -1038,45 +1043,78 @@
             background: #252538;
             box-shadow: 0 0 0 3px rgba(255, 143, 171, 0.12), 0 4px 10px rgba(0, 0, 0, 0.25);
         }
+
+        .language-switcher {
+            position: fixed;
+            top: 15px;
+            right: 65px;
+            z-index: 1000;
+        }
+
+        .language-switcher select {
+            height: 40px;
+            max-width: 130px;
+            padding: 0 12px;
+            background: var(--card-bg);
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        body.dark-mode .language-switcher select {
+            border-color: #3a3a52;
+            background: #252538;
+            box-shadow: 0 0 0 3px rgba(255, 143, 171, 0.12), 0 4px 10px rgba(0, 0, 0, 0.25);
+        }
     </style>
 </head>
 
 <body>
 
-    <button id="dark-mode-toggle" onclick="toggleDarkMode()" title="切换深浅色模式" aria-label="切换深浅色模式">🌙</button>
+    <button id="dark-mode-toggle" onclick="toggleDarkMode()" title="切换深浅色模式" aria-label="切换深浅色模式"
+        data-i18n-title="aria.darkMode" data-i18n-aria-label="aria.darkMode">🌙</button>
+    <div class="language-switcher">
+        <select id="language-select" onchange="changeLocale(this.value)" title="切换语言" aria-label="切换语言"
+            data-i18n-title="language.selectLabel" data-i18n-aria-label="language.selectLabel"></select>
+    </div>
 
     <div class="container">
 
         <!-- 1. 欢迎页 -->
         <div id="page-home" class="page active">
             <div class="title-icon">🎀</div>
-            <h1>男娘潜质综合评估量表</h1>
+            <h1 data-i18n="home.title">男娘潜质综合评估量表</h1>
             <div class="desc-box">
-                <p>这是一份结合了<b>心理学量表</b>与<b>行为逻辑测试</b>的深度鉴定系统。</p><br>
-                <p>系统已接入 <strong>168题</strong> 的动态题库引擎，本次将为你随机抽取 <strong>50</strong> 道专属测验题，分为：</p>
+                <p data-i18n-html="home.introHtml">这是一份结合了<b>心理学量表</b>与<b>行为逻辑测试</b>的深度鉴定系统。</p><br>
+                <p data-i18n-html="home.engineHtml">系统已接入 <strong>168题</strong> 的动态题库引擎，本次将为你随机抽取 <strong>50</strong> 道专属测验题，分为：</p>
                 <ul style="margin-left: 20px; margin-top: 5px; color: #666;">
-                    <li>同意度自评题 (测验潜意识态度)</li>
-                    <li>情景模拟选择题 (测验下意识行为)</li>
+                    <li data-i18n="home.likert">同意度自评题 (测验潜意识态度)</li>
+                    <li data-i18n="home.choice">情景模拟选择题 (测验下意识行为)</li>
                 </ul><br>
-                <p>⚠️ 请放下防备，凭第一直觉作答。结束后将生成专属深度分析报告。</p>
-                <p style="font-size: 12px; color: #999; margin-top: 8px;">本测试主打娱乐整活，结论请和奶茶甜度一样理性参考。</p>
+                <p data-i18n="home.warning">⚠️ 请放下防备，凭第一直觉作答。结束后将生成专属深度分析报告。</p>
+                <p style="font-size: 12px; color: #999; margin-top: 8px;" data-i18n="home.disclaimer">本测试主打娱乐整活，结论请和奶茶甜度一样理性参考。</p>
             </div>
-            <button class="btn-main" onclick="startTest()">抽取题库，开始鉴定</button>
+            <button class="btn-main" onclick="startTest()" data-i18n="home.start">抽取题库，开始鉴定</button>
             <button class="btn-main" id="btn-continue" onclick="continueTest()"
-                style="display:none; background: linear-gradient(45deg, #8eecf5, #4facfe); margin-top: 15px;">继续上次鉴定</button>
+                style="display:none; background: linear-gradient(45deg, #8eecf5, #4facfe); margin-top: 15px;" data-i18n="home.continue">继续上次鉴定</button>
         </div>
 
         <!-- 2. 答题页 -->
         <div id="page-quiz" class="page">
             <div class="top-nav">
                 <div class="quiz-actions">
-                    <button class="btn-prev" id="btn-prev" onclick="prevQuestion()">⬅️ 上一题</button>
-                    <button class="btn-quiz-lite" onclick="confirmExitTest()">退出</button>
+                    <button class="btn-prev" id="btn-prev" onclick="prevQuestion()" data-i18n="quiz.prev">⬅️ 上一题</button>
+                    <button class="btn-quiz-lite" onclick="confirmExitTest()" data-i18n="quiz.exit">退出</button>
                 </div>
-                <span class="progress-text">进度: <span id="current-q">1</span> / 50</span>
+                <span class="progress-text"><span data-i18n="quiz.progress">进度:</span> <span id="current-q">1</span> / 50</span>
             </div>
             <div
-                style="font-size: 12px; color: #ff8fab; text-align: center; margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;">
+                style="font-size: 12px; color: #ff8fab; text-align: center; margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;" data-i18n="quiz.prompt">
                 🧭 请凭第一直觉作答，系统会校验前后作答波形
             </div>
             <div class="progress-bar">
@@ -1087,9 +1125,9 @@
                 <span id="progress-left">剩余 50 题</span>
             </div>
 
-            <div id="q-badge" class="question-type-badge">偏好判断</div>
-            <div id="q-helper" class="question-helper">按第一反应选择，不用反复推敲。</div>
-            <h2 class="question-text" id="question-text">加载中...</h2>
+            <div id="q-badge" class="question-type-badge" data-i18n="quiz.badges.likert">偏好判断</div>
+            <div id="q-helper" class="question-helper" data-i18n="quiz.helpers.likert">判断这句话与你的真实状态有多接近。</div>
+            <h2 class="question-text" id="question-text" data-i18n="quiz.loadingQuestion">加载中...</h2>
 
             <div class="options-wrapper" id="options-container"></div>
         </div>
@@ -1097,142 +1135,423 @@
         <!-- 3. 加载页 -->
         <div id="page-loading" class="page" style="text-align: center; padding: 60px 0;">
             <div class="loader"></div>
-            <h3 style="color: #ff5c8a; margin-bottom: 10px;">正在生成深度鉴定报告...</h3>
-            <p style="color: #888; font-size: 14px;" id="loading-text">正在交叉比对行为与心理数据...</p>
+            <h3 style="color: #ff5c8a; margin-bottom: 10px;" data-i18n="loading.title">正在生成深度鉴定报告...</h3>
+            <p style="color: #888; font-size: 14px;" id="loading-text" data-i18n="loading.defaultText">正在交叉比对行为与心理数据...</p>
             <div class="loading-steps" id="loading-steps">
-                <div class="loading-step active">校验作答波形</div>
-                <div class="loading-step">生成潜质雷达图</div>
-                <div class="loading-step">匹配专属鉴定档案</div>
-                <div class="loading-step">封装整活报告</div>
+                <div class="loading-step active" data-i18n="loading.steps.0">校验作答波形</div>
+                <div class="loading-step" data-i18n="loading.steps.1">生成潜质雷达图</div>
+                <div class="loading-step" data-i18n="loading.steps.2">匹配专属鉴定档案</div>
+                <div class="loading-step" data-i18n="loading.steps.3">封装整活报告</div>
             </div>
         </div>
 
         <!-- 4. 结果页 (深度报告) -->
         <div id="page-result" class="page">
             <div class="report-header">
-                <p style="color: #888; font-size: 14px;">综合潜质鉴定得分</p>
+                <p style="color: #888; font-size: 14px;" data-i18n="result.scoreKicker">综合潜质鉴定得分</p>
                 <div class="score-num" id="final-score">0</div>
-                <div class="tier-badge" id="tier-title">评级加载中</div>
+                <div class="tier-badge" id="tier-title" data-i18n="result.tierLoading">评级加载中</div>
                 <div id="tier-desc" style="font-size: 14px; margin-top: 12px; font-weight: bold; letter-spacing: 1px;">
                 </div>
                 <div id="national-rank"
                     style="font-size: 13px; color: var(--primary); margin-top: 8px; font-weight: bold;"></div>
             </div>
 
-            <div class="punish-notice" id="punish-notice">检测到异常作答，本次报告已切换为惩罚鉴定模式。</div>
+            <div class="punish-notice" id="punish-notice" data-i18n="result.punishNotice">检测到异常作答，本次报告已切换为惩罚鉴定模式。</div>
 
             <div class="result-summary-card" id="result-summary-card">
-                <div class="summary-kicker">本次解锁称号</div>
-                <div class="summary-title" id="summary-title">正在生成称号...</div>
+                <div class="summary-kicker" data-i18n="result.summaryKicker">本次解锁称号</div>
+                <div class="summary-title" id="summary-title" data-i18n="result.summaryTitleLoading">正在生成称号...</div>
                 <div class="summary-grid">
                     <div class="summary-item">
-                        <div class="summary-label">最终得分</div>
-                        <div class="summary-value" id="summary-score">-- / 250</div>
+                        <div class="summary-label" data-i18n="result.summaryLabels.score">最终得分</div>
+                        <div class="summary-value" id="summary-score" data-i18n="result.summaryValues.score">-- / 250</div>
                     </div>
                     <div class="summary-item">
-                        <div class="summary-label">鉴定等级</div>
-                        <div class="summary-value" id="summary-tier">计算中</div>
+                        <div class="summary-label" data-i18n="result.summaryLabels.tier">鉴定等级</div>
+                        <div class="summary-value" id="summary-tier" data-i18n="result.summaryValues.tier">计算中</div>
                     </div>
                     <div class="summary-item">
-                        <div class="summary-label">核心倾向</div>
-                        <div class="summary-value" id="summary-dominant">分析中</div>
+                        <div class="summary-label" data-i18n="result.summaryLabels.dominant">核心倾向</div>
+                        <div class="summary-value" id="summary-dominant" data-i18n="result.summaryValues.dominant">分析中</div>
                     </div>
                     <div class="summary-item">
-                        <div class="summary-label">样本参照</div>
-                        <div class="summary-value" id="summary-rank">同步中</div>
+                        <div class="summary-label" data-i18n="result.summaryLabels.rank">样本参照</div>
+                        <div class="summary-value" id="summary-rank" data-i18n="result.summaryValues.rank">同步中</div>
                     </div>
                 </div>
             </div>
 
-            <div class="section-title">核心潜质雷达图</div>
+            <div class="section-title" data-i18n="result.sections.radar">核心潜质雷达图</div>
             <div class="radar-box"><canvas id="radarChart"></canvas></div>
-            <div class="radar-summary" id="radar-summary">雷达图生成后将显示你的最高与最低维度。</div>
+            <div class="radar-summary" id="radar-summary" data-i18n="result.radarDefault">雷达图生成后将显示你的最高与最低维度。</div>
 
-            <div class="section-title">本次画像稳定度</div>
+            <div class="section-title" data-i18n="result.sections.stability">本次画像稳定度</div>
             <div id="stability-card" class="stability-card">
                 <div class="stability-head">
-                    <span>灵魂波形稳定度</span>
-                    <span class="stability-level" id="stability-level">计算中</span>
+                    <span data-i18n="result.stabilityTitle">灵魂波形稳定度</span>
+                    <span class="stability-level" id="stability-level" data-i18n="result.summaryValues.tier">计算中</span>
                 </div>
                 <div class="stability-meter">
                     <div class="stability-fill" id="stability-fill"></div>
                 </div>
-                <div class="stability-desc" id="stability-desc">正在校验前后作答波形...</div>
+                <div class="stability-desc" id="stability-desc" data-i18n="loading.steps.0">正在校验前后作答波形...</div>
             </div>
 
-            <div class="section-title">多维度明细剖析</div>
+            <div class="section-title" data-i18n="result.sections.dimensions">多维度明细剖析</div>
             <div id="dim-breakdown">
                 <!-- 维度进度条由JS动态插入 -->
             </div>
 
-            <div class="section-title">鉴定官专属深度报告</div>
+            <div class="section-title" data-i18n="result.sections.report">鉴定官专属深度报告</div>
             <div class="conclusion-box">
                 <h3 style="color:var(--primary); text-align:center; margin-bottom:18px; font-size: 18px;"
-                    id="dom-trait-title">核心特征加载中</h3>
+                    id="dom-trait-title" data-i18n="result.traitTitleLoading">核心特征加载中</h3>
                 <div class="trait-section">
-                    <span class="result-title-token">潜意识解析</span>
-                    <div class="trait-text" id="trait-analysis">加载中...</div>
+                    <span class="result-title-token" data-i18n="result.traitTokens.analysis">潜意识解析</span>
+                    <div class="trait-text" id="trait-analysis" data-i18n="result.traitLoading">加载中...</div>
                 </div>
                 <div class="trait-section">
-                    <span class="result-title-token">日常生活表现</span>
-                    <div class="trait-text" id="trait-behavior">加载中...</div>
+                    <span class="result-title-token" data-i18n="result.traitTokens.behavior">日常生活表现</span>
+                    <div class="trait-text" id="trait-behavior" data-i18n="result.traitLoading">加载中...</div>
                 </div>
                 <div class="trait-section" style="margin-bottom: 0;">
-                    <span class="result-title-token">进阶整活建议</span>
-                    <div class="trait-text" id="trait-advice">加载中...</div>
+                    <span class="result-title-token" data-i18n="result.traitTokens.advice">进阶整活建议</span>
+                    <div class="trait-text" id="trait-advice" data-i18n="result.traitLoading">加载中...</div>
                 </div>
             </div>
 
             <div style="text-align: center; margin: 25px 0;">
                 <img id="qr-code" crossorigin="anonymous"
                     style="width: 120px; height: 120px; border-radius: 10px; border: 3px solid #ff8fab; background: #fff;"
-                    alt="二维码">
-                <p style="font-size: 12px; color: var(--text-light); margin-top: 8px;">长按保存或扫码测测你的潜质</p>
+                    alt="二维码" data-i18n-alt="result.qrAlt">
+                <p style="font-size: 12px; color: var(--text-light); margin-top: 8px;" data-i18n="result.qrHelp">长按保存或扫码测测你的潜质</p>
             </div>
 
             <div class="result-actions" id="result-actions">
                 <button class="btn-main mobile-share-btn" id="btn-share" onclick="nativeShare()"
-                    style="background: linear-gradient(45deg, #f6d365, #fda085); margin-bottom: 15px;">分享给兄弟测测</button>
+                    style="background: linear-gradient(45deg, #f6d365, #fda085); margin-bottom: 15px;" data-i18n="result.actions.share">分享给兄弟测测</button>
                 <button class="btn-main" id="btn-copy" onclick="copyResultText()"
-                    style="background: linear-gradient(45deg, #ffb86c, #ff7f50); margin-bottom: 15px;">复制结果文案</button>
+                    style="background: linear-gradient(45deg, #ffb86c, #ff7f50); margin-bottom: 15px;" data-i18n="result.actions.copy">复制结果文案</button>
                 <button class="btn-main" id="btn-download" onclick="downloadResult()"
-                    style="background: linear-gradient(45deg, #8eecf5, #4facfe); margin-bottom: 15px;">保存分析长图</button>
-                <button class="btn-main" onclick="resetTest()">重新抽取题库 / 再次测试</button>
+                    style="background: linear-gradient(45deg, #8eecf5, #4facfe); margin-bottom: 15px;" data-i18n="result.actions.download">保存分析长图</button>
+                <button class="btn-main" onclick="resetTest()" data-i18n="result.actions.reset">重新抽取题库 / 再次测试</button>
             </div>
 
         </div>
 
-        <button id="btn-stop-glitch" onclick="stopGlitch()"
-            style="display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 10000; background: rgba(30, 30, 46, 0.95); color: #ff8fab; padding: 12px 24px; border-radius: 30px; border: 2px solid #ff8fab; box-shadow: 0 4px 15px rgba(0,0,0,0.5); font-weight: bold; font-size: 15px; cursor: pointer; letter-spacing: 1px; transition: all 0.3s; white-space: nowrap;">
-            ✖ 关闭特效
+        <button id="btn-stop-glitch" onclick="togglePunishEffect()"
+            style="display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 10000; background: rgba(30, 30, 46, 0.95); color: #ff8fab; padding: 12px 24px; border-radius: 30px; border: 2px solid #ff8fab; box-shadow: 0 4px 15px rgba(0,0,0,0.5); font-weight: bold; font-size: 15px; cursor: pointer; letter-spacing: 1px; transition: all 0.3s; white-space: nowrap;"
+            title="开启后会出现快速闪烁和抖动，可能诱发光敏不适或光敏性癫痫。">
+            <span data-i18n="result.actions.enableGlitch">⚠ 开启强烈特效</span>
         </button>
 
         <div style="text-align: center; margin-top: 25px; padding-top: 15px; border-top: 1px dashed #eee; font-size: 12px; color: var(--text-light); line-height: 1.6;">
             Powered by <a href="https://space.bilibili.com/174355920" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: bold;">xmbhjQAQ</a>
             <span style="margin: 0 8px; opacity: 0.5;">|</span>
-            <a href="https://github.com/xmbhjQAQ/my-static-sites" target="_blank" rel="noopener noreferrer" style="color: var(--text-light); text-decoration: none;">GitHub 仓库</a>
+            <a href="https://github.com/xmbhjQAQ/my-static-sites" target="_blank" rel="noopener noreferrer" style="color: var(--text-light); text-decoration: none;" data-i18n="footer.github">GitHub 仓库</a>
             <span style="margin: 0 8px; opacity: 0.5;">|</span>
-            <a href="https://space.bilibili.com/174355920" target="_blank" style="color: var(--text-light); text-decoration: none;">📺 Bilibili</a>
-            <p style="margin-top: 5px; opacity: 0.75; font-size: 10px;">本站点代码遵循 <a href="https://github.com/xmbhjQAQ/my-static-sites/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">CC BY-NC 4.0 LICENSE</a></p>
-            <p style="margin-top: 5px; opacity: 0.6; font-size: 10px;">本站使用匿名统计技术以优化产品体验</p>
+            <a href="https://space.bilibili.com/174355920" target="_blank" style="color: var(--text-light); text-decoration: none;" data-i18n="footer.bilibili">📺 Bilibili</a>
+            <p style="margin-top: 5px; opacity: 0.75; font-size: 10px;"><span data-i18n="footer.licensePrefix">本站点代码遵循 </span><a href="https://github.com/xmbhjQAQ/my-static-sites/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;" data-i18n="footer.licenseName">CC BY-NC 4.0 LICENSE</a></p>
+            <p style="margin-top: 5px; opacity: 0.6; font-size: 10px;" data-i18n="footer.analytics">本站使用匿名统计技术以优化产品体验</p>
         </div>
     </div>
 
     <div class="result-action-dock">
-        <button onclick="nativeShare()" style="background: linear-gradient(45deg, #f6d365, #fda085);">分享</button>
-        <button onclick="downloadResult()" style="background: linear-gradient(45deg, #8eecf5, #4facfe);">保存</button>
-        <button onclick="copyResultText()" style="background: linear-gradient(45deg, #ffb86c, #ff7f50);">复制</button>
-        <button onclick="resetTest()" style="background: linear-gradient(45deg, #ff8fab, #ff5c8a);">重测</button>
+        <button onclick="nativeShare()" style="background: linear-gradient(45deg, #f6d365, #fda085);" data-i18n="result.actions.dockShare">分享</button>
+        <button onclick="downloadResult()" style="background: linear-gradient(45deg, #8eecf5, #4facfe);" data-i18n="result.actions.dockSave">保存</button>
+        <button onclick="copyResultText()" style="background: linear-gradient(45deg, #ffb86c, #ff7f50);" data-i18n="result.actions.dockCopy">复制</button>
+        <button onclick="resetTest()" style="background: linear-gradient(45deg, #ff8fab, #ff5c8a);" data-i18n="result.actions.dockReset">重测</button>
     </div>
 
     <div class="toast" id="toast"></div>
 
     <script>
 
-        const standardOptions = [
+        let DEFAULT_LOCALE = 'zh-CN';
+        const LANGUAGE_CONFIG_PATH = 'language.json';
+        const LOCALE_STORAGE_KEY = 'nn_locale';
+        const STATE_STORAGE_KEY = 'nnTestState_v1';
+        const FALLBACK_LANGUAGE_CONFIG = {
+            defaultLocale: 'zh-CN',
+            locales: {
+                'zh-CN': { dict: 'locales/zh-cn.json', questions: 'questions/questions_zh_cn.js', label: '简体中文', enabled: true },
+                'en-US': { dict: 'locales/en_us.json', questions: 'questions/questions_en_us.js', label: 'English', enabled: true }
+            }
+        };
+        let SUPPORTED_LOCALES = {};
+        let activeLocale = DEFAULT_LOCALE;
+        let activeMessages = {};
+        let fallbackMessages = {};
+        let questionBankReady = false;
+        let questionBankError = '';
+
+        let standardOptions = [
             { l: "完全符合", v: 5 }, { l: "比较符合", v: 4 }, { l: "中立/不确定", v: 3 },
             { l: "比较不符合", v: 2 }, { l: "完全不符合", v: 1 }
         ];
+
+        function canonicalizeLocale(locale) {
+            const parts = String(locale || '').trim().replace(/_/g, '-').split('-').filter(Boolean);
+            if (!parts.length) return '';
+            return [parts[0].toLowerCase(), ...parts.slice(1).map(part => part.length === 2 ? part.toUpperCase() : part)].join('-');
+        }
+
+        function normalizeLocale(locale) {
+            const value = canonicalizeLocale(locale);
+            if (!value) return DEFAULT_LOCALE;
+            const supported = Object.keys(SUPPORTED_LOCALES || {});
+            const exact = supported.find(item => canonicalizeLocale(item) === value);
+            if (exact) return exact;
+            const languageCode = value.split('-')[0];
+            const languageMatch = supported.find(item => canonicalizeLocale(item).split('-')[0] === languageCode);
+            if (languageMatch) return languageMatch;
+            return DEFAULT_LOCALE;
+        }
+
+        function normalizeLanguageConfig(config) {
+            const source = config && typeof config === 'object' ? config : FALLBACK_LANGUAGE_CONFIG;
+            const sourceLocales = source.locales && typeof source.locales === 'object' ? source.locales : {};
+            const locales = {};
+
+            Object.entries(sourceLocales).forEach(([locale, localeConfig]) => {
+                const normalizedLocale = canonicalizeLocale(locale);
+                if (!normalizedLocale || !localeConfig || !localeConfig.dict || !localeConfig.questions) return;
+                locales[normalizedLocale] = {
+                    dict: String(localeConfig.dict),
+                    questions: String(localeConfig.questions),
+                    label: String(localeConfig.label || normalizedLocale),
+                    enabled: localeConfig.enabled !== false
+                };
+            });
+
+            if (!Object.keys(locales).length && source !== FALLBACK_LANGUAGE_CONFIG) {
+                return normalizeLanguageConfig(FALLBACK_LANGUAGE_CONFIG);
+            }
+
+            const configuredDefault = canonicalizeLocale(source.defaultLocale);
+            const defaultLocale = locales[configuredDefault] ? configuredDefault : (locales['zh-CN'] ? 'zh-CN' : Object.keys(locales)[0]);
+            return { defaultLocale, locales };
+        }
+
+        async function loadLanguageConfig() {
+            let config = FALLBACK_LANGUAGE_CONFIG;
+            try {
+                const response = await fetch(LANGUAGE_CONFIG_PATH, { cache: 'no-cache' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                config = await response.json();
+            } catch (error) {
+                console.warn('Language config load failed, using fallback config:', error);
+            }
+
+            const normalized = normalizeLanguageConfig(config);
+            DEFAULT_LOCALE = normalized.defaultLocale;
+            SUPPORTED_LOCALES = normalized.locales;
+        }
+
+        function resolveLocale() {
+            const params = new URLSearchParams(window.location.search);
+            const candidates = [
+                params.get('lang'),
+                localStorage.getItem(LOCALE_STORAGE_KEY),
+                navigator.language,
+                DEFAULT_LOCALE
+            ];
+            for (const candidate of candidates) {
+                const normalized = normalizeLocale(candidate);
+                if (SUPPORTED_LOCALES[normalized]?.enabled) return normalized;
+            }
+            return DEFAULT_LOCALE;
+        }
+
+        function getMessage(key, fallback) {
+            const parts = String(key || '').split('.');
+            const readFrom = source => {
+                if (source && Object.prototype.hasOwnProperty.call(source, key) && source[key] !== '') return source[key];
+                let cursor = source;
+                for (const part of parts) {
+                    if (cursor == null || cursor[part] == null || cursor[part] === '') return undefined;
+                    cursor = cursor[part];
+                }
+                return cursor;
+            };
+            const current = readFrom(activeMessages);
+            if (current !== undefined) return current;
+            const zhFallback = readFrom(fallbackMessages);
+            if (zhFallback !== undefined) return zhFallback;
+            if (fallback !== undefined) return fallback;
+            console.warn(`Missing i18n key: ${key}`);
+            return key;
+        }
+
+        async function fetchLocaleJson(locale) {
+            const config = SUPPORTED_LOCALES[locale] || SUPPORTED_LOCALES[DEFAULT_LOCALE];
+            const response = await fetch(config.dict, { cache: 'no-cache' });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+        }
+
+        async function loadLocaleMessages(locale) {
+            try {
+                fallbackMessages = await fetchLocaleJson(DEFAULT_LOCALE);
+            } catch (error) {
+                console.warn(`Locale load failed for ${DEFAULT_LOCALE}:`, error);
+                fallbackMessages = {};
+            }
+
+            if (locale === DEFAULT_LOCALE) {
+                activeMessages = fallbackMessages;
+                return;
+            }
+
+            try {
+                activeMessages = await fetchLocaleJson(locale);
+            } catch (error) {
+                console.warn(`Locale load failed for ${locale}:`, error);
+                activeMessages = fallbackMessages;
+            }
+        }
+
+        function t(key, vars = {}, fallback) {
+            const value = getMessage(key, fallback);
+            if (typeof value !== 'string') return fallback !== undefined ? fallback : key;
+            return value.replace(/\{(\w+)\}/g, (_, name) => vars[name] ?? '');
+        }
+
+        function renderLanguageSelect() {
+            const select = document.getElementById('language-select');
+            if (!select) return;
+            select.innerHTML = '';
+
+            Object.entries(SUPPORTED_LOCALES).forEach(([locale, config]) => {
+                const option = document.createElement('option');
+                option.value = locale;
+                option.disabled = !config.enabled;
+                option.textContent = config.label;
+                select.appendChild(option);
+            });
+
+            select.value = activeLocale;
+        }
+
+        function applyTranslations() {
+            document.documentElement.lang = activeLocale;
+            renderLanguageSelect();
+            if (!activeMessages || !Object.keys(activeMessages).length) return;
+            document.title = t('meta.title', {}, document.title);
+            document.querySelectorAll('[data-i18n]').forEach(el => { el.innerText = t(el.dataset.i18n, {}, el.innerText); });
+            document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml, {}, el.innerHTML); });
+            document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = t(el.dataset.i18nTitle, {}, el.title); });
+            document.querySelectorAll('[data-i18n-aria-label]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAriaLabel, {}, el.getAttribute('aria-label') || '')); });
+            document.querySelectorAll('[data-i18n-alt]').forEach(el => { el.alt = t(el.dataset.i18nAlt, {}, el.alt); });
+            document.querySelectorAll('[data-i18n-content]').forEach(el => { el.setAttribute('content', t(el.dataset.i18nContent, {}, el.getAttribute('content') || '')); });
+            const resultPage = document.getElementById('page-result');
+            if (resultPage) resultPage.dataset.punishStamp = t('punish.stampText', {}, '你乱点的吧');
+            const localizedOptions = getMessage('question.standardOptions', null);
+            if (Array.isArray(localizedOptions) && localizedOptions.length) {
+                standardOptions = localizedOptions.map(item => ({ l: item.l, v: item.v }));
+            }
+            const localizedDimNames = getMessage('dimensions.names', null);
+            const localizedDimMeta = getMessage('dimensions.meta', null);
+            if (localizedDimNames) dimNames = localizedDimNames;
+            if (localizedDimMeta) dimMeta = localizedDimMeta;
+            renderLanguageSelect();
+        }
+
+        function loadScriptOnce(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = () => reject(new Error(`Failed to load ${src}`));
+                document.head.appendChild(script);
+            });
+        }
+
+        function getQuestionBank() {
+            if (Array.isArray(window.rawQuestionBank)) return window.rawQuestionBank;
+            try {
+                if (typeof rawQuestionBank !== 'undefined' && Array.isArray(rawQuestionBank)) return rawQuestionBank;
+            } catch (error) {
+                return [];
+            }
+            return [];
+        }
+
+        // 题库按当前语言懒加载，避免首屏一次性下载所有语言版本。
+        function validateQuestionBank(bank) {
+            if (!Array.isArray(bank) || bank.length === 0) return t('errors.questionEmpty', {}, '题库为空，暂时无法开始测试。');
+            const invalid = bank.find(q => !q || !q.id || !q.type || !q.d || !q.t || (q.type === 'choice' && (!Array.isArray(q.options) || q.options.some(opt => opt.v == null || !opt.l))));
+            return invalid ? t('errors.questionInvalid', {}, '题库字段异常，暂时无法开始测试。') : '';
+        }
+
+        async function loadQuestionsForLocale(locale) {
+            const config = SUPPORTED_LOCALES[locale] || SUPPORTED_LOCALES[DEFAULT_LOCALE];
+            try {
+                window.rawQuestionBank = null;
+                await loadScriptOnce(config.questions);
+                const error = validateQuestionBank(getQuestionBank());
+                if (error) throw new Error(error);
+                questionBankReady = true;
+                questionBankError = '';
+            } catch (error) {
+                questionBankReady = false;
+                questionBankError = error.message || t('errors.questionLoad', {}, '题库加载失败，请刷新后重试。');
+                console.error('Question bank load failed:', error);
+            }
+        }
+
+        function changeLocale(locale) {
+            const nextLocale = normalizeLocale(locale);
+            const config = SUPPORTED_LOCALES[nextLocale];
+
+            if (!config || !config.enabled) {
+                renderLanguageSelect();
+                showToast(t('language.unavailable', {}, '该语言资源还没补全，暂时不可切换。'));
+                return;
+            }
+
+            if (nextLocale === activeLocale) return;
+            const hasProgress = userAnswers.some(ans => ans != null);
+            if (hasProgress && !confirm(t('confirm.languageChange', {}, '切换语言会重载页面，并清除当前未完成的答题进度。确定切换吗？'))) {
+                renderLanguageSelect();
+                return;
+            }
+
+            localStorage.removeItem(STATE_STORAGE_KEY);
+            localStorage.setItem(LOCALE_STORAGE_KEY, nextLocale);
+            const url = new URL(window.location.href);
+            url.searchParams.set('lang', nextLocale);
+            window.location.href = url.toString();
+        }
+
+        function readSavedState() {
+            const raw = localStorage.getItem(STATE_STORAGE_KEY);
+            if (!raw) return null;
+            try {
+                return JSON.parse(raw);
+            } catch (error) {
+                console.warn('Saved state is invalid, clearing cache:', error);
+                localStorage.removeItem(STATE_STORAGE_KEY);
+                showToast(t('errors.stateInvalid', {}, '上次进度已损坏，已为你清理。'));
+                return null;
+            }
+        }
+
+        async function bootApp() {
+            await loadLanguageConfig();
+            activeLocale = resolveLocale();
+            localStorage.setItem(LOCALE_STORAGE_KEY, activeLocale);
+            await loadLocaleMessages(activeLocale);
+            applyTranslations();
+            latestResultShareText = t('share.defaultText', {}, latestResultShareText);
+            await loadQuestionsForLocale(activeLocale);
+            if (readSavedState()) {
+                document.getElementById('btn-continue').style.display = 'block';
+            }
+            updateResultDockVisibility();
+            if (!questionBankReady && questionBankError) showToast(questionBankError);
+        }
 
         // 全局状态
         let shuffledQuestions = [];
@@ -1247,12 +1566,13 @@
         let toastTimer = null;
         let dockTicking = false;
         let debugBypassSpam = false;
+        let debugScoreOverride = null;
         const SCORE_COLLECTION_ENDPOINT = '/api/score';
         const SCORE_ALGORITHM_VERSION = 'classic_250_v1';
         const QUESTION_BANK_VERSION = 'questions_2026_05_06_v1';
 
-        const dimNames = { A: "审美偏好", B: "行为习惯", C: "心理共情", D: "社交亚文化" };
-        const dimMeta = {
+        let dimNames = { A: "审美偏好", B: "行为习惯", C: "心理共情", D: "社交亚文化" };
+        let dimMeta = {
             A: { icon: "美", color: "#ff8fab", short: "审美雷达" },
             B: { icon: "行", color: "#a8e6cf", short: "行为本能" },
             C: { icon: "心", color: "#d8b4fe", short: "心理共情" },
@@ -1318,7 +1638,7 @@
 
         function confirmExitTest() {
             const answered = userAnswers.filter(ans => ans != null).length;
-            if (answered > 0 && !confirm('确定退出本次鉴定吗？当前进度会保留，下次可以继续。')) return;
+            if (answered > 0 && !confirm(t('confirm.exit', {}, '确定退出本次鉴定吗？当前进度会保留，下次可以继续。'))) return;
             saveState();
             showPage('home');
             document.getElementById('btn-continue').style.display = 'block';
@@ -1326,9 +1646,9 @@
 
         function getQuestionHelper(q) {
             if (q.type === 'likert') {
-                return q.scored === false ? '用于校验前后作答波形，照常按第一反应选择。' : '判断这句话与你的真实状态有多接近。';
+                return q.scored === false ? t('quiz.helpers.likertCheck', {}, '用于校验前后作答波形，照常按第一反应选择。') : t('quiz.helpers.likert', {}, '判断这句话与你的真实状态有多接近。');
             }
-            return q.scored === false ? '这题不直接计入总分，但会影响报告可信度。' : '代入场景，选择最像你会做出的反应。';
+            return q.scored === false ? t('quiz.helpers.choiceCheck', {}, '这题不直接计入总分，但会影响报告可信度。') : t('quiz.helpers.choice', {}, '代入场景，选择最像你会做出的反应。');
         }
 
         function updateLoadingSteps(activeIndex) {
@@ -1339,31 +1659,37 @@
         }
 
         function getDimLevel(percent) {
-            if (percent >= 85) return { tag: '爆表', text: '特征极度凸显，属于一眼能看出来的主导倾向。' };
-            if (percent >= 70) return { tag: '偏高', text: '倾向已经比较明显，日常表现里会经常冒头。' };
-            if (percent >= 50) return { tag: '中等', text: '存在一定波动，偶尔会被特定场景触发。' };
-            if (percent >= 30) return { tag: '偏低', text: '相关信号较弱，更多停留在轻微兴趣或偶发表现。' };
-            return { tag: '钢板', text: '几乎没有有效波形，系统暂时没捕捉到明显迹象。' };
+            if (percent >= 85) return getMessage('dimensions.levels.over', { tag: '爆表', text: '特征极度凸显，属于一眼能看出来的主导倾向。' });
+            if (percent >= 70) return getMessage('dimensions.levels.high', { tag: '偏高', text: '倾向已经比较明显，日常表现里会经常冒头。' });
+            if (percent >= 50) return getMessage('dimensions.levels.medium', { tag: '中等', text: '存在一定波动，偶尔会被特定场景触发。' });
+            if (percent >= 30) return getMessage('dimensions.levels.low', { tag: '偏低', text: '相关信号较弱，更多停留在轻微兴趣或偶发表现。' });
+            return getMessage('dimensions.levels.none', { tag: '钢板', text: '几乎没有有效波形，系统暂时没捕捉到明显迹象。' });
         }
 
         function getUnlockedTitle(score, tier, dominantName, isSpam = false) {
-            if (isSpam) return '异常样本拦截者';
-            if (score >= 230) return '天选级隐藏宝藏';
-            if (score >= 205) return `${dominantName}满载体质`;
-            if (score >= 160) return '深度觉醒预备役';
-            if (score >= 135) return '浅度粉红觉醒';
-            if (score >= 105) return '萌新潜质样本';
-            return '钢铁防线守门员';
+            if (isSpam) return t('titles.spam', {}, '异常样本拦截者');
+            if (score >= 230) return t('titles.legend', {}, '天选级隐藏宝藏');
+            if (score >= 205) return t('titles.dominant', { dominantName }, `${dominantName}满载体质`);
+            if (score >= 160) return t('titles.deep', {}, '深度觉醒预备役');
+            if (score >= 135) return t('titles.pink', {}, '浅度粉红觉醒');
+            if (score >= 105) return t('titles.rookie', {}, '萌新潜质样本');
+            return t('titles.guard', {}, '钢铁防线守门员');
         }
 
         function buildShareText(score, tier, title, dominantName, rankText) {
-            return `我测出了「${title}」：${score}/250，${tier}，核心倾向是${dominantName}。${rankText || '快来测测你的隐藏属性。'}`;
+            return t('share.resultText', {
+                score,
+                tier,
+                title,
+                dominantName,
+                rankText: rankText || t('share.rankFallback', {}, '快来测测你的隐藏属性。')
+            }, `我测出了「${title}」：${score}/250，${tier}，核心倾向是${dominantName}。${rankText || '快来测测你的隐藏属性。'}`);
         }
 
         function copyResultText() {
-            const text = latestResultShareText || '我刚测了自己的男娘潜质，快来测测你的隐藏属性。';
+            const text = latestResultShareText || t('share.defaultText', {}, '我刚测了自己的男娘潜质，快来测测你的隐藏属性。');
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => showToast('结果文案已复制')).catch(() => fallbackCopyText(text));
+                navigator.clipboard.writeText(text).then(() => showToast(t('toast.copySuccess', {}, '结果文案已复制'))).catch(() => fallbackCopyText(text));
             } else {
                 fallbackCopyText(text);
             }
@@ -1379,9 +1705,9 @@
             area.select();
             try {
                 document.execCommand('copy');
-                showToast('结果文案已复制');
+                showToast(t('toast.copySuccess', {}, '结果文案已复制'));
             } catch (error) {
-                showToast('复制失败，请手动复制');
+                showToast(t('toast.copyFail', {}, '复制失败，请手动复制'));
             }
             area.remove();
         }
@@ -1400,12 +1726,6 @@
         });
 
         // --- 初始化及缓存逻辑 ---
-        window.onload = () => {
-            if (localStorage.getItem('nnTestState_v1')) {
-                document.getElementById('btn-continue').style.display = 'block';
-            }
-            updateResultDockVisibility();
-        };
 
         window.addEventListener('scroll', requestDockUpdate, { passive: true });
         window.addEventListener('resize', requestDockUpdate);
@@ -1416,14 +1736,23 @@
         }
 
         function saveState() {
-            localStorage.setItem('nnTestState_v1', JSON.stringify({
-                shuffledQuestions, userAnswers, currentQIdx, dimMaxScores, totalAnsweringTimeMs, consistencyInfo
-            }));
+            try {
+                localStorage.setItem(STATE_STORAGE_KEY, JSON.stringify({
+                    shuffledQuestions, userAnswers, currentQIdx, dimMaxScores, totalAnsweringTimeMs, consistencyInfo
+                }));
+            } catch (error) {
+                console.warn('Unable to save progress:', error);
+            }
         }
 
         function continueTest() {
-            let st = JSON.parse(localStorage.getItem('nnTestState_v1'));
+            let st = readSavedState();
             if (!st) return startTest();
+            if (!Array.isArray(st.shuffledQuestions) || !st.shuffledQuestions.length) {
+                localStorage.removeItem(STATE_STORAGE_KEY);
+                showToast(t('errors.stateInvalid', {}, '上次进度已损坏，已为你清理。'));
+                return startTest();
+            }
             shuffledQuestions = st.shuffledQuestions;
             userAnswers = st.userAnswers;
             currentQIdx = st.currentQIdx;
@@ -1437,8 +1766,8 @@
         }
 
         function resetTest() {
-            if (!confirm('确定重新抽取题库并开始新一轮鉴定吗？当前报告不会保留在页面上。')) return;
-            localStorage.removeItem('nnTestState_v1');
+            if (!confirm(t('confirm.reset', {}, '确定重新抽取题库并开始新一轮鉴定吗？当前报告不会保留在页面上。'))) return;
+            localStorage.removeItem(STATE_STORAGE_KEY);
             location.reload();
         }
 
@@ -1512,15 +1841,15 @@
             if (!rankEl) return;
 
             if (isSpam) {
-                rankEl.innerText = '📊 异常样本已记录，不计入公开均值';
-                setText('summary-rank', '异常样本');
+                rankEl.innerText = t('scoreStats.spamRank', {}, '📊 异常样本已记录，不计入公开均值');
+                setText('summary-rank', t('result.summaryValues.spam', {}, '异常样本'));
                 rankEl.style.color = '#ff4d4f';
                 return;
             }
 
             if (!summary || !summary.stats || !summary.stats.count) {
-                rankEl.innerText = '📊 样本均值暂时不可用，稍后刷新可查看';
-                setText('summary-rank', '等待样本');
+                rankEl.innerText = t('scoreStats.unavailable', {}, '📊 样本均值暂时不可用，稍后刷新可查看');
+                setText('summary-rank', t('result.summaryValues.waiting', {}, '等待样本'));
                 rankEl.style.color = 'var(--primary)';
                 return;
             }
@@ -1528,12 +1857,12 @@
             const average = Number(summary.stats.averageScore);
             const count = Number(summary.stats.count);
             const delta = Math.round(currentScore - average);
-            let compareText = '贴近当前均值';
-            if (delta > 0) compareText = `高于均值 ${delta} 分`;
-            if (delta < 0) compareText = `低于均值 ${Math.abs(delta)} 分`;
+            let compareText = t('scoreStats.compareEqual', {}, '贴近当前均值');
+            if (delta > 0) compareText = t('scoreStats.compareHigh', { delta }, `高于均值 ${delta} 分`);
+            if (delta < 0) compareText = t('scoreStats.compareLow', { delta: Math.abs(delta) }, `低于均值 ${Math.abs(delta)} 分`);
 
-            rankEl.innerText = `📊 当前有效样本均分 ${average.toFixed(1)} / 250 · 已收录 ${count} 份 · 你${compareText}`;
-            setText('summary-rank', `你${compareText}`);
+            rankEl.innerText = t('scoreStats.average', { average: average.toFixed(1), count, compareText }, `📊 当前有效样本均分 ${average.toFixed(1)} / 250 · 已收录 ${count} 份 · 你${compareText}`);
+            setText('summary-rank', t('scoreStats.summaryCompare', { compareText }, `你${compareText}`));
             rankEl.style.color = 'var(--primary)';
         }
 
@@ -1587,19 +1916,22 @@
 
         // --- 智能题库抽取引擎 ---
         function initGame() {
+            const questionBank = getQuestionBank();
+            const error = validateQuestionBank(questionBank);
+            if (error) throw new Error(error);
             let selectedQuestions = [];
             dimMaxScores = { A: 0, B: 0, C: 0, D: 0 };
             const highFaceState = { used: 0, max: 4 };
 
             ['A', 'B', 'C', 'D'].forEach(dim => {
-                const pool = rawQuestionBank.filter(q => q.scored !== false && q.d === dim);
+                const pool = questionBank.filter(q => q.scored !== false && q.d === dim);
                 selectedQuestions = selectedQuestions.concat(drawFaceCapped(pool, 11, highFaceState));
             });
 
-            const fillerPool = rawQuestionBank.filter(q => q.scored === false && q.d === 'F');
+            const fillerPool = questionBank.filter(q => q.scored === false && q.d === 'F');
             selectedQuestions = selectedQuestions.concat(shuffleArray(fillerPool).slice(0, 4));
 
-            const consistencyPool = rawQuestionBank.filter(q => q.scored === false && q.d === 'K');
+            const consistencyPool = questionBank.filter(q => q.scored === false && q.d === 'K');
             selectedQuestions = selectedQuestions.concat(drawConsistencyPair(consistencyPool));
 
             shuffledQuestions = shuffleArray(selectedQuestions);
@@ -1613,11 +1945,22 @@
         }
 
         function startTest() {
-            initGame();
+            if (!questionBankReady) {
+                showToast(questionBankError || t('errors.questionLoad', {}, '题库加载失败，请刷新后重试。'));
+                return;
+            }
+            try {
+                initGame();
+            } catch (error) {
+                console.error('Unable to initialize game:', error);
+                showToast(error.message || t('errors.questionInvalid', {}, '题库字段异常，暂时无法开始测试。'));
+                return;
+            }
             currentQIdx = 0;
             totalAnsweringTimeMs = 0;
             consistencyInfo = null;
             debugBypassSpam = false;
+            debugScoreOverride = null;
             userAnswers = new Array(shuffledQuestions.length).fill(null);
             showPage('quiz');
             renderQuestion();
@@ -1643,7 +1986,13 @@
             return { score: opt.v, raw: opt.v, label: opt.l };
         }
 
-        function runSyntheticResult(profile = 'high') {
+        function clampDebugScore(score) {
+            const numericScore = Number(score);
+            if (!Number.isFinite(numericScore)) return null;
+            return Math.max(0, Math.min(250, Math.round(numericScore)));
+        }
+
+        function getDebugPattern(profile = 'high') {
             const patterns = {
                 low: [2, 1, 2, 3, 1, 2],
                 mid: [3, 4, 2, 3, 4, 3],
@@ -1653,15 +2002,18 @@
                 perfect: [5],
                 random: [5, 4, 3, 2, 4, 5]
             };
-            const isCheat = profile === 'cheat';
-            const isPerfect = profile === 'perfect';
             const fixed = Number(profile);
-            const pattern = Number.isInteger(fixed) && fixed >= 1 && fixed <= 5
+            return Number.isInteger(fixed) && fixed >= 1 && fixed <= 5
                 ? [fixed, Math.max(1, fixed - 1), fixed, Math.max(1, fixed - 2)]
                 : (patterns[profile] || patterns.high);
+        }
+
+        function fillSyntheticAnswers(profile = 'high') {
+            const isCheat = profile === 'cheat';
+            const isPerfect = profile === 'perfect';
+            const pattern = getDebugPattern(profile);
             const consistencyTargets = {};
 
-            initGame();
             userAnswers = shuffledQuestions.map((q, idx) => {
                 let targetScore = pattern[idx % pattern.length];
                 if (isPerfect && q.scored !== false) targetScore = 5;
@@ -1674,29 +2026,155 @@
                 }
                 return createSyntheticAnswer(q, targetScore);
             });
-            currentQIdx = shuffledQuestions.length - 1;
-            totalAnsweringTimeMs = isCheat ? shuffledQuestions.length * 120 : shuffledQuestions.length * 1800;
-            debugBypassSpam = isPerfect;
-            localStorage.removeItem('nnTestState_v1');
-            finishTest();
         }
 
-        Object.defineProperty(window, '__nn_dev_quick', {
-            value: runSyntheticResult,
-            enumerable: false,
-            configurable: false
-        });
+        function prepareDebugResult(profile = 'high') {
+            initGame();
+            fillSyntheticAnswers(profile);
+            currentQIdx = shuffledQuestions.length - 1;
+            totalAnsweringTimeMs = profile === 'cheat' ? shuffledQuestions.length * 120 : shuffledQuestions.length * 1800;
+            localStorage.removeItem(STATE_STORAGE_KEY);
+        }
+
+        function renderDebugResult({ profile = 'high', score = null, loading = false, bypassSpam = true } = {}) {
+            if (!questionBankReady) {
+                throw new Error(questionBankError || 'Question bank is not ready yet.');
+            }
+            const scoreOverride = clampDebugScore(score);
+            prepareDebugResult(profile);
+            debugBypassSpam = bypassSpam || profile === 'perfect';
+            debugScoreOverride = scoreOverride;
+            if (loading) {
+                finishTest();
+                return;
+            }
+            window.spamStatus = 0;
+            window.spamVal = undefined;
+            consistencyInfo = calculateConsistencyInfo();
+            if (debugBypassSpam) {
+                consistencyInfo.score = 100;
+                consistencyInfo.level = t('stability.defaultLevel', {}, '高');
+                consistencyInfo.grade = 'high';
+                consistencyInfo.desc = t('stability.debugDesc', {}, '调试作弊档已启用，本次样本跳过异常拦截并按满分画像渲染。');
+                consistencyInfo.discount = 1;
+            }
+            loadChartjsAndResult();
+        }
+
+        function runSyntheticResult(profile = 'high') {
+            renderDebugResult({ profile, loading: true, bypassSpam: profile === 'perfect' });
+        }
+
+        function runDebugScore(score, options = {}) {
+            renderDebugResult({
+                profile: options.profile || 'high',
+                score,
+                loading: Boolean(options.loading),
+                bypassSpam: options.bypassSpam !== false
+            });
+        }
+
+        function runDebugPunish(status = 1, value = null, options = {}) {
+            if (!questionBankReady) {
+                throw new Error(questionBankError || 'Question bank is not ready yet.');
+            }
+            const spamStatus = Math.max(1, Math.min(5, Math.round(Number(status) || 1)));
+            prepareDebugResult(options.profile || 'cheat');
+            debugBypassSpam = false;
+            debugScoreOverride = null;
+            consistencyInfo = calculateConsistencyInfo();
+            consistencyInfo.score = Math.max(0, Math.min(100, Number(consistencyInfo.score) || 0));
+            window.spamStatus = spamStatus;
+            window.spamVal = value == null ? ({
+                1: '8.8',
+                2: 50,
+                3: 30,
+                4: 48,
+                5: 20
+            })[spamStatus] : value;
+            if (options.loading) {
+                showPage('loading');
+                updateLoadingSteps(3);
+                document.getElementById('loading-text').innerText = t('loading.punishTexts.0', {}, '检测到异常作答脑电波...');
+                setTimeout(loadChartjsAndResult, 300);
+                return;
+            }
+            loadChartjsAndResult();
+        }
+
+        function installDebugConsole() {
+            const api = {
+                help() {
+                    const usage = [
+                        'nnDebug.score(180)                         // 直接渲染指定总分，范围 0-250',
+                        'nnDebug.score(240, { loading: true })       // 走加载页后出指定分',
+                        'nnDebug.profile("low|mid|high|max|perfect|cheat|random")',
+                        'nnDebug.punish(1-5)                         // 强制渲染异常/惩罚页',
+                        'nnDebug.punish(5, 12)                       // 指定惩罚类型和显示值',
+                        'nnDebug.reset()                             // 回到首页并清理本地进度'
+                    ];
+                    console.table(usage);
+                    return usage;
+                },
+                score: runDebugScore,
+                profile(profile = 'high', options = {}) {
+                    renderDebugResult({
+                        profile,
+                        loading: Boolean(options.loading),
+                        bypassSpam: options.bypassSpam !== false
+                    });
+                },
+                punish: runDebugPunish,
+                reset() {
+                    debugScoreOverride = null;
+                    debugBypassSpam = false;
+                    window.spamStatus = 0;
+                    window.spamVal = undefined;
+                    resetTest();
+                }
+            };
+            Object.defineProperty(window, 'nnDebug', {
+                value: api,
+                enumerable: false,
+                configurable: true
+            });
+            Object.defineProperty(window, '__nn_dev_quick', {
+                value: runSyntheticResult,
+                enumerable: false,
+                configurable: true
+            });
+            console.info('nnDebug ready. Run nnDebug.help() for commands.');
+        }
+
+        installDebugConsole();
+
+        /*
+         * Backward-compatible quick hook. Prefer nnDebug.profile(), nnDebug.score(),
+         * and nnDebug.punish() for new manual testing.
+         */
+        if (!window.__nn_dev_quick) {
+            Object.defineProperty(window, '__nn_dev_quick', {
+                value: runSyntheticResult,
+                enumerable: false,
+                configurable: true
+            });
+        }
 
         function renderQuestion() {
             isAnswering = false;
             const q = shuffledQuestions[currentQIdx];
+            if (!q) {
+                showToast(t('errors.questionInvalid', {}, '题库字段异常，暂时无法开始测试。'));
+                showPage('home');
+                return;
+            }
 
             document.getElementById('current-q').innerText = currentQIdx + 1;
             const answeredCount = userAnswers.filter(ans => ans != null).length;
             const progressPercent = Math.round((answeredCount / shuffledQuestions.length) * 100);
             document.getElementById('progress').style.width = `${progressPercent}%`;
-            setText('progress-percent', `${progressPercent}% 已完成`);
-            setText('progress-left', `剩余 ${Math.max(0, shuffledQuestions.length - answeredCount)} 题`);
+            setText('progress-percent', t('quiz.progressPercent', { percent: progressPercent }, `${progressPercent}% 已完成`));
+            setText('progress-left', t('quiz.progressLeft', { count: Math.max(0, shuffledQuestions.length - answeredCount) }, `剩余 ${Math.max(0, shuffledQuestions.length - answeredCount)} 题`));
 
             const btnPrev = document.getElementById('btn-prev');
             if (currentQIdx === 0) btnPrev.classList.add('hidden');
@@ -1704,11 +2182,11 @@
 
             const badge = document.getElementById('q-badge');
             if (q.type === 'likert') {
-                badge.innerText = q.scored === false ? "状态校验" : "偏好判断";
+                badge.innerText = q.scored === false ? t('quiz.badges.likertCheck', {}, "状态校验") : t('quiz.badges.likert', {}, "偏好判断");
                 badge.style.background = "#e0f7fa"; badge.style.color = "#00acc1";
-                document.getElementById('question-text').innerText = q.t.replace('【反向】', '');
+                document.getElementById('question-text').innerText = q.t.replace(t('question.reversePrefix', {}, '【反向】'), '');
             } else {
-                badge.innerText = q.scored === false ? "日常切片" : "情境选择";
+                badge.innerText = q.scored === false ? t('quiz.badges.choiceCheck', {}, "日常切片") : t('quiz.badges.choice', {}, "情境选择");
                 badge.style.background = "#f3e5f5"; badge.style.color = "#8e24aa";
                 document.getElementById('question-text').innerText = q.t;
             }
@@ -1803,24 +2281,24 @@
             else if (extremeCount >= 34) patternPenalty += 8;
 
             const score = Math.max(0, Math.min(100, 100 - contradictionPenalty - patternPenalty));
-            let level = "高";
+            let level = t('stability.defaultLevel', {}, "高");
             let grade = "high";
-            let desc = "前后作答波形比较稳定，系统决定认真给你算一卦。";
+            let desc = t('stability.defaultDesc', {}, "前后作答波形比较稳定，系统决定认真给你算一卦。");
             let discount = 1;
             if (score < 45) {
-                level = "极低";
+                level = t('stability.veryLowLevel', {}, "极低");
                 grade = "very_low";
-                desc = "前后回答像在左右横跳，测谎防御网关已经开始冒烟。";
+                desc = t('stability.veryLowDesc', {}, "前后回答像在左右横跳，测谎防御网关已经开始冒烟。");
                 discount = 0;
             } else if (score < 65) {
-                level = "偏低";
+                level = t('stability.lowLevel', {}, "偏低");
                 grade = "low";
-                desc = "检测到一点防御性作答或前后摇摆，最终分数会被轻微打折。";
+                desc = t('stability.lowDesc', {}, "检测到一点防御性作答或前后摇摆，最终分数会被轻微打折。");
                 discount = 0.92;
             } else if (score < 85) {
-                level = "中等";
+                level = t('stability.mediumLevel', {}, "中等");
                 grade = "medium";
-                desc = "样本有轻微波动，但还在可解析范围内，别紧张，仪器还没爆。";
+                desc = t('stability.mediumDesc', {}, "样本有轻微波动，但还在可解析范围内，别紧张，仪器还没爆。");
             }
 
             return { score, level, grade, desc, discount, maxSameCount, extremeCount, streak };
@@ -1833,9 +2311,9 @@
 
             if (debugBypassSpam) {
                 consistencyInfo.score = 100;
-                consistencyInfo.level = '高';
+                consistencyInfo.level = t('stability.defaultLevel', {}, '高');
                 consistencyInfo.grade = 'high';
-                consistencyInfo.desc = '调试作弊档已启用，本次样本跳过异常拦截并按满分画像渲染。';
+                consistencyInfo.desc = t('stability.debugDesc', {}, '调试作弊档已启用，本次样本跳过异常拦截并按满分画像渲染。');
                 consistencyInfo.discount = 1;
             } else if (totalSecs < 35) {
                 window.spamStatus = 1;
@@ -1857,24 +2335,14 @@
             }
 
             document.getElementById('progress').style.width = '100%';
-            setText('progress-percent', '100% 已完成');
-            setText('progress-left', '剩余 0 题');
+            setText('progress-percent', t('quiz.progressPercent', { percent: 100 }, '100% 已完成'));
+            setText('progress-left', t('quiz.progressLeft', { count: 0 }, '剩余 0 题'));
             setTimeout(() => {
                 showPage('loading');
                 updateLoadingSteps(0);
-                const allTexts = window.spamStatus > 0 ? [
-                    "⚠️ 检测到异常作答脑电波...", "启动核心测谎防御系统...",
-                    "正在拦截机械化狂点信号...", "提取系统识别日志...",
-                    "已放弃对该样本的灵魂解析...", "正在生成小丑专属图鉴..."
-                ] : [
-                    "正在构建核心行为树...", "深度分析潜意识倾向...",
-                    "匹配全网亚文化图谱...", "生成高维雷达模型...",
-                    "探测灵魂深处的柔软度...", "调取肌肉记忆偏差值...",
-                    "检测粉色基因觉醒进度...", "正在渲染最终形态图鉴...",
-                    "正在连接北朝服务器...", "分析女装抵抗力阈值...",
-                    "提纯刻在DNA里的娇软基因...", "正在过滤钢铁直男的虚假伪装...",
-                    "计算JK制服完美匹配度...", "比打二次元通讯录成分..."
-                ];
+                const allTexts = window.spamStatus > 0
+                    ? getMessage('loading.punishTexts', ["⚠️ 检测到异常作答脑电波...", "启动核心测谎防御系统...", "正在拦截机械化狂点信号...", "提取系统识别日志..."])
+                    : getMessage('loading.normalTexts', ["正在构建核心行为树...", "深度分析潜意识倾向...", "匹配全网亚文化图谱...", "生成高维雷达模型..."]);
                 const texts = allTexts.sort(() => Math.random() - 0.5).slice(0, 4);
                 let tIdx = 0;
                 document.getElementById('loading-text').innerText = texts[0];
@@ -1895,30 +2363,40 @@
                 generateResult();
                 return;
             }
-            document.getElementById('loading-text').innerText = "加载制图引擎...";
+            document.getElementById('loading-text').innerText = t('loading.chartEngine', {}, "加载制图引擎...");
             const script = document.createElement('script');
             script.src = "https://cdn.jsdelivr.net/npm/chart.js";
             script.onload = generateResult;
+            script.onerror = () => {
+                console.warn('Chart.js failed to load; rendering text result only.');
+                generateResult();
+            };
             document.head.appendChild(script);
         }
 
         function renderStabilityCard(info, isPunished = false) {
-            const safeInfo = info || { score: 100, level: "高", desc: "前后作答波形比较稳定，系统决定认真给你算一卦。" };
+            const safeInfo = info || {
+                score: 100,
+                level: t('stability.defaultLevel', {}, "高"),
+                desc: t('stability.defaultDesc', {}, "前后作答波形比较稳定，系统决定认真给你算一卦。")
+            };
             const fill = document.getElementById('stability-fill');
             const level = document.getElementById('stability-level');
             const desc = document.getElementById('stability-desc');
             if (!fill || !level || !desc) return;
 
             fill.style.width = `${Math.max(0, Math.min(100, safeInfo.score))}%`;
-            level.innerText = isPunished ? `已拦截 · ${safeInfo.level || '异常'}` : `${safeInfo.level} (${Math.round(safeInfo.score)}%)`;
+            level.innerText = isPunished
+                ? t('stability.punishedPrefix', { level: safeInfo.level || t('stability.abnormal', {}, '异常') }, `已拦截 · ${safeInfo.level || '异常'}`)
+                : t('stability.levelWithScore', { level: safeInfo.level, score: Math.round(safeInfo.score) }, `${safeInfo.level} (${Math.round(safeInfo.score)}%)`);
             desc.innerText = isPunished
-                ? `${safeInfo.desc || '这份样本的灵魂波形太抽象，系统决定先把整活惩罚端上来。'}`
+                ? `${safeInfo.desc || t('stability.punishedFallback', {}, '这份样本的灵魂波形太抽象，系统决定先把整活惩罚端上来。')}`
                 : safeInfo.desc;
         }
 
         function renderRadarSummary(scores, isPunished = false) {
             if (isPunished) {
-                setText('radar-summary', '异常作答导致雷达图被强制归零，系统无法给出有效最高/最低维度。');
+                setText('radar-summary', t('result.radarPunished', {}, '异常作答导致雷达图被强制归零，系统无法给出有效最高/最低维度。'));
                 return;
             }
             const percs = Object.keys(scores).map(k => ({
@@ -1927,7 +2405,13 @@
             })).sort((a, b) => b.percent - a.percent);
             const top = percs[0];
             const low = percs[percs.length - 1];
-            setText('radar-summary', `最高维度是「${dimNames[top.key]}」${top.percent}%，最低维度是「${dimNames[low.key]}」${low.percent}%。整体画像主要由${dimMeta[top.key].short}驱动。`);
+            setText('radar-summary', t('result.radarSummary', {
+                topName: dimNames[top.key],
+                topPercent: top.percent,
+                lowName: dimNames[low.key],
+                lowPercent: low.percent,
+                shortName: dimMeta[top.key].short
+            }, `最高维度是「${dimNames[top.key]}」${top.percent}%，最低维度是「${dimNames[low.key]}」${low.percent}%。整体画像主要由${dimMeta[top.key].short}驱动。`));
         }
 
         function updateResultSummary({ score, tier, title, dominantName, isSpam = false }) {
@@ -1935,7 +2419,7 @@
             setText('summary-score', `${score} / 250`);
             setText('summary-tier', tier.replace(/^[^\u4e00-\u9fa5A-Za-z0-9]+/, ''));
             setText('summary-dominant', dominantName);
-            if (isSpam) setText('summary-rank', '异常样本');
+            if (isSpam) setText('summary-rank', t('result.summaryValues.spam', {}, '异常样本'));
         }
 
         function resetResultUi() {
@@ -1943,8 +2427,16 @@
             if (punishNotice) punishNotice.style.display = 'none';
             document.getElementById('page-result').classList.remove('spam-punish-effect');
             const stopBtn = document.getElementById('btn-stop-glitch');
-            if (stopBtn) stopBtn.style.display = 'none';
-            setText('summary-rank', '同步中');
+            if (stopBtn) {
+                stopBtn.style.display = 'none';
+                stopBtn.dataset.enabled = 'false';
+                const label = stopBtn.querySelector('span');
+                if (label) {
+                    label.dataset.i18n = 'result.actions.enableGlitch';
+                    label.innerText = t('result.actions.enableGlitch', {}, '⚠ 开启强烈特效');
+                }
+            }
+            setText('summary-rank', t('result.summaryValues.rank', {}, '同步中'));
         }
 
         function generateResult() {
@@ -1955,7 +2447,10 @@
                 document.getElementById('final-score').innerText = '0';
                 renderScoreStats(null, 0, true);
                 const punishNotice = document.getElementById('punish-notice');
-                if (punishNotice) punishNotice.style.display = 'block';
+                if (punishNotice) {
+                    punishNotice.style.display = 'block';
+                    punishNotice.innerText = t('result.punishNoticeWithEffectWarning', {}, '检测到异常作答，本次报告已切换为惩罚鉴定模式。强烈闪烁/抖动特效默认关闭；如需开启，请确认不存在光敏不适或光敏性癫痫风险。');
+                }
                 submitScoreSummary({
                     score: 0,
                     rawScore: null,
@@ -1967,53 +2462,45 @@
                 }).then(summary => renderScoreStats(summary, 0, true));
 
                 const titleEl = document.getElementById('tier-title');
-                titleEl.innerText = '🤡 骗骗哥们就行了，别把自己骗了（';
+                titleEl.innerText = t('punish.tier', {}, '🤡 骗骗哥们就行了，别把自己骗了（');
                 titleEl.style.color = '#fff';
                 titleEl.style.background = '#ff4d4f';
                 titleEl.style.border = 'none';
                 titleEl.style.boxShadow = '0 4px 15px rgba(255, 77, 79, 0.4)';
 
-                const punishDesc = {
-                    1: `你乱点的吧 · 极速狂点（均题约 ${(window.spamVal / 50).toFixed(2)} 秒）`,
-                    2: `你乱点的吧 · 高度机械规律（同频度达 ${window.spamVal} 次）`,
-                    3: `你乱点的吧 · 连续同频作答（最长连击 ${window.spamVal} 题）`,
-                    4: `你乱点的吧 · 极端选项堆叠（极端值 ${window.spamVal} 次）`,
-                    5: `你乱点的吧 · 前后矛盾过载（稳定度 ${Math.round(window.spamVal)}%）`
-                };
                 const descEl = document.getElementById('tier-desc');
-                descEl.innerText = punishDesc[window.spamStatus] || '你乱点的吧 · 异常样本';
+                descEl.innerText = t(`punish.descs.${window.spamStatus}`, {
+                    seconds: (Number(window.spamVal) / 50).toFixed(2),
+                    value: window.spamStatus === 5 ? Math.round(window.spamVal) : window.spamVal
+                }, t('punish.descs.fallback', {}, '你乱点的吧 · 异常样本'));
                 descEl.style.color = '#ff4d4f';
                 updateResultSummary({
                     score: 0,
-                    tier: '异常作答拦截',
-                    title: getUnlockedTitle(0, '异常作答拦截', '无效样本', true),
-                    dominantName: '无效样本',
+                    tier: t('punish.tierName', {}, '异常作答拦截'),
+                    title: getUnlockedTitle(0, t('punish.tierName', {}, '异常作答拦截'), t('punish.invalidSample', {}, '无效样本'), true),
+                    dominantName: t('punish.invalidSample', {}, '无效样本'),
                     isSpam: true
                 });
-                latestResultShareText = '我把男娘潜质测试答成了异常样本，系统已经把我拦截了。';
+                latestResultShareText = t('share.punishedText', {}, '我把男娘潜质测试答成了异常样本，系统已经把我拦截了。');
 
-                document.getElementById('dom-trait-title').innerText = '🚫 潜质评估已强制终止';
-                const punishAnalysis = {
-                    1: `系统检测到你的总用时仅有 ${window.spamVal} 秒。你连题目都懒得看一眼，凭什么指望系统能给出精准的灵魂雷达？男娘的觉醒是需要直溯内心的，不是靠手速瞎按刷出来的！`,
-                    2: '你的回答完美避开了正常人类心理应有的起伏波动，呈现出极其机械的规律性（无脑全选同一个方向）。测谎防御网关已将你无情拦截。',
-                    3: '系统检测到你在一长串题目里维持同一方向作答，灵魂波形平得像尺子。哥们，防御可以有，但别把自己答成复读机。',
-                    4: '你的极端选项密度过高，像是全程按着油门冲进结论区。鉴定官怀疑你不是在答题，而是在和按钮较劲。',
-                    5: '一致性校验显示你前后回答互相拆台，上一秒说收敛，下一秒说无所谓，样本已经开始自我打架。'
-                };
-                document.getElementById('trait-analysis').innerText = punishAnalysis[window.spamStatus] || '检测到异常作答模式，系统拒绝继续认真解析。';
-                document.getElementById('trait-behavior').innerText = '你的行为特征表现为：急躁、机械、带有极强的敷衍性（为了看特殊彩蛋而疯狂乱点）。在二次元圈子里，这种存在通常被称为“走肾不走心的测慌仪反面教材”。';
-                document.getElementById('trait-advice').innerText = '清空杂念，卸下所有防备！退出去重新凭你的【真实第一直觉】填一遍！你骗得过电脑里的死程序，但永远骗不过你真实的DNA！';
+                document.getElementById('dom-trait-title').innerText = t('punish.traitTitle', {}, '🚫 潜质评估已强制终止');
+                document.getElementById('trait-analysis').innerText = t(`punish.analysis.${window.spamStatus}`, { seconds: window.spamVal }, t('punish.analysis.fallback', {}, '检测到异常作答模式，系统拒绝继续认真解析。'));
+                document.getElementById('trait-behavior').innerText = t('punish.behavior', {}, '你的行为特征表现为：急躁、机械、带有极强的敷衍性。');
+                document.getElementById('trait-advice').innerText = t('punish.advice', {}, '清空杂念，卸下所有防备！退出去重新凭你的真实第一直觉填一遍！');
 
-                document.getElementById('dim-breakdown').innerHTML = '<div style="text-align:center;color:#ff4d4f;margin:30px 0;font-weight:bold;font-size:16px;">检测到极度异常数据<br>本局各大维度底层面板已自毁 🈲</div>';
-                renderStabilityCard(consistencyInfo || { score: 0, level: '异常', desc: '这份样本的灵魂波形太抽象，系统决定先把整活惩罚端上来。' }, true);
+                document.getElementById('dim-breakdown').innerHTML = t('result.dimensionFallbackHtml', {}, '<div style="text-align:center;color:#ff4d4f;margin:30px 0;font-weight:bold;font-size:16px;">检测到极度异常数据<br>本局各大维度底层面板已自毁 🈲</div>');
+                renderStabilityCard(consistencyInfo || { score: 0, level: t('stability.abnormal', {}, '异常'), desc: t('stability.punishedFallback', {}, '这份样本的灵魂波形太抽象，系统决定先把整活惩罚端上来。') }, true);
 
                 let fakeScores = { A: 0, B: 0, C: 0, D: 0 };
                 drawRadar(fakeScores);
                 renderRadarSummary(fakeScores, true);
 
-                document.getElementById('page-result').classList.add('spam-punish-effect');
-                document.getElementById('btn-stop-glitch').style.display = 'block';
-                localStorage.removeItem('nnTestState_v1');
+                const glitchBtn = document.getElementById('btn-stop-glitch');
+                if (glitchBtn) {
+                    glitchBtn.style.display = 'block';
+                    glitchBtn.dataset.enabled = 'false';
+                }
+                localStorage.removeItem(STATE_STORAGE_KEY);
 
                 let testUrl = window.location.href.split('#')[0].split('?')[0];
                 if (!testUrl.startsWith('http')) testUrl = "https://github.com";
@@ -2034,9 +2521,12 @@
             let totalPercent = ((scores.A / dimMaxScores.A) + (scores.B / dimMaxScores.B) + (scores.C / dimMaxScores.C) + (scores.D / dimMaxScores.D)) / 4 * 100;
             // 数字滚动动画使用 requestAnimationFrame
             const rawDisplayScore = Math.round(totalPercent * 2.5); // 250分制
-            let displayScore = Math.round(rawDisplayScore * ((consistencyInfo && consistencyInfo.discount) || 1));
+            const hasDebugScoreOverride = Number.isFinite(debugScoreOverride);
+            let displayScore = hasDebugScoreOverride
+                ? Math.max(0, Math.min(250, Math.round(debugScoreOverride)))
+                : Math.round(rawDisplayScore * ((consistencyInfo && consistencyInfo.discount) || 1));
             renderStabilityCard(consistencyInfo);
-            document.getElementById('national-rank').innerText = '📊 正在同步真实样本均值...';
+            document.getElementById('national-rank').innerText = t('scoreStats.syncing', {}, '📊 正在同步真实样本均值...');
             document.getElementById('national-rank').style.color = 'var(--primary)';
             submitScoreSummary({
                 score: displayScore,
@@ -2063,22 +2553,16 @@
                     requestAnimationFrame(updateScoreVisual);
                 } else {
                     drawRadar(scores);
-                    localStorage.removeItem('nnTestState_v1'); // 答题完成，清除缓存
+                    localStorage.removeItem(STATE_STORAGE_KEY); // 答题完成后清理未完成进度。
                 }
             }
             requestAnimationFrame(updateScoreVisual);
 
             // 标准化判定段位
-            let tier = "", tierDesc = "", tierColor = "";
-
-            if (displayScore <= 75) { tier = "🛡️ 绝对钢铁壁垒"; tierDesc = "纯直·零波动·防弹级·毫无破绽"; tierColor = "#777777"; }
-            else if (displayScore <= 105) { tier = "🪨 硬核直男本色"; tierDesc = "直得发光·钢铁直男·毫无波澜"; tierColor = "#888888"; }
-            else if (displayScore <= 135) { tier = "📦 薛定谔的萌新"; tierDesc = "偶尔心动·但还藏得住·潜质初现"; tierColor = "#a0a0a0"; }
-            else if (displayScore <= 160) { tier = "🌸 浅度粉红觉醒"; tierDesc = "已经偷偷看可爱东西了·入门级"; tierColor = "#ff8fab"; }
-            else if (displayScore <= 185) { tier = "🎀 深度觉醒预备役"; tierDesc = "潜质已觉醒·只差临门一脚"; tierColor = "#ff5c8a"; }
-            else if (displayScore <= 205) { tier = "🧸 软妹基因初醒"; tierDesc = "行为开始叛变·本能系软妹"; tierColor = "#fa709a"; }
-            else if (displayScore <= 225) { tier = "🌈 纯度极高的男娘"; tierDesc = "天赋拉满·随时可以C位出道"; tierColor = "#a18cd1"; }
-            else { tier = "👑 究极天选男娘"; tierDesc = "传说级·纯度99.9%·已无药可救"; tierColor = "#ff1493"; }
+            const tierConfig = getMessage('tiers', []).find(item => displayScore <= item.max) || { tier: "👑 究极天选男娘", desc: "传说级·纯度99.9%·已无药可救", color: "#ff1493" };
+            let tier = tierConfig.tier;
+            let tierDesc = tierConfig.desc;
+            let tierColor = tierConfig.color;
 
             const titleEl = document.getElementById('tier-title');
             titleEl.innerText = tier;
@@ -2132,70 +2616,30 @@
             let maxDim1 = sortedDims[0];
             let maxDim2 = sortedDims[1];
 
-            const traits = {
-                A: {
-                    title: "🎯 核心突变基因：【视觉系娇娘】",
-                    analysis: "表面上你是个普通的男生，但你的感官雷达对“柔和、精致、可爱”的事物有着本能的趋光性。你对粗糙、敷衍的直男审美有强烈的潜意识排斥，极其容易被美好的事物所俘获。",
-                    behavior: "也许你自己都没发现，你在游戏里捏脸比女生还细致，买个杯子都要挑马卡龙色。遇到好看的衣物饰品总会多看两眼。潜意识里，你一直在偷偷渴望用粉嫩和柔软将自己包裹起来。",
-                    advice: "不要再盯着女装店的橱窗看了！勇敢点，既然底子这么好，先从网购一双过膝袜开始你的绝妙蜕变吧！"
-                },
-                B: {
-                    title: "🎯 核心突变基因：【本能系软妹】",
-                    analysis: "极度危险！你的行为逻辑已经彻底背叛了你的生理性别。你的肌肉记忆中刻满了“收敛”、“轻柔”和“极度精致”。这是一种脱离了大脑控制的本能反应。",
-                    behavior: "拧不开瓶盖下意识想求助、坐姿乖巧双腿并拢、喝奶茶喜欢咬吸管、对体毛极其介意……你的日常小动作比很多真正的女孩子还要标准和自然。",
-                    advice: "这种浑然天成的娇憨感是装不出来的。建议直接买套JK制服原地C位出道，别浪费了这与生俱来的天赋！"
-                },
-                C: {
-                    title: "🎯 核心突变基因：【灵魂系共鸣】",
-                    analysis: "你的灵魂仿佛生错了躯壳。你拥有极其敏锐的共情能力和极低的情绪阈值，传统的“阳刚之气”对你来说是一种沉重的精神枷锁。你的灵魂在性别的边界上自由流动。",
-                    behavior: "看个感人视频能哭得稀里哗啦，受到委屈时极度渴望被拥抱、被宠爱、被保护。在社交中，你总是那个默默提供情绪价值，像小动物一样温顺的“小天使”。",
-                    advice: "卸下伪装的坚强吧，找一个能把你当小猫一样疯狂揉搓、无限包容你的伴侣，才是你这柔软灵魂的最终归宿。"
-                },
-                D: {
-                    title: "🎯 核心突变基因：【环境系同化】",
-                    analysis: "你的社交属性已经完全被二次元和网络亚文化腌入味了。你在网络上的精神状态和性别认知，领先当前社会普通版本至少五个大段，且极度自洽。",
-                    behavior: "熟练使用各种萌妹/猫猫表情包，被兄弟们叫“老婆”不仅不生气甚至会顺杆往上爬。在虚拟世界里，你的性别早就变成了一个随时可以无缝切换的薛定谔状态。",
-                    advice: "既然线上已经这么放飞自我了，不如线下也给兄弟们开个眼？穿上那件黑白女仆装，你就是群聊里最亮眼的那束光。"
-                }
-            };
-
-            const straightTrait = {
-                title: "🛡️ 核心特征：【纯正的钢铁】",
-                analysis: "经过系统严密的数据比对，你的深层逻辑中不存在哪怕一丝一毫的柔性投射。你的精神世界比承重墙还要坚固。",
-                behavior: "极端的实用主义者，对一切可爱事物毫无波澜，甚至觉得买个带猫耳朵的水杯是智商税。你的生活主打一个大开大合的“糙”字。",
-                advice: "二次元电波和柔软基因在你的防御系统面前统统失效。保持你的硬汉本色！不过友情提示，太直可能会错过一些别样的风景哦。"
+            const traits = getMessage('traits', {});
+            const straightTrait = traits.straight || {
+                title: "??? ????????????",
+                analysis: "??????????????????????????????????",
+                behavior: "?????????????",
+                advice: "?????????"
             };
 
             let conclusion;
             if (displayScore >= 230) {
-                conclusion = {
-                    title: "👑 隐藏神级形态：【天选男娘·世界级宝藏】",
-                    analysis: "检测仪直接爆表！你已经不是单纯的潜质问题了，这是刻在DNA底层的终极觉醒！这浑然天成的娇憨与极品纯度，哪怕是最硬的钢铁直男在你面前也会瞬间融化。你就是传说中百年难得一遇的神级白菜！",
-                    behavior: "无论是举手投足的微表情，还是潜意识的脑回路，都已经完美跨越了性别的次元壁。在懂得欣赏的人眼里，你现在的每一个小动作都散发着致命的魅惑力。",
-                    advice: "还测什么试？赶紧开播！全地球的兄弟们都在等着你拯救他们的审美！快穿上专门为你准备的战袍，去征服世界吧！"
-                };
+                conclusion = traits.legend || traits[maxDim1];
             } else if (displayScore <= 105) {
                 conclusion = straightTrait;
             } else {
                 let mixSet = new Set([maxDim1, maxDim2]);
                 if (mixSet.has('A') && mixSet.has('B')) {
-                    conclusion = {
-                        title: "✨ 罕见双核心：【视觉系娇娘 + 本能系软妹】双重觉醒",
-                        analysis: "不仅对粉嫩可爱的事物有着本能的狂热追求，连身体的肌肉记忆都已经完美同步。这种由内而外的知行合一是极其罕见的！你的大脑和身体已经达成了高度的一致。",
-                        behavior: "你可能一边逛着马卡龙色系的购物网页，一边下意识地夹紧双腿、咬着笔盖。你的存在本身就是一件令人赏心悦目的艺术品。",
-                        advice: "别犹豫了，你的出厂设置自带浑然天成，根本不需要任何后天修饰，快把购物车里的可爱小裙子带回家吧！"
-                    };
+                    conclusion = traits.AB || traits[maxDim1];
                 } else if (mixSet.has('C') && mixSet.has('D')) {
-                    conclusion = {
-                        title: "✨ 罕见双核心：【灵魂系共情 + 环境系同化】社恐小天使",
-                        analysis: "你拥有极其柔软敏感的灵魂，同时也深谙二次元网络亚文化的精髓。这造就了你如同“社恐小天使”般的奇妙体质：线上重拳出击，线下软萌易推倒。",
-                        behavior: "群聊里你是老公老婆满天飞的“懂哥”，现实中被开个玩笑就容易红着脸不知所措。这种极致的反差萌具有毁灭级的杀伤力。",
-                        advice: "保护好这颗敏感又温柔的心，继续在赛博空间里释放天性吧！如果有信得过的朋友，试着在线下也卸下防备撒个娇？"
-                    };
+                    conclusion = traits.CD || traits[maxDim1];
                 } else {
                     conclusion = traits[maxDim1];
                 }
             }
+            conclusion = conclusion || straightTrait;
 
             document.getElementById('dom-trait-title').innerText = conclusion.title;
             document.getElementById('trait-analysis').innerText = conclusion.analysis;
@@ -2204,6 +2648,10 @@
         }
 
         function drawRadar(scores) {
+            if (typeof Chart === 'undefined') {
+                setText('radar-summary', t('result.radarUnavailable', {}, '制图引擎加载失败，已保留文字维度分析。'));
+                return;
+            }
             if (radarChartInstance) { radarChartInstance.destroy(); }
 
             const isDark = document.body.classList.contains('dark-mode');
@@ -2214,9 +2662,9 @@
             radarChartInstance = new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: ['审美', '行为', '心理', '社交'],
+                    labels: getRadarLabels(),
                     datasets: [{
-                        label: '能力值',
+                        label: t('chart.dataset', {}, '能力值'),
                         data: [
                             (scores.A / dimMaxScores.A) * 100,
                             (scores.B / dimMaxScores.B) * 100,
@@ -2248,12 +2696,27 @@
             });
         }
 
+        function getRadarLabels() {
+            return [
+                t('chart.A', {}, dimNames.A),
+                t('chart.B', {}, dimNames.B),
+                t('chart.C', {}, dimNames.C),
+                t('chart.D', {}, dimNames.D)
+            ];
+        }
+
         // --- 下载分享长图逻辑 ---
         async function downloadResult() {
             const btn = document.getElementById('btn-download');
             const oldText = btn.innerText;
             btn.innerText = "生成截图中...";
             btn.style.pointerEvents = 'none';
+            if (typeof html2canvas === 'undefined') {
+                showToast(t('toast.imageFail', {}, '截图生成失败，请稍后再试或换个浏览器保存。'));
+                btn.innerText = oldText;
+                btn.style.pointerEvents = 'auto';
+                return;
+            }
 
             const originalButtons = document.querySelectorAll('#page-result .btn-main');
             const originalButtonDisplays = Array.from(originalButtons, b => b.style.display);
@@ -2291,13 +2754,13 @@
                 });
 
                 let link = document.createElement('a');
-                link.download = '男娘潜质鉴定报告.png';
+                link.download = t('files.downloadName', {}, '男娘潜质鉴定报告.png');
                 link.href = canvas.toDataURL('image/png');
                 link.click();
-                showToast('长图已生成');
+                showToast(t('toast.imageSuccess', {}, '长图已生成'));
             } catch (error) {
                 console.error('生成截图失败', error);
-                alert('截图生成失败，请稍后再试或换个浏览器保存。');
+                alert(t('toast.imageFail', {}, '截图生成失败，请稍后再试或换个浏览器保存。'));
             } finally {
                 restoreCaptureState();
             }
@@ -2308,7 +2771,7 @@
             const isDark = document.body.classList.toggle('dark-mode');
             const btn = document.getElementById('dark-mode-toggle');
             btn.innerText = isDark ? '☀️' : '🌙';
-            btn.title = isDark ? '切换为浅色模式' : '切换为深色模式';
+            btn.title = isDark ? t('aria.darkToLight', {}, '切换为浅色模式') : t('aria.darkToDark', {}, '切换为深色模式');
             btn.setAttribute('aria-label', btn.title);
 
             // 动态更新雷达图的网格和文字颜色
@@ -2332,21 +2795,50 @@
         function nativeShare() {
             if (navigator.share) {
                 navigator.share({
-                    title: '男娘潜质综合评估量表',
-                    text: latestResultShareText || '我刚测了自己的男娘潜质，快来测测你离北朝还有多远？',
+                    title: t('share.title', {}, '男娘潜质综合评估量表'),
+                    text: latestResultShareText || t('share.nativeDefault', {}, '我刚测了自己的男娘潜质，快来测测你离北朝还有多远？'),
                     url: window.location.href
                 }).catch(e => console.log('分享取消或失败', e));
             } else {
                 copyResultText();
-                showToast('浏览器不支持原生分享，已复制文案');
+                showToast(t('toast.nativeFallback', {}, '浏览器不支持原生分享，已复制文案'));
             }
         }
 
-        function stopGlitch() {
-            document.getElementById('page-result').classList.remove('spam-punish-effect');
-            document.getElementById('btn-stop-glitch').style.display = 'none';
+        function setPunishEffectEnabled(enabled) {
+            const resultPage = document.getElementById('page-result');
+            const btn = document.getElementById('btn-stop-glitch');
+            const label = btn ? btn.querySelector('span') : null;
+            if (!resultPage || !btn) return;
+
+            resultPage.classList.toggle('spam-punish-effect', enabled);
+            btn.dataset.enabled = enabled ? 'true' : 'false';
+            if (label) {
+                label.dataset.i18n = enabled ? 'result.actions.disableGlitch' : 'result.actions.enableGlitch';
+                label.innerText = enabled
+                    ? t('result.actions.disableGlitch', {}, '✖ 关闭强烈特效')
+                    : t('result.actions.enableGlitch', {}, '⚠ 开启强烈特效');
+            }
             updateResultDockVisibility();
         }
+
+        function togglePunishEffect() {
+            const btn = document.getElementById('btn-stop-glitch');
+            const enabled = btn && btn.dataset.enabled === 'true';
+            if (enabled) {
+                setPunishEffectEnabled(false);
+                return;
+            }
+
+            const warning = t('result.actions.glitchRiskConfirm', {}, '该特效包含快速闪烁、抖动和高对比颜色变化，可能诱发光敏不适或光敏性癫痫。确认开启吗？');
+            if (window.confirm(warning)) setPunishEffectEnabled(true);
+        }
+
+        function stopGlitch() {
+            setPunishEffectEnabled(false);
+        }
+
+        bootApp();
     </script>
 </body>
 
