@@ -585,6 +585,20 @@
             text-align: justify;
         }
 
+        body.capture-mode,
+        body.capture-mode * {
+            letter-spacing: 0 !important;
+            word-spacing: normal !important;
+            text-rendering: geometricPrecision;
+        }
+
+        body.capture-mode .trait-text {
+            text-align: left !important;
+            text-align-last: left !important;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
         /* 加载动画 */
         .loader {
             border: 4px solid #f3f3f3;
@@ -807,7 +821,10 @@
         <div style="text-align: center; margin-top: 25px; padding-top: 15px; border-top: 1px dashed #eee; font-size: 12px; color: var(--text-light); line-height: 1.6;">
             Powered by <a href="https://space.bilibili.com/174355920" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: bold;">xmbhjQAQ</a>
             <span style="margin: 0 8px; opacity: 0.5;">|</span>
+            <a href="https://github.com/xmbhjQAQ/my-static-sites" target="_blank" rel="noopener noreferrer" style="color: var(--text-light); text-decoration: none;">GitHub 仓库</a>
+            <span style="margin: 0 8px; opacity: 0.5;">|</span>
             <a href="https://space.bilibili.com/174355920" target="_blank" style="color: var(--text-light); text-decoration: none;">📺 Bilibili</a>
+            <p style="margin-top: 5px; opacity: 0.75; font-size: 10px;">本站点代码遵循 <a href="https://github.com/xmbhjQAQ/my-static-sites/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">CC BY-NC 4.0 LICENSE</a></p>
             <p style="margin-top: 5px; opacity: 0.6; font-size: 10px;">本站使用匿名统计技术以优化产品体验</p>
         </div>
     </div>
@@ -1560,40 +1577,56 @@
         }
 
         // --- 下载分享长图逻辑 ---
-        function downloadResult() {
+        async function downloadResult() {
             const btn = document.getElementById('btn-download');
             const oldText = btn.innerText;
             btn.innerText = "生成截图中...";
             btn.style.pointerEvents = 'none';
 
-            // 隐藏重置按钮避免入镜
             const originalButtons = document.querySelectorAll('#page-result .btn-main');
-            originalButtons.forEach(b => b.style.display = 'none');
-
-            // 临时移除动画防止 html2canvas 渲染出半透明样式
+            const originalButtonDisplays = Array.from(originalButtons, b => b.style.display);
             const activePage = document.querySelector('.page.active');
-            activePage.style.animation = 'none';
-            activePage.style.opacity = '1';
+            const oldAnimation = activePage.style.animation;
+            const oldOpacity = activePage.style.opacity;
 
-            // 截图目标改为 container 才能截取到卡片背景，并设定外围底色
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            html2canvas(document.querySelector('.container'), {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: isDarkMode ? '#1a1a2e' : '#ffc2d1'
-            }).then(canvas => {
-                // 恢复原始状态
-                originalButtons.forEach(b => b.style.display = 'block');
+            const restoreCaptureState = () => {
+                originalButtons.forEach((b, index) => b.style.display = originalButtonDisplays[index]);
                 btn.innerText = oldText;
                 btn.style.pointerEvents = 'auto';
-                activePage.style.animation = '';
+                activePage.style.animation = oldAnimation;
+                activePage.style.opacity = oldOpacity;
+                document.body.classList.remove('capture-mode');
+            };
 
-                // 下载图片
+            try {
+                originalButtons.forEach(b => b.style.display = 'none');
+                activePage.style.animation = 'none';
+                activePage.style.opacity = '1';
+                document.body.classList.add('capture-mode');
+
+                if (document.fonts && document.fonts.ready) {
+                    await document.fonts.ready;
+                }
+                await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                const canvas = await html2canvas(document.querySelector('.container'), {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: isDarkMode ? '#1a1a2e' : '#ffc2d1',
+                    logging: false
+                });
+
                 let link = document.createElement('a');
                 link.download = '男娘潜质鉴定报告.png';
                 link.href = canvas.toDataURL('image/png');
                 link.click();
-            });
+            } catch (error) {
+                console.error('生成截图失败', error);
+                alert('截图生成失败，请稍后再试或换个浏览器保存。');
+            } finally {
+                restoreCaptureState();
+            }
         }
 
         // --- 扩展功能：黑暗模式与原生分享 ---
