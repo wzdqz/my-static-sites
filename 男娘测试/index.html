@@ -1202,6 +1202,9 @@
                 <p data-i18n="home.warning">⚠️ 请放下防备，凭第一直觉作答。结束后将生成专属深度分析报告。</p>
                 <p style="font-size: 12px; color: #999; margin-top: 8px;" data-i18n="home.disclaimer">本测试主打娱乐整活，结论请和奶茶甜度一样理性参考。</p>
             </div>
+
+            <div id="creator-note-home-container"></div>
+
             <button class="btn-main" onclick="startTest()" data-i18n="home.start">抽取题库，开始鉴定</button>
             <button class="btn-main" id="btn-continue" onclick="continueTest()"
                 style="display:none; background: linear-gradient(45deg, #8eecf5, #4facfe); margin-top: 15px;" data-i18n="home.continue">继续上次鉴定</button>
@@ -1288,12 +1291,12 @@
                 </div>
             </div>
 
-            <div class="creator-note-card" id="creator-note-card">
+            <div class="creator-note-card" id="creator-note-card-result">
                 <div class="creator-note-head">
                     <div class="creator-note-title" data-i18n="result.creatorNoteTitle">站长说明</div>
-                    <button type="button" class="creator-note-toggle" id="creator-note-toggle" onclick="toggleCreatorNote()" data-i18n="result.creatorNoteHide">隐藏说明</button>
+                    <button type="button" class="creator-note-toggle" id="creator-note-toggle-result" onclick="toggleCreatorNote()" data-i18n="result.creatorNoteHide">隐藏说明</button>
                 </div>
-                <div class="creator-note-body" id="creator-note-body">
+                <div class="creator-note-body" id="creator-note-body-result">
                     <p data-i18n="result.creatorNoteP1">这个网页原本是我 4 月初某天晚上闲着无聊做出来给群友和身边朋友乐呵乐呵的，但是不知道怎么的，一个月后就传出去了。该评测出来的结果非常不科学，有些题目很刻板印象，不具备参考价值，纯乐子。</p>
                     <p data-i18n="result.creatorNoteP2">关于题库中某些题的设计及权重，缺少广泛的社会调研及数据分析，且有相当比重是 AI 生成的；不然我也不可能一晚上就搓出来给群友喂坨大的 hhhh。</p>
                     <p data-i18n="result.creatorNoteP3">这个网站是什么时候火起来的我也不太清楚。契机还是朋友 QQ 私信我，说一个月前我发给他玩的小网站在别的大群刷到了；我一打开后台看 DNS 解析次数，才发现它火起来了（那时候还没加统计，因为完全没有料到会有今天这般局面）。</p>
@@ -1766,15 +1769,30 @@
             return localStorage.getItem(CREATOR_NOTE_COLLAPSED_KEY) === '1';
         }
 
+        (function initCreatorNoteClone() {
+            const template = document.getElementById('creator-note-card-result');
+            const container = document.getElementById('creator-note-home-container');
+            if (template && container) {
+                const clone = template.cloneNode(true);
+                clone.id = 'creator-note-card-home';
+                const toggleBtn = clone.querySelector('.creator-note-toggle');
+                if (toggleBtn) toggleBtn.id = 'creator-note-toggle-home';
+                const bodyContainer = clone.querySelector('.creator-note-body');
+                if (bodyContainer) bodyContainer.id = 'creator-note-body-home';
+                container.appendChild(clone);
+            }
+        })();
+
         function applyCreatorNoteState(collapsed = isCreatorNoteCollapsed()) {
-            const card = document.getElementById('creator-note-card');
-            const btn = document.getElementById('creator-note-toggle');
-            if (!card || !btn) return;
-            card.classList.toggle('is-collapsed', collapsed);
-            btn.dataset.i18n = collapsed ? 'result.creatorNoteShow' : 'result.creatorNoteHide';
-            btn.innerText = collapsed
-                ? t('result.creatorNoteShow', {}, '展开说明')
-                : t('result.creatorNoteHide', {}, '隐藏说明');
+            document.querySelectorAll('.creator-note-card').forEach(card => {
+                card.classList.toggle('is-collapsed', collapsed);
+            });
+            document.querySelectorAll('.creator-note-toggle').forEach(btn => {
+                btn.dataset.i18n = collapsed ? 'result.creatorNoteShow' : 'result.creatorNoteHide';
+                btn.innerText = collapsed
+                    ? t('result.creatorNoteShow', {}, '展开说明')
+                    : t('result.creatorNoteHide', {}, '隐藏说明');
+            });
         }
 
         function toggleCreatorNote() {
@@ -1785,7 +1803,7 @@
         }
 
         function hideCreatorNoteForShare() {
-            const card = document.getElementById('creator-note-card');
+            const card = document.getElementById('creator-note-card-result');
             if (!card) return () => {};
             const wasHidden = card.classList.contains('is-share-hidden');
             card.classList.add('is-share-hidden');
