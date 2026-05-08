@@ -26,7 +26,8 @@
     "warning": "⚠️ 请放下防备，凭第一直觉作答。结束后将生成专属深度分析报告。",
     "disclaimer": "本测试主打娱乐整活，结论请和奶茶甜度一样理性参考。",
     "start": "抽取题库，开始鉴定",
-    "continue": "继续上次鉴定"
+    "continue": "继续上次鉴定",
+    "continueResult": "查看上次结果"
   },
   "quiz": {
     "prev": "⬅️ 上一题",
@@ -110,6 +111,16 @@
       "spam": "异常样本",
       "waiting": "等待样本"
     },
+    "creatorNoteTitle": "站长说明",
+    "creatorNoteP1": "这个网页原本是我 4 月初某天晚上闲着无聊做出来给群友和身边朋友乐呵乐呵的，但是不知道怎么的，一个月后就传出去了。该评测出来的结果非常不科学，有些题目很刻板印象，不具备参考价值，纯乐子。",
+    "creatorNoteP2": "关于题库中某些题的设计及权重，缺少广泛的社会调研及数据分析，且有相当比重是 AI 生成的；不然我也不可能一晚上就搓出来给群友喂坨大的 hhhh。",
+    "creatorNoteP3": "这个网站是什么时候火起来的我也不太清楚。契机还是朋友 QQ 私信我，说一个月前我发给他玩的小网站在别的大群刷到了；我一打开后台看 DNS 解析次数，才发现它火起来了（那时候还没加统计，因为完全没有料到会有今天这般局面）。",
+    "creatorNoteP4": "另外，有些朋友明明是认真做的却触发了非正常答题的“惩罚”页面，我已经在尽力优化题库和判定逻辑，也在考虑是否完全移除这一页面；但是有些朋友喜欢这个“彩蛋”，所以比较难权衡。希望大家多多包涵 QAQ，真的没有不尊重大家的意思，十分抱歉！如果感到受到冒犯的话我愿意站着挨打喵。得知这个网站火了的时候我真的特别高兴，也在尽力优化相关逻辑。感谢大家这些天的捧场！",
+    "creatorNoteP5": "如果大家有相关改进意见，可以直接在 B 站私信或者 GitHub 提 issue，能满足大家的我一定尽量满足大家。",
+    "creatorNoteBilibili": "B 站私信",
+    "creatorNoteGithub": "GitHub 提 issue",
+    "creatorNoteHide": "隐藏说明",
+    "creatorNoteShow": "展开说明",
     "sections": {
       "radar": "核心潜质雷达图",
       "stability": "本次画像稳定度",
@@ -142,6 +153,7 @@
       "stopGlitch": "✖ 关闭特效",
       "enableGlitch": "⚠ 开启特效",
       "disableGlitch": "✖ 关闭特效",
+      "showNormalResult": "查看正常结果",
       "glitchRiskConfirm": "该特效包含快速闪烁、抖动和高对比颜色变化，可能诱发光敏不适或光敏性癫痫。确认开启吗？"
     },
     "dimensionFallbackHtml": "<div style=\"text-align:center;color:#ff4d4f;margin:30px 0;font-weight:bold;font-size:16px;\">检测到极度异常数据<br>本局各大维度底层面板已自毁 🈲</div>"

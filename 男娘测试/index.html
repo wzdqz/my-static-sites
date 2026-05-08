@@ -111,6 +111,21 @@
             border-color: rgba(255, 143, 171, 0.24);
         }
 
+        body.dark-mode .creator-note-card {
+            background: rgba(42, 42, 62, 0.72);
+            border-color: rgba(255, 143, 171, 0.24);
+        }
+
+        body.dark-mode .creator-note-links a {
+            background: rgba(255, 143, 171, 0.12);
+            border-color: rgba(255, 143, 171, 0.32);
+        }
+
+        body.dark-mode .creator-note-toggle {
+            background: rgba(255, 143, 171, 0.12);
+            border-color: rgba(255, 143, 171, 0.32);
+        }
+
         body.dark-mode .dim-item,
         body.dark-mode .loading-step {
             background: rgba(42, 42, 62, 0.76);
@@ -470,6 +485,82 @@
             margin-bottom: 22px;
         }
 
+        .creator-note-card {
+            border: 1px solid rgba(255, 143, 171, 0.22);
+            background: rgba(255, 255, 255, 0.72);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 0 0 22px;
+            color: var(--text-main);
+            font-size: 13px;
+            line-height: 1.75;
+        }
+
+        .creator-note-card.is-share-hidden {
+            display: none;
+        }
+
+        .creator-note-card.is-collapsed .creator-note-body {
+            display: none;
+        }
+
+        .creator-note-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .creator-note-title {
+            color: var(--primary);
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .creator-note-toggle {
+            border: 1px solid rgba(255, 143, 171, 0.28);
+            border-radius: 999px;
+            padding: 4px 10px;
+            color: var(--primary);
+            background: rgba(255, 143, 171, 0.08);
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .creator-note-body {
+            margin-top: 8px;
+        }
+
+        .creator-note-card p {
+            margin: 0 0 9px;
+        }
+
+        .creator-note-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .creator-note-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .creator-note-links a {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid rgba(255, 143, 171, 0.28);
+            border-radius: 999px;
+            padding: 4px 10px;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 900;
+            text-decoration: none;
+            background: rgba(255, 143, 171, 0.08);
+        }
+
         .summary-kicker {
             color: var(--text-light);
             font-size: 12px;
@@ -724,6 +815,18 @@
             line-height: 1.6;
             font-weight: 800;
             text-align: center;
+        }
+
+        .punish-reveal-actions {
+            display: none;
+            margin: 0 0 18px;
+            text-align: center;
+        }
+
+        .punish-reveal-actions .btn-main {
+            max-width: 280px;
+            margin: 0 auto;
+            background: linear-gradient(45deg, #8eecf5, #4facfe);
         }
 
         @keyframes hardcore-glitch {
@@ -1158,6 +1261,9 @@
             </div>
 
             <div class="punish-notice" id="punish-notice" data-i18n="result.punishNotice">检测到异常作答，本次报告已切换为惩罚鉴定模式。</div>
+            <div class="punish-reveal-actions" id="punish-reveal-actions">
+                <button class="btn-main" id="btn-show-normal-result" onclick="showNormalResultFromPunish()" data-i18n="result.actions.showNormalResult">查看正常结果</button>
+            </div>
 
             <div class="result-summary-card" id="result-summary-card">
                 <div class="summary-kicker" data-i18n="result.summaryKicker">本次解锁称号</div>
@@ -1178,6 +1284,24 @@
                     <div class="summary-item">
                         <div class="summary-label" data-i18n="result.summaryLabels.rank">样本参照</div>
                         <div class="summary-value" id="summary-rank" data-i18n="result.summaryValues.rank">同步中</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="creator-note-card" id="creator-note-card">
+                <div class="creator-note-head">
+                    <div class="creator-note-title" data-i18n="result.creatorNoteTitle">站长说明</div>
+                    <button type="button" class="creator-note-toggle" id="creator-note-toggle" onclick="toggleCreatorNote()" data-i18n="result.creatorNoteHide">隐藏说明</button>
+                </div>
+                <div class="creator-note-body" id="creator-note-body">
+                    <p data-i18n="result.creatorNoteP1">这个网页原本是我 4 月初某天晚上闲着无聊做出来给群友和身边朋友乐呵乐呵的，但是不知道怎么的，一个月后就传出去了。该评测出来的结果非常不科学，有些题目很刻板印象，不具备参考价值，纯乐子。</p>
+                    <p data-i18n="result.creatorNoteP2">关于题库中某些题的设计及权重，缺少广泛的社会调研及数据分析，且有相当比重是 AI 生成的；不然我也不可能一晚上就搓出来给群友喂坨大的 hhhh。</p>
+                    <p data-i18n="result.creatorNoteP3">这个网站是什么时候火起来的我也不太清楚。契机还是朋友 QQ 私信我，说一个月前我发给他玩的小网站在别的大群刷到了；我一打开后台看 DNS 解析次数，才发现它火起来了（那时候还没加统计，因为完全没有料到会有今天这般局面）。</p>
+                    <p data-i18n="result.creatorNoteP4">另外，有些朋友明明是认真做的却触发了非正常答题的“惩罚”页面，我已经在尽力优化题库和判定逻辑，也在考虑是否完全移除这一页面；但是有些朋友喜欢这个“彩蛋”，所以比较难权衡。希望大家多多包涵 QAQ，真的没有不尊重大家的意思，十分抱歉！如果感到受到冒犯的话我愿意站着挨打喵。得知这个网站火了的时候我真的特别高兴，也在尽力优化相关逻辑。感谢大家这些天的捧场！</p>
+                    <p data-i18n="result.creatorNoteP5">如果大家有相关改进意见，可以直接在 B 站私信或者 GitHub 提 issue，能满足大家的我一定尽量满足大家。</p>
+                    <div class="creator-note-links">
+                        <a href="https://space.bilibili.com/174355920" target="_blank" rel="noopener noreferrer" data-i18n="result.creatorNoteBilibili">B 站私信</a>
+                        <a href="https://github.com/xmbhjQAQ/my-static-sites/issues" target="_blank" rel="noopener noreferrer" data-i18n="result.creatorNoteGithub">GitHub 提 issue</a>
                     </div>
                 </div>
             </div>
@@ -1272,6 +1396,9 @@
         const LANGUAGE_CONFIG_PATH = 'language.json';
         const LOCALE_STORAGE_KEY = 'nn_locale';
         const STATE_STORAGE_KEY = 'nnTestState_v1';
+        const RESULT_STORAGE_KEY = 'nnTestResult_v1';
+        const QR_CACHE_PREFIX = 'nn_qr_data_url:';
+        const CREATOR_NOTE_COLLAPSED_KEY = 'nn_creator_note_collapsed';
         const FALLBACK_LANGUAGE_CONFIG = {
             defaultLocale: 'zh-CN',
             locales: {
@@ -1458,6 +1585,7 @@
             document.querySelectorAll('[data-i18n-content]').forEach(el => { el.setAttribute('content', t(el.dataset.i18nContent, {}, el.getAttribute('content') || '')); });
             const resultPage = document.getElementById('page-result');
             if (resultPage) resultPage.dataset.punishStamp = t('punish.stampText', {}, '你乱点的吧');
+            applyCreatorNoteState();
             const localizedOptions = getMessage('question.standardOptions', null);
             if (Array.isArray(localizedOptions) && localizedOptions.length) {
                 standardOptions = localizedOptions.map(item => ({ l: item.l, v: item.v }));
@@ -1536,6 +1664,7 @@
             }
 
             localStorage.removeItem(STATE_STORAGE_KEY);
+            localStorage.removeItem(RESULT_STORAGE_KEY);
             localStorage.setItem(LOCALE_STORAGE_KEY, nextLocale);
             const url = new URL(window.location.href);
             url.searchParams.set('lang', nextLocale);
@@ -1555,6 +1684,18 @@
             }
         }
 
+        function readSavedResult() {
+            const raw = localStorage.getItem(RESULT_STORAGE_KEY);
+            if (!raw) return null;
+            try {
+                return JSON.parse(raw);
+            } catch (error) {
+                console.warn('Saved result is invalid, clearing cache:', error);
+                localStorage.removeItem(RESULT_STORAGE_KEY);
+                return null;
+            }
+        }
+
         async function bootApp() {
             await loadLanguageConfig();
             activeLocale = resolveLocale();
@@ -1563,8 +1704,14 @@
             applyTranslations();
             latestResultShareText = t('share.defaultText', {}, latestResultShareText);
             await loadQuestionsForLocale(activeLocale);
-            if (readSavedState()) {
-                document.getElementById('btn-continue').style.display = 'block';
+            const savedResult = readSavedResult();
+            const savedState = readSavedState();
+            if (savedResult || savedState) {
+                const btnContinue = document.getElementById('btn-continue');
+                btnContinue.style.display = 'block';
+                btnContinue.innerText = savedResult
+                    ? t('home.continueResult', {}, '查看上次结果')
+                    : t('home.continue', {}, '继续上次鉴定');
             }
             updateResultDockVisibility();
             if (!questionBankReady && questionBankError) showToast(questionBankError);
@@ -1584,6 +1731,7 @@
         let dockTicking = false;
         let debugBypassSpam = false;
         let debugScoreOverride = null;
+        let suppressScoreUploadForCurrentResult = false;
         const SCORE_COLLECTION_ENDPOINT = '/api/score';
         const SCORE_ALGORITHM_VERSION = 'classic_250_v1';
         const QUESTION_BANK_VERSION = 'questions_2026_05_06_v1';
@@ -1612,6 +1760,41 @@
         function setText(id, text) {
             const el = document.getElementById(id);
             if (el) el.innerText = text;
+        }
+
+        function isCreatorNoteCollapsed() {
+            return localStorage.getItem(CREATOR_NOTE_COLLAPSED_KEY) === '1';
+        }
+
+        function applyCreatorNoteState(collapsed = isCreatorNoteCollapsed()) {
+            const card = document.getElementById('creator-note-card');
+            const btn = document.getElementById('creator-note-toggle');
+            if (!card || !btn) return;
+            card.classList.toggle('is-collapsed', collapsed);
+            btn.dataset.i18n = collapsed ? 'result.creatorNoteShow' : 'result.creatorNoteHide';
+            btn.innerText = collapsed
+                ? t('result.creatorNoteShow', {}, '展开说明')
+                : t('result.creatorNoteHide', {}, '隐藏说明');
+        }
+
+        function toggleCreatorNote() {
+            const nextCollapsed = !isCreatorNoteCollapsed();
+            localStorage.setItem(CREATOR_NOTE_COLLAPSED_KEY, nextCollapsed ? '1' : '0');
+            applyCreatorNoteState(nextCollapsed);
+            updateResultDockVisibility();
+        }
+
+        function hideCreatorNoteForShare() {
+            const card = document.getElementById('creator-note-card');
+            if (!card) return () => {};
+            const wasHidden = card.classList.contains('is-share-hidden');
+            card.classList.add('is-share-hidden');
+            updateResultDockVisibility();
+            return () => {
+                card.classList.toggle('is-share-hidden', wasHidden);
+                applyCreatorNoteState();
+                updateResultDockVisibility();
+            };
         }
 
         function showToast(message) {
@@ -1657,8 +1840,10 @@
             const answered = userAnswers.filter(ans => ans != null).length;
             if (answered > 0 && !confirm(t('confirm.exit', {}, '确定退出本次鉴定吗？当前进度会保留，下次可以继续。'))) return;
             saveState();
+            localStorage.removeItem(RESULT_STORAGE_KEY);
             showPage('home');
             document.getElementById('btn-continue').style.display = 'block';
+            document.getElementById('btn-continue').innerText = t('home.continue', {}, '继续上次鉴定');
         }
 
         function getQuestionHelper(q) {
@@ -1762,7 +1947,49 @@
             }
         }
 
+        function saveCompletedResult({ mode = 'normal' } = {}) {
+            try {
+                localStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify({
+                    version: 1,
+                    mode,
+                    locale: activeLocale,
+                    savedAt: Date.now(),
+                    shuffledQuestions,
+                    userAnswers,
+                    dimMaxScores,
+                    totalAnsweringTimeMs,
+                    consistencyInfo,
+                    spamStatus: window.spamStatus || 0,
+                    spamVal: window.spamVal ?? null,
+                    scoreOverride: Number.isFinite(debugScoreOverride) ? debugScoreOverride : null
+                }));
+            } catch (error) {
+                console.warn('Unable to save completed result:', error);
+            }
+        }
+
+        function restoreSavedResult(result) {
+            if (!result || !Array.isArray(result.shuffledQuestions) || !Array.isArray(result.userAnswers)) return false;
+            shuffledQuestions = result.shuffledQuestions;
+            userAnswers = normalizeSavedAnswers(result.userAnswers, shuffledQuestions.length);
+            currentQIdx = Math.max(0, shuffledQuestions.length - 1);
+            dimMaxScores = result.dimMaxScores || { A: 0, B: 0, C: 0, D: 0 };
+            totalAnsweringTimeMs = result.totalAnsweringTimeMs || 0;
+            consistencyInfo = result.consistencyInfo || calculateConsistencyInfo();
+            window.spamStatus = Number(result.spamStatus) || 0;
+            window.spamVal = result.spamVal ?? undefined;
+            debugScoreOverride = result.scoreOverride != null && Number.isFinite(Number(result.scoreOverride))
+                ? Number(result.scoreOverride)
+                : null;
+            suppressScoreUploadForCurrentResult = true;
+            ensureRenderedOptionOrders();
+            loadChartjsAndResult();
+            return true;
+        }
+
         function continueTest() {
+            const savedResult = readSavedResult();
+            if (savedResult && restoreSavedResult(savedResult)) return;
             let st = readSavedState();
             if (!st) return startTest();
             if (!Array.isArray(st.shuffledQuestions) || !st.shuffledQuestions.length) {
@@ -1785,6 +2012,7 @@
         function resetTest() {
             if (!confirm(t('confirm.reset', {}, '确定重新抽取题库并开始新一轮鉴定吗？当前报告不会保留在页面上。'))) return;
             localStorage.removeItem(STATE_STORAGE_KEY);
+            localStorage.removeItem(RESULT_STORAGE_KEY);
             location.reload();
         }
 
@@ -1850,6 +2078,60 @@
             } catch (err) {
                 console.warn('Score collection failed:', err);
                 return null;
+            }
+        }
+
+        async function fetchScoreStatsOnly() {
+            if (!window.fetch) return null;
+            try {
+                const response = await fetch(SCORE_COLLECTION_ENDPOINT, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' },
+                    cache: 'no-store'
+                });
+                if (!response.ok) return null;
+                return await response.json();
+            } catch (err) {
+                console.warn('Score stats fetch failed:', err);
+                return null;
+            }
+        }
+
+        function getCleanTestUrl() {
+            let testUrl = window.location.href.split('#')[0].split('?')[0];
+            return testUrl.startsWith('http') ? testUrl : 'https://github.com/xmbhjQAQ/my-static-sites';
+        }
+
+        function blobToDataUrl(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        async function setQrCodeForCurrentUrl() {
+            const img = document.getElementById('qr-code');
+            if (!img) return;
+            const testUrl = getCleanTestUrl();
+            const cacheKey = `${QR_CACHE_PREFIX}${testUrl}`;
+            const cached = localStorage.getItem(cacheKey);
+            if (cached) {
+                img.src = cached;
+                return;
+            }
+
+            const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(testUrl)}`;
+            try {
+                const response = await fetch(apiUrl, { cache: 'force-cache' });
+                if (!response.ok) throw new Error(`QR request failed: ${response.status}`);
+                const dataUrl = await blobToDataUrl(await response.blob());
+                localStorage.setItem(cacheKey, dataUrl);
+                img.src = dataUrl;
+            } catch (error) {
+                console.warn('QR cache generation failed, falling back to remote image:', error);
+                img.src = apiUrl;
             }
         }
 
@@ -1973,11 +2255,13 @@
                 showToast(error.message || t('errors.questionInvalid', {}, '题库字段异常，暂时无法开始测试。'));
                 return;
             }
+            localStorage.removeItem(RESULT_STORAGE_KEY);
             currentQIdx = 0;
             totalAnsweringTimeMs = 0;
             consistencyInfo = null;
             debugBypassSpam = false;
             debugScoreOverride = null;
+            suppressScoreUploadForCurrentResult = false;
             userAnswers = new Array(shuffledQuestions.length).fill(null);
             showPage('quiz');
             renderQuestion();
@@ -2145,6 +2429,7 @@
                 reset() {
                     debugScoreOverride = null;
                     debugBypassSpam = false;
+                    suppressScoreUploadForCurrentResult = false;
                     window.spamStatus = 0;
                     window.spamVal = undefined;
                     resetTest();
@@ -2442,6 +2727,8 @@
         function resetResultUi() {
             const punishNotice = document.getElementById('punish-notice');
             if (punishNotice) punishNotice.style.display = 'none';
+            const punishRevealActions = document.getElementById('punish-reveal-actions');
+            if (punishRevealActions) punishRevealActions.style.display = 'none';
             document.getElementById('page-result').classList.remove('spam-punish-effect');
             const stopBtn = document.getElementById('btn-stop-glitch');
             if (stopBtn) {
@@ -2454,6 +2741,15 @@
                 }
             }
             setText('summary-rank', t('result.summaryValues.rank', {}, '同步中'));
+            applyCreatorNoteState();
+        }
+
+        function showNormalResultFromPunish() {
+            if (!(window.spamStatus > 0)) return;
+            window.spamStatus = 0;
+            window.spamVal = undefined;
+            suppressScoreUploadForCurrentResult = true;
+            generateResult();
         }
 
         function generateResult() {
@@ -2468,15 +2764,25 @@
                     punishNotice.style.display = 'block';
                     punishNotice.innerText = t('result.punishNoticeWithEffectWarning', {}, '检测到异常作答，本次报告已切换为惩罚鉴定模式。强烈闪烁/抖动特效默认关闭；如需开启，请确认不存在光敏不适或光敏性癫痫风险。');
                 }
-                submitScoreSummary({
-                    score: 0,
-                    rawScore: null,
-                    rawPercent: null,
-                    stabilityScore: consistencyInfo ? Number(consistencyInfo.score.toFixed(2)) : null,
-                    consistencyDiscount: consistencyInfo ? consistencyInfo.discount : null,
-                    isSpam: true,
-                    spamStatus: window.spamStatus || 0
-                }).then(summary => renderScoreStats(summary, 0, true));
+                const punishRevealActions = document.getElementById('punish-reveal-actions');
+                if (punishRevealActions) punishRevealActions.style.display = 'block';
+                if (suppressScoreUploadForCurrentResult) {
+                    fetchScoreStatsOnly().then(summary => {
+                        if (window.spamStatus > 0) renderScoreStats(summary, 0, true);
+                    });
+                } else {
+                    submitScoreSummary({
+                        score: 0,
+                        rawScore: null,
+                        rawPercent: null,
+                        stabilityScore: consistencyInfo ? Number(consistencyInfo.score.toFixed(2)) : null,
+                        consistencyDiscount: consistencyInfo ? consistencyInfo.discount : null,
+                        isSpam: true,
+                        spamStatus: window.spamStatus || 0
+                    }).then(summary => {
+                        if (window.spamStatus > 0) renderScoreStats(summary, 0, true);
+                    });
+                }
 
                 const titleEl = document.getElementById('tier-title');
                 titleEl.innerText = t('punish.tier', {}, '🤡 骗骗哥们就行了，别把自己骗了（');
@@ -2519,10 +2825,9 @@
                 }
                 localStorage.removeItem(STATE_STORAGE_KEY);
 
-                let testUrl = window.location.href.split('#')[0].split('?')[0];
-                if (!testUrl.startsWith('http')) testUrl = "https://github.com";
-                document.getElementById('qr-code').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(testUrl)}`;
+                setQrCodeForCurrentUrl();
                 setTimeout(updateResultDockVisibility, 80);
+                saveCompletedResult({ mode: 'punish' });
 
                 return;
             }
@@ -2539,25 +2844,28 @@
             // 数字滚动动画使用 requestAnimationFrame
             const rawDisplayScore = Math.round(totalPercent * 2.5); // 250分制
             const hasDebugScoreOverride = Number.isFinite(debugScoreOverride);
+            const effectiveConsistencyDiscount = (consistencyInfo && consistencyInfo.discount) || 1;
             let displayScore = hasDebugScoreOverride
                 ? Math.max(0, Math.min(250, Math.round(debugScoreOverride)))
-                : Math.round(rawDisplayScore * ((consistencyInfo && consistencyInfo.discount) || 1));
+                : Math.round(rawDisplayScore * effectiveConsistencyDiscount);
             renderStabilityCard(consistencyInfo);
             document.getElementById('national-rank').innerText = t('scoreStats.syncing', {}, '📊 正在同步真实样本均值...');
             document.getElementById('national-rank').style.color = 'var(--primary)';
-            submitScoreSummary({
-                score: displayScore,
-                rawScore: rawDisplayScore,
-                rawPercent: Number(totalPercent.toFixed(2)),
-                stabilityScore: consistencyInfo ? Number(consistencyInfo.score.toFixed(2)) : null,
-                consistencyDiscount: (consistencyInfo && consistencyInfo.discount) || 1,
-                isSpam: false,
-                spamStatus: 0
-            }).then(summary => renderScoreStats(summary, displayScore, false));
+            if (suppressScoreUploadForCurrentResult) {
+                fetchScoreStatsOnly().then(summary => renderScoreStats(summary, displayScore, false));
+            } else {
+                submitScoreSummary({
+                    score: displayScore,
+                    rawScore: rawDisplayScore,
+                    rawPercent: Number(totalPercent.toFixed(2)),
+                    stabilityScore: consistencyInfo ? Number(consistencyInfo.score.toFixed(2)) : null,
+                    consistencyDiscount: effectiveConsistencyDiscount,
+                    isSpam: false,
+                    spamStatus: 0
+                }).then(summary => renderScoreStats(summary, displayScore, false));
+            }
 
-            let testUrl = window.location.href.split('#')[0].split('?')[0];
-            if (!testUrl.startsWith('http')) testUrl = "https://github.com";
-            document.getElementById('qr-code').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(testUrl)}`;
+            setQrCodeForCurrentUrl();
             setTimeout(updateResultDockVisibility, 80);
 
             let curr = 0;
@@ -2635,10 +2943,10 @@
 
             const traits = getMessage('traits', {});
             const straightTrait = traits.straight || {
-                title: "??? ????????????",
-                analysis: "??????????????????????????????????",
-                behavior: "?????????????",
-                advice: "?????????"
+                title: t('traits.straight.title', {}, '🛡️ 核心特征：【纯正的钢铁】'),
+                analysis: t('traits.straight.analysis', {}, '系统没有匹配到明显的潜质信号，你的回答整体更偏向稳定、低调和现实取向。'),
+                behavior: t('traits.straight.behavior', {}, '你在日常生活里大概率更习惯保持原本的穿搭和社交方式，对夸张表达不太敏感。'),
+                advice: t('traits.straight.advice', {}, '保持轻松就好，本测试只是娱乐整活，结果不用太当真。')
             };
 
             let conclusion;
@@ -2656,12 +2964,13 @@
                     conclusion = traits[maxDim1];
                 }
             }
-            conclusion = conclusion || straightTrait;
+            conclusion = { ...straightTrait, ...(conclusion || {}) };
 
             document.getElementById('dom-trait-title').innerText = conclusion.title;
             document.getElementById('trait-analysis').innerText = conclusion.analysis;
             document.getElementById('trait-behavior').innerText = conclusion.behavior;
             document.getElementById('trait-advice').innerText = conclusion.advice;
+            saveCompletedResult({ mode: 'normal' });
         }
 
         function drawRadar(scores) {
@@ -2740,9 +3049,11 @@
             const activePage = document.querySelector('.page.active');
             const oldAnimation = activePage.style.animation;
             const oldOpacity = activePage.style.opacity;
+            const restoreCreatorNote = hideCreatorNoteForShare();
 
             const restoreCaptureState = () => {
                 originalButtons.forEach((b, index) => b.style.display = originalButtonDisplays[index]);
+                restoreCreatorNote();
                 btn.innerText = oldText;
                 btn.style.pointerEvents = 'auto';
                 activePage.style.animation = oldAnimation;
@@ -2810,15 +3121,17 @@
         }
 
         function nativeShare() {
+            const restoreCreatorNote = hideCreatorNoteForShare();
             if (navigator.share) {
                 navigator.share({
                     title: t('share.title', {}, '男娘潜质综合评估量表'),
                     text: latestResultShareText || t('share.nativeDefault', {}, '我刚测了自己的男娘潜质，快来测测你离北朝还有多远？'),
                     url: window.location.href
-                }).catch(e => console.log('分享取消或失败', e));
+                }).catch(e => console.log('分享取消或失败', e)).finally(restoreCreatorNote);
             } else {
                 copyResultText();
                 showToast(t('toast.nativeFallback', {}, '浏览器不支持原生分享，已复制文案'));
+                restoreCreatorNote();
             }
         }
 
