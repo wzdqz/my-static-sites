@@ -1735,6 +1735,7 @@
         let debugBypassSpam = false;
         let debugScoreOverride = null;
         let suppressScoreUploadForCurrentResult = false;
+        let pendingScoreStatsRequest = null;
         const SCORE_COLLECTION_ENDPOINT = '/api/score';
         const SCORE_ALGORITHM_VERSION = 'classic_250_v1';
         const QUESTION_BANK_VERSION = 'questions_2026_05_06_v1';
@@ -2000,6 +2001,7 @@
                 ? Number(result.scoreOverride)
                 : null;
             suppressScoreUploadForCurrentResult = true;
+            resetPendingScoreStatsRequest();
             ensureRenderedOptionOrders();
             loadChartjsAndResult();
             return true;
@@ -2029,6 +2031,7 @@
 
         function resetTest() {
             if (!confirm(t('confirm.reset', {}, '确定重新抽取题库并开始新一轮鉴定吗？当前报告不会保留在页面上。'))) return;
+            resetPendingScoreStatsRequest();
             localStorage.removeItem(STATE_STORAGE_KEY);
             localStorage.removeItem(RESULT_STORAGE_KEY);
             location.reload();
@@ -2113,6 +2116,70 @@
                 console.warn('Score stats fetch failed:', err);
                 return null;
             }
+        }
+
+        function resetPendingScoreStatsRequest() {
+            pendingScoreStatsRequest = null;
+        }
+
+        function buildResultScoreContext() {
+            if (window.spamStatus > 0) {
+                return {
+                    mode: 'punish',
+                    displayScore: 0,
+                    submission: {
+                        score: 0,
+                        rawScore: null,
+                        rawPercent: null,
+                        stabilityScore: consistencyInfo ? Number(consistencyInfo.score.toFixed(2)) : null,
+                        consistencyDiscount: consistencyInfo ? consistencyInfo.discount : null,
+                        isSpam: true,
+                        spamStatus: window.spamStatus || 0
+                    }
+                };
+            }
+
+            let scores = { A: 0, B: 0, C: 0, D: 0 };
+            for (let i = 0; i < shuffledQuestions.length; i++) {
+                const q = shuffledQuestions[i];
+                if (q.scored === false || scores[q.d] === undefined) continue;
+                scores[q.d] += getAnswerScore(userAnswers[i]) || 0;
+            }
+
+            const totalPercent = ((scores.A / dimMaxScores.A) + (scores.B / dimMaxScores.B) + (scores.C / dimMaxScores.C) + (scores.D / dimMaxScores.D)) / 4 * 100;
+            const rawDisplayScore = Math.round(totalPercent * 2.5);
+            const hasDebugScoreOverride = Number.isFinite(debugScoreOverride);
+            const effectiveConsistencyDiscount = (consistencyInfo && consistencyInfo.discount) || 1;
+            const displayScore = hasDebugScoreOverride
+                ? Math.max(0, Math.min(250, Math.round(debugScoreOverride)))
+                : Math.round(rawDisplayScore * effectiveConsistencyDiscount);
+
+            return {
+                mode: 'normal',
+                scores,
+                totalPercent,
+                rawDisplayScore,
+                effectiveConsistencyDiscount,
+                displayScore,
+                submission: {
+                    score: displayScore,
+                    rawScore: rawDisplayScore,
+                    rawPercent: Number(totalPercent.toFixed(2)),
+                    stabilityScore: consistencyInfo ? Number(consistencyInfo.score.toFixed(2)) : null,
+                    consistencyDiscount: effectiveConsistencyDiscount,
+                    isSpam: false,
+                    spamStatus: 0
+                }
+            };
+        }
+
+        function requestScoreStatsForCurrentResult(context = buildResultScoreContext()) {
+            if (!pendingScoreStatsRequest) {
+                pendingScoreStatsRequest = suppressScoreUploadForCurrentResult
+                    ? fetchScoreStatsOnly()
+                    : submitScoreSummary(context.submission);
+            }
+            return pendingScoreStatsRequest;
         }
 
         function getCleanTestUrl() {
@@ -2280,6 +2347,7 @@
             debugBypassSpam = false;
             debugScoreOverride = null;
             suppressScoreUploadForCurrentResult = false;
+            resetPendingScoreStatsRequest();
             userAnswers = new Array(shuffledQuestions.length).fill(null);
             showPage('quiz');
             renderQuestion();
@@ -2349,6 +2417,7 @@
 
         function prepareDebugResult(profile = 'high') {
             initGame();
+            resetPendingScoreStatsRequest();
             fillSyntheticAnswers(profile);
             currentQIdx = shuffledQuestions.length - 1;
             totalAnsweringTimeMs = profile === 'cheat' ? shuffledQuestions.length * 120 : shuffledQuestions.length * 1800;
@@ -2660,6 +2729,7 @@
             setTimeout(() => {
                 showPage('loading');
                 updateLoadingSteps(0);
+                requestScoreStatsForCurrentResult();
                 const allTexts = window.spamStatus > 0
                     ? getMessage('loading.punishTexts', ["⚠️ 检测到异常作答脑电波...", "启动核心测谎防御系统...", "正在拦截机械化狂点信号...", "提取系统识别日志..."])
                     : getMessage('loading.normalTexts', ["正在构建核心行为树...", "深度分析潜意识倾向...", "匹配全网亚文化图谱...", "生成高维雷达模型..."]);
@@ -2767,12 +2837,14 @@
             window.spamStatus = 0;
             window.spamVal = undefined;
             suppressScoreUploadForCurrentResult = true;
+            resetPendingScoreStatsRequest();
             generateResult();
         }
 
         function generateResult() {
             showPage('result');
             resetResultUi();
+            const resultContext = buildResultScoreContext();
 
             if (window.spamStatus > 0) {
                 document.getElementById('final-score').innerText = '0';
@@ -2784,23 +2856,9 @@
                 }
                 const punishRevealActions = document.getElementById('punish-reveal-actions');
                 if (punishRevealActions) punishRevealActions.style.display = 'block';
-                if (suppressScoreUploadForCurrentResult) {
-                    fetchScoreStatsOnly().then(summary => {
-                        if (window.spamStatus > 0) renderScoreStats(summary, 0, true);
-                    });
-                } else {
-                    submitScoreSummary({
-                        score: 0,
-                        rawScore: null,
-                        rawPercent: null,
-                        stabilityScore: consistencyInfo ? Number(consistencyInfo.score.toFixed(2)) : null,
-                        consistencyDiscount: consistencyInfo ? consistencyInfo.discount : null,
-                        isSpam: true,
-                        spamStatus: window.spamStatus || 0
-                    }).then(summary => {
-                        if (window.spamStatus > 0) renderScoreStats(summary, 0, true);
-                    });
-                }
+                requestScoreStatsForCurrentResult(resultContext).then(summary => {
+                    if (window.spamStatus > 0) renderScoreStats(summary, 0, true);
+                });
 
                 const titleEl = document.getElementById('tier-title');
                 titleEl.innerText = t('punish.tier', {}, '🤡 骗骗哥们就行了，别把自己骗了（');
@@ -2850,38 +2908,12 @@
                 return;
             }
 
-            let scores = { A: 0, B: 0, C: 0, D: 0 };
-            for (let i = 0; i < shuffledQuestions.length; i++) {
-                const q = shuffledQuestions[i];
-                if (q.scored === false || scores[q.d] === undefined) continue;
-                scores[q.d] += getAnswerScore(userAnswers[i]) || 0;
-            }
-
-            // 由于是动态题库，不能用定死的分数段。需转换为标准化百分制总分 (满分100)
-            let totalPercent = ((scores.A / dimMaxScores.A) + (scores.B / dimMaxScores.B) + (scores.C / dimMaxScores.C) + (scores.D / dimMaxScores.D)) / 4 * 100;
-            // 数字滚动动画使用 requestAnimationFrame
-            const rawDisplayScore = Math.round(totalPercent * 2.5); // 250分制
-            const hasDebugScoreOverride = Number.isFinite(debugScoreOverride);
-            const effectiveConsistencyDiscount = (consistencyInfo && consistencyInfo.discount) || 1;
-            let displayScore = hasDebugScoreOverride
-                ? Math.max(0, Math.min(250, Math.round(debugScoreOverride)))
-                : Math.round(rawDisplayScore * effectiveConsistencyDiscount);
+            const { scores, totalPercent, rawDisplayScore, effectiveConsistencyDiscount, displayScore } = resultContext;
             renderStabilityCard(consistencyInfo);
             document.getElementById('national-rank').innerText = t('scoreStats.syncing', {}, '📊 正在同步真实样本均值...');
             document.getElementById('national-rank').style.color = 'var(--primary)';
-            if (suppressScoreUploadForCurrentResult) {
-                fetchScoreStatsOnly().then(summary => renderScoreStats(summary, displayScore, false));
-            } else {
-                submitScoreSummary({
-                    score: displayScore,
-                    rawScore: rawDisplayScore,
-                    rawPercent: Number(totalPercent.toFixed(2)),
-                    stabilityScore: consistencyInfo ? Number(consistencyInfo.score.toFixed(2)) : null,
-                    consistencyDiscount: effectiveConsistencyDiscount,
-                    isSpam: false,
-                    spamStatus: 0
-                }).then(summary => renderScoreStats(summary, displayScore, false));
-            }
+            requestScoreStatsForCurrentResult(resultContext)
+                .then(summary => renderScoreStats(summary, displayScore, false));
 
             setQrCodeForCurrentUrl();
             setTimeout(updateResultDockVisibility, 80);
