@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "my-static-sites",
+  "compatibility_date": "2026-05-17",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "男娘测试"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
